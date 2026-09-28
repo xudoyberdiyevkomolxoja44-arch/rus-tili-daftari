@@ -1,0 +1,1190 @@
+<title>Рус тили дафтари</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Mono&family=PT+Sans:wght@400;700&family=PT+Serif:wght@400;700&display=swap">
+<style>
+:root{
+  --paper:#F1F4F7;
+  --surface:#FFFFFF;
+  --surface-2:#E8EDF3;
+  --ink:#12263F;
+  --ink-2:#4A5C72;
+  --ink-3:#7A8899;
+  --line:#D3DAE3;
+  --line-2:#E4E9EF;
+  --accent:#2B4C8C;
+  --accent-soft:#DDE5F3;
+  --red:#B3382C;
+  --red-soft:#F6E2DF;
+  --green:#3E7A5E;
+  --green-soft:#DCEBE3;
+  --shadow:0 1px 2px rgba(18,38,63,.06), 0 8px 24px -12px rgba(18,38,63,.22);
+  --radius:6px;
+  --f-serif:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-sans:"PT Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"PT Mono", "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1620;
+    --surface:#16202C;
+    --surface-2:#1E2A38;
+    --ink:#E6EBF2;
+    --ink-2:#AFBDCD;
+    --ink-3:#7E8DA0;
+    --line:#293747;
+    --line-2:#212D3B;
+    --accent:#88ABEE;
+    --accent-soft:#22334D;
+    --red:#E87866;
+    --red-soft:#3A2420;
+    --green:#74C39A;
+    --green-soft:#1D3229;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1620;
+  --surface:#16202C;
+  --surface-2:#1E2A38;
+  --ink:#E6EBF2;
+  --ink-2:#AFBDCD;
+  --ink-3:#7E8DA0;
+  --line:#293747;
+  --line-2:#212D3B;
+  --accent:#88ABEE;
+  --accent-soft:#22334D;
+  --red:#E87866;
+  --red-soft:#3A2420;
+  --green:#74C39A;
+  --green-soft:#1D3229;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--f-sans);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.wrap{max-width:940px;margin:0 auto;padding:0 20px 72px}
+
+/* ---------- header ---------- */
+.top{
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.top-in{max-width:940px;margin:0 auto;padding:14px 20px 0;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between}
+.brand{display:flex;align-items:baseline;gap:10px;min-width:0}
+.brand h1{
+  font-family:var(--f-serif);font-weight:700;font-size:23px;letter-spacing:-.015em;
+  margin:0;text-wrap:balance;
+}
+.brand .sub{font-size:12px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.stats{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:1px;min-width:56px}
+.stat b{font-family:var(--f-mono);font-size:19px;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase}
+.stat.warn b{color:var(--red)}
+.goalbar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:6px;width:110px}
+.goalbar i{display:block;height:100%;background:var(--green);transition:width .35s ease}
+
+/* ---------- tabs ---------- */
+nav.tabs{max-width:940px;margin:0 auto;padding:10px 20px 0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+.tab{
+  background:none;border:none;border-bottom:2px solid transparent;
+  padding:8px 12px 9px;color:var(--ink-2);font-size:14.5px;white-space:nowrap;
+}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--red);font-weight:700}
+.tab:hover{color:var(--ink)}
+
+/* ---------- generic ---------- */
+.panel{padding-top:26px}
+.panel[hidden]{display:none!important}
+h2.sec{font-family:var(--f-serif);font-size:19px;margin:0 0 4px;font-weight:700}
+p.lede{margin:0 0 18px;color:var(--ink-2);max-width:62ch;font-size:14.5px}
+.ru{font-family:var(--f-serif)}
+.st{color:var(--red)}
+.tr{font-family:var(--f-mono);font-size:13px;color:var(--ink-3)}
+.say{
+  border:1px solid var(--line);background:var(--surface);border-radius:50%;
+  width:26px;height:26px;display:inline-grid;place-items:center;padding:0;flex:0 0 auto;
+  color:var(--accent);
+}
+.say:hover{background:var(--accent-soft);border-color:var(--accent)}
+.say svg{width:13px;height:13px;display:block}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.chip{
+  border:1px solid var(--line);background:var(--surface);border-radius:100px;
+  padding:5px 12px;font-size:13px;color:var(--ink-2);
+}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+:root[data-theme="dark"] .chip[aria-pressed="true"],
+:root:not([data-theme="light"]) .chip[aria-pressed="true"]{color:var(--paper)}
+
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.seg button{background:none;border:none;padding:7px 14px;font-size:13.5px;color:var(--ink-2);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:none}
+.seg button[aria-pressed="true"]{background:var(--surface-2);color:var(--ink);font-weight:700}
+
+.toolrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:18px}
+
+/* ---------- practice card ---------- */
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  box-shadow:var(--shadow);padding:30px 26px 26px;text-align:center;
+  display:flex;flex-direction:column;gap:14px;min-height:252px;justify-content:center;
+}
+.card .ask{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.card .word{font-family:var(--f-serif);font-size:clamp(30px,6.2vw,44px);line-height:1.15;font-weight:700;letter-spacing:-.01em}
+.card .word.uzq{font-family:var(--f-sans);font-size:clamp(24px,5vw,34px)}
+.card .say-row{display:flex;justify-content:center;align-items:center;gap:10px}
+.answer{border-top:1px dashed var(--line);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+.answer .val{font-size:21px;font-family:var(--f-serif)}
+.answer .val.uz{font-family:var(--f-sans);font-size:19px}
+.answer .note{font-size:13px;color:var(--ink-3)}
+.btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.btn{
+  border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);
+  padding:11px 20px;font-size:15px;font-weight:700;
+}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .btn.primary,:root:not([data-theme="light"]) .btn.primary{color:var(--paper)}
+.btn.bad{color:var(--red);border-color:var(--red)}
+.btn.bad:hover{background:var(--red-soft)}
+.btn.good{color:var(--green);border-color:var(--green)}
+.btn.good:hover{background:var(--green-soft)}
+.hint{text-align:center;font-size:12px;color:var(--ink-3);margin-top:12px}
+.kbd{font-family:var(--f-mono);font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 5px;color:var(--ink-2)}
+
+/* choice */
+.opts{display:grid;gap:8px;margin-top:20px}
+.opt{
+  border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);
+  padding:12px 16px;text-align:left;font-size:16px;display:flex;gap:12px;align-items:center;
+}
+.opt:hover:not([disabled]){border-color:var(--accent);background:var(--accent-soft)}
+.opt[disabled]{cursor:default}
+.opt .n{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);width:12px;flex:0 0 auto}
+.opt.right{border-color:var(--green);background:var(--green-soft)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+
+/* typing */
+.type-in{
+  width:100%;font-family:var(--f-serif);font-size:24px;text-align:center;
+  padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--surface);color:var(--ink);
+}
+.type-in:focus{border-color:var(--accent);outline:none}
+.verdict{font-size:14px;min-height:22px}
+.verdict.ok{color:var(--green);font-weight:700}
+.verdict.no{color:var(--red);font-weight:700}
+.keys{display:flex;flex-direction:column;gap:5px;margin-top:16px;align-items:center}
+.keys .row{display:flex;gap:4px;justify-content:center;flex-wrap:nowrap}
+.key{
+  border:1px solid var(--line);background:var(--surface);border-radius:4px;
+  min-width:30px;height:36px;padding:0 4px;font-family:var(--f-serif);font-size:16px;
+  display:grid;place-items:center;
+}
+.key:hover{background:var(--accent-soft)}
+.key.wide{min-width:70px;font-family:var(--f-sans);font-size:12px}
+@media(max-width:560px){.key{min-width:24px;height:32px;font-size:14px}.key.wide{min-width:52px;font-size:11px}}
+
+/* ---------- lists ---------- */
+.search{
+  width:100%;max-width:340px;padding:9px 12px;border:1px solid var(--line);
+  border-radius:var(--radius);background:var(--surface);color:var(--ink);font-size:14.5px;
+}
+.group{margin-bottom:26px}
+.group h3{
+  font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+  margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.group h3 em{font-style:normal;font-family:var(--f-mono);font-size:11px}
+.row{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr) minmax(0,1.1fr) 52px;
+  gap:12px;align-items:center;padding:9px 2px;border-bottom:1px solid var(--line-2);
+}
+.row:hover{background:var(--surface)}
+.row .r-ru{font-family:var(--f-serif);font-size:18px;display:flex;align-items:center;gap:8px;min-width:0}
+.row .r-uz{font-size:14.5px}
+.row .r-lvl{display:flex;gap:3px;justify-content:flex-end}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--line)}
+.dot.on{background:var(--green)}
+@media(max-width:620px){
+  .row{grid-template-columns:minmax(0,1fr) 52px;grid-template-areas:"ru lvl" "tr lvl" "uz lvl";gap:2px 10px}
+  .row .r-ru{grid-area:ru}.row .r-tr{grid-area:tr}.row .r-uz{grid-area:uz}.row .r-lvl{grid-area:lvl;align-self:center}
+}
+
+/* phrases */
+.phrase{padding:12px 0;border-bottom:1px solid var(--line-2);display:flex;flex-direction:column;gap:3px}
+.phrase .p-ru{font-family:var(--f-serif);font-size:18px;display:flex;gap:9px;align-items:center}
+.phrase .p-uz{font-size:14.5px;color:var(--ink-2)}
+
+/* alphabet */
+.alpha{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:6px;margin-bottom:20px}
+.letter{
+  border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);
+  padding:8px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:1px;
+}
+.letter b{font-family:var(--f-serif);font-size:20px;font-weight:700;line-height:1.1}
+.letter span{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
+.letter[aria-pressed="true"]{border-color:var(--red);background:var(--red-soft)}
+.letter.sign b{color:var(--ink-3)}
+.lcard{
+  background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--red);
+  border-radius:var(--radius);padding:16px 18px;display:flex;flex-wrap:wrap;gap:18px 26px;align-items:center;
+}
+.lcard .big{font-family:var(--f-serif);font-size:42px;font-weight:700;line-height:1}
+.lcard dl{margin:0;display:flex;flex-direction:column;gap:2px}
+.lcard dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.lcard dd{margin:0;font-size:15.5px}
+
+/* grammar */
+.gcard{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;margin-bottom:12px;
+}
+.gcard h4{margin:0 0 8px;font-family:var(--f-serif);font-size:17px}
+.gcard p{margin:0 0 8px;font-size:14.5px;color:var(--ink-2)}
+.gcard p:last-child{margin-bottom:0}
+.gcard b.ru{font-weight:700;color:var(--ink)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:380px}
+th,td{text-align:left;padding:6px 10px 6px 0;border-bottom:1px solid var(--line-2);vertical-align:baseline}
+th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:400;white-space:nowrap}
+td.rus{font-family:var(--f-serif);font-size:16px;white-space:nowrap}
+td.q{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+
+.foot{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:10px 20px;justify-content:space-between}
+.linkbtn{background:none;border:none;padding:0;color:var(--accent);text-decoration:underline;font-size:12.5px}
+.savenote{font-family:var(--f-mono);font-size:11px}
+
+/* ---------- telefon uchun ---------- */
+html{-webkit-text-size-adjust:100%}
+button{touch-action:manipulation}
+body{
+  padding-left:env(safe-area-inset-left);
+  padding-right:env(safe-area-inset-right);
+}
+@media (hover:none){
+  .row:hover,.opt:hover:not([disabled]),.btn:hover,.key:hover,.say:hover{background:var(--surface)}
+  .say:hover{background:var(--surface)}
+}
+@media (max-width:560px){
+  .wrap{padding:0 14px 90px}
+  .top-in{padding:10px 14px 0;gap:8px 12px;align-items:center}
+  .brand h1{font-size:19px}
+  .brand .sub{display:none}
+  .stats{gap:12px;flex:1;justify-content:flex-end}
+  .stat{min-width:0}
+  .stat b{font-size:16px}
+  .stat span{font-size:9.5px;letter-spacing:.03em}
+  .goalbar{width:100%;min-width:54px}
+  nav.tabs{padding:6px 14px 0}
+  .tab{padding:7px 9px 8px;font-size:14px}
+  .panel{padding-top:18px}
+  .card{padding:24px 16px 20px;min-height:210px}
+  .btn{padding:13px 18px;flex:1 1 42%}
+  .btnrow{gap:8px}
+  .opt{padding:14px 14px}
+  .search{font-size:16px;max-width:100%}
+  .type-in{font-size:22px}
+  .say{width:30px;height:30px}
+  .lcard{gap:12px 18px;padding:14px}
+  .lcard .big{font-size:34px}
+  .alpha{grid-template-columns:repeat(auto-fill,minmax(54px,1fr))}
+  .gcard{padding:14px}
+  .keys{margin-top:12px}
+}
+@media (max-width:344px){
+  .stat:nth-child(2){display:none}
+  .key{min-width:22px}
+}
+@media (hover:none){
+  .kb-only{display:none}
+}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <h1>Рус тили дафтари</h1>
+      <span class="sub">ўзбек тилида</span>
+    </div>
+    <div class="stats">
+      <div class="stat" id="st-due"><b>0</b><span>такрор</span></div>
+      <div class="stat"><b id="st-learned">0</b><span>ўрганилди</span></div>
+      <div class="stat"><b id="st-streak">0</b><span>кун изчил</span></div>
+      <div class="stat">
+        <b id="st-today">0/20</b><span>бугун</span>
+        <div class="goalbar"><i id="st-bar"></i></div>
+      </div>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist" id="tabs"></nav>
+</header>
+
+<main class="wrap">
+  <!-- MASHQ -->
+  <section class="panel" id="p-drill" role="tabpanel">
+    <div class="toolrow">
+      <div class="seg" id="mode-seg" role="group" aria-label="Машқ тури">
+        <button data-mode="flip" aria-pressed="true">Карточка</button>
+        <button data-mode="choice" aria-pressed="false">Танлов</button>
+        <button data-mode="write" aria-pressed="false">Ёзиш</button>
+      </div>
+      <div class="seg" id="dir-seg" role="group" aria-label="Йўналиш">
+        <button data-dir="ru2uz" aria-pressed="true">рус → ўзб</button>
+        <button data-dir="uz2ru" aria-pressed="false">ўзб → рус</button>
+      </div>
+    </div>
+    <div class="chips" id="topic-chips"></div>
+    <div id="drill-host"></div>
+    <div class="hint" id="drill-hint"></div>
+  </section>
+
+  <!-- LUGAT -->
+  <section class="panel" id="p-vocab" role="tabpanel" hidden>
+    <h2 class="sec">Луғат — <span id="word-total">0</span> та сўз</h2>
+    <p class="lede">Қизил ҳарф — урғу (ударение). Урғусиз <b class="ru">о</b> рус тилида «а» бўлиб эшитилади: шунинг учун ҳар сўз ёнида ҳақиқий талаффузи берилган. Динамик белгисини босиб эшитинг.</p>
+    <div class="toolrow"><input class="search" id="vocab-search" type="search" placeholder="Сўз излаш: рус, талаффуз ёки ўзбекча…" aria-label="Луғатдан излаш"></div>
+    <div id="vocab-list"></div>
+  </section>
+
+  <!-- IBORALAR -->
+  <section class="panel" id="p-phrase" role="tabpanel" hidden>
+    <h2 class="sec">Керакли иборалар</h2>
+    <p class="lede">Ҳар кунги вазиятларда тайёр гаплар. Ёдлаш учун бўлак-бўлак эмас, бутун гап ҳолида ўрганиш тезроқ натижа беради.</p>
+    <div id="phrase-list"></div>
+  </section>
+
+  <!-- ALIFBO -->
+  <section class="panel" id="p-alpha" role="tabpanel" hidden>
+    <h2 class="sec">Алифбо — 33 ҳарф</h2>
+    <p class="lede">Ҳарфни босинг: номи, товуши ва мисол сўз кўринади. <b>ъ</b> ва <b>ь</b> нинг ўз товуши йўқ — улар ёнидаги ундошни қаттиқ ёки юмшоқ қилади.</p>
+    <div class="alpha" id="alpha-grid"></div>
+    <div id="alpha-detail"></div>
+  </section>
+
+  <!-- GRAMMATIKA -->
+  <section class="panel" id="p-gram" role="tabpanel" hidden>
+    <h2 class="sec">Энг зарур грамматика</h2>
+    <p class="lede">Бошланғич даража учун етарли бўлган тўққиз қоида. Ҳар бири ўзбек тили билан қиёсланган.</p>
+    <div id="gram-list"></div>
+  </section>
+
+  <div class="foot">
+    <span id="save-note" class="savenote">Натижа шу қурилмада сақланади.</span>
+    <button class="linkbtn" id="reset">Барча натижани ўчириш</button>
+  </div>
+</main>
+
+<script>
+/* ============================== DATA ============================== */
+const TOPICS = [
+  ["greet","Саломлашиш"],["fam","Оила ва одамлар"],["num","Сонлар"],["time","Вақт"],
+  ["food","Овқат"],["city","Шаҳарда"],["shop","Дўконда"],["trip","Саёҳат"],
+  ["verb","Феъллар"],["adj","Сифатлар"],["color","Ранглар"]
+];
+/* [рус (урғу билан), талаффуз, ўзбекча] */
+const RAW = {
+greet:[
+["приве́т","приве́т","салом (норасмий)"],
+["здра́вствуйте","здра́ствуйте","салом (расмий, сизлаб)"],
+["до́брое у́тро","до́браэ у́тра","хайрли тонг"],
+["до́брый день","до́брый дэнь","хайрли кун"],
+["до́брый ве́чер","до́брый ве́чир","хайрли оқшом"],
+["до свида́ния","дасвида́ния","хайр, кўришгунча"],
+["пока́","пака́","хайр (норасмий)"],
+["спаси́бо","спаси́ба","раҳмат"],
+["пожа́луйста","пажа́луста","илтимос; арзимайди"],
+["извини́те","извини́те","кечирасиз"],
+["как дела́?","как дила́","ишлар қалай?"],
+["хорошо́","харашо́","яхши"],
+["пло́хо","пло́ха","ёмон"],
+["да / нет","да / нет","ҳа / йўқ"],
+["меня́ зову́т…","миня́ заву́т","менинг исмим…"],
+["о́чень прия́тно","о́чинь прия́тна","танишганимдан хурсандман"]
+],
+fam:[
+["семья́","симья́","оила"],
+["мать","мать","она (расмий)"],
+["ма́ма","ма́ма","ойи"],
+["оте́ц","ате́ц","ота (расмий)"],
+["па́па","па́па","дада"],
+["сын","сын","ўғил"],
+["дочь","доч","қиз (фарзанд)"],
+["брат","брат","ака, ука"],
+["сестра́","систра́","опа, сингил"],
+["муж","муш","эр"],
+["жена́","жина́","хотин"],
+["де́душка","де́душка","бобо"],
+["ба́бушка","ба́бушка","буви"],
+["друг","друк","дўст"],
+["ребёнок","рибёнак","бола"],
+["челове́к","чилаве́к","одам"],
+["мужчи́на","мущи́на","эркак"],
+["же́нщина","же́нщина","аёл"]
+],
+num:[
+["оди́н","ади́н","бир (1)"],
+["два","два","икки (2)"],
+["три","три","уч (3)"],
+["четы́ре","читы́ри","тўрт (4)"],
+["пять","пять","беш (5)"],
+["шесть","шэсть","олти (6)"],
+["семь","семь","етти (7)"],
+["во́семь","во́сим","саккиз (8)"],
+["де́вять","де́вить","тўққиз (9)"],
+["де́сять","де́сить","ўн (10)"],
+["оди́ннадцать","ади́ннацать","ўн бир (11)"],
+["двена́дцать","двина́цать","ўн икки (12)"],
+["два́дцать","два́цать","йигирма (20)"],
+["три́дцать","три́цать","ўттиз (30)"],
+["со́рок","со́рак","қирқ (40)"],
+["пятьдеся́т","пиддися́т","эллик (50)"],
+["сто","сто","юз (100)"],
+["ты́сяча","ты́сича","минг (1000)"],
+["ско́лько?","ско́лька","қанча? нечта?"]
+],
+time:[
+["вре́мя","вре́мя","вақт"],
+["день","дэнь","кун"],
+["неде́ля","нидэ́ля","ҳафта"],
+["ме́сяц","ме́сиц","ой (календарь)"],
+["год","гот","йил"],
+["сего́дня","сиво́дня","бугун"],
+["вчера́","фчира́","кеча (ўтган кун)"],
+["за́втра","за́фтра","эртага"],
+["сейча́с","сича́с","ҳозир"],
+["у́тро","у́тра","тонг"],
+["ве́чер","ве́чир","оқшом"],
+["ночь","ноч","тун"],
+["час","час","соат"],
+["мину́та","мину́та","дақиқа"],
+["понеде́льник","паниде́льник","душанба"],
+["суббо́та","субо́та","шанба"],
+["воскресе́нье","васкрисе́нье","якшанба"]
+],
+food:[
+["еда́","ида́","овқат"],
+["хлеб","хлеп","нон"],
+["вода́","вада́","сув"],
+["чай","чай","чой"],
+["ко́фе","ко́фи","кофе"],
+["молоко́","малако́","сут"],
+["мя́со","мя́са","гўшт"],
+["ры́ба","ры́ба","балиқ"],
+["суп","суп","шўрва"],
+["рис","рис","гуруч"],
+["са́хар","са́хар","шакар"],
+["соль","соль","туз"],
+["я́блоко","я́блака","олма"],
+["о́вощи","о́ващи","сабзавотлар"],
+["фру́кты","фру́кты","мевалар"],
+["вку́сно","фку́сна","мазали"]
+],
+city:[
+["го́род","го́рат","шаҳар"],
+["у́лица","у́лица","кўча"],
+["дом","дом","уй"],
+["кварти́ра","кварти́ра","квартира"],
+["магази́н","магази́н","дўкон"],
+["ры́нок","ры́нак","бозор"],
+["больни́ца","бальни́ца","касалхона"],
+["апте́ка","апте́ка","дорихона"],
+["шко́ла","шко́ла","мактаб"],
+["университе́т","унивирсите́т","университет"],
+["вокза́л","вагза́л","темирйўл вокзали"],
+["аэропо́рт","аэрапо́рт","аэропорт"],
+["метро́","митро́","метро"],
+["авто́бус","афто́бус","автобус"],
+["такси́","такси́","такси"],
+["где?","гдэ","қаерда?"]
+],
+shop:[
+["цена́","цына́","нарх"],
+["де́ньги","де́ньги","пул"],
+["ско́лько сто́ит?","ско́лька сто́ит","қанча туради?"],
+["до́рого","до́рага","қиммат"],
+["дёшево","дёшыва","арзон"],
+["плати́ть","плати́ть","тўламоқ"],
+["купи́ть","купи́ть","сотиб олмоқ"],
+["ка́рта","ка́рта","банк картаси"],
+["нали́чные","нали́чныэ","нақд пул"],
+["чек","чек","чек"],
+["ски́дка","ски́тка","чегирма"],
+["разме́р","размэ́р","ўлчам"],
+["откры́то","аткры́та","очиқ"],
+["закры́то","закры́та","ёпиқ"]
+],
+trip:[
+["по́езд","по́ест","поезд"],
+["самолёт","самалёт","самолёт"],
+["биле́т","биле́т","чипта"],
+["бага́ж","бага́ш","юк, багаж"],
+["гости́ница","гасти́ница","меҳмонхона"],
+["но́мер","но́мир","хона (меҳмонхонада)"],
+["па́спорт","па́спарт","паспорт"],
+["грани́ца","грани́ца","чегара"],
+["напра́во","напра́ва","ўнгга"],
+["нале́во","нале́ва","чапга"],
+["пря́мо","пря́ма","тўғрига"],
+["далеко́","далико́","узоқ"],
+["бли́зко","бли́ска","яқин"],
+["остано́вка","астано́фка","бекат"],
+["по́мощь","по́мащь","ёрдам"]
+],
+verb:[
+["де́лать","де́лать","қилмоқ"],
+["говори́ть","гавари́ть","гапирмоқ"],
+["знать","знать","билмоқ"],
+["хоте́ть","хате́ть","хоҳламоқ"],
+["мочь","моч","қила олмоқ"],
+["идти́","итти́","(пиёда) бормоқ"],
+["е́хать","е́хать","(транспортда) бормоқ"],
+["ви́деть","ви́дить","кўрмоқ"],
+["слы́шать","слы́шать","эшитмоқ"],
+["чита́ть","чита́ть","ўқимоқ"],
+["писа́ть","писа́ть","ёзмоқ"],
+["рабо́тать","рабо́тать","ишламоқ"],
+["жить","жить","яшамоқ"],
+["есть","есть","емоқ"],
+["пить","пить","ичмоқ"],
+["спать","спать","ухламоқ"],
+["понима́ть","панима́ть","тушунмоқ"],
+["люби́ть","люби́ть","севмоқ, яхши кўрмоқ"],
+["ждать","ждать","кутмоқ"]
+],
+adj:[
+["большо́й","бальшо́й","катта"],
+["ма́ленький","ма́линький","кичик"],
+["но́вый","но́вый","янги"],
+["ста́рый","ста́рый","эски, қари"],
+["хоро́ший","харо́ший","яхши"],
+["плохо́й","плахо́й","ёмон"],
+["краси́вый","краси́вый","чиройли"],
+["дли́нный","дли́нный","узун"],
+["коро́ткий","каро́ткий","қисқа"],
+["бы́стрый","бы́стрый","тез"],
+["ме́дленный","ме́длинный","секин"],
+["горя́чий","гаря́чий","иссиқ (нарса)"],
+["холо́дный","хало́дный","совуқ"],
+["тру́дный","тру́дный","қийин"],
+["лёгкий","лёхкий","енгил, осон"],
+["ва́жный","ва́жный","муҳим"]
+],
+color:[
+["цвет","цвет","ранг"],
+["кра́сный","кра́сный","қизил"],
+["си́ний","си́ний","кўк"],
+["голубо́й","галубо́й","ҳаво ранг"],
+["зелёный","зилёный","яшил"],
+["жёлтый","жо́лтый","сариқ"],
+["бе́лый","бе́лый","оқ"],
+["чёрный","чо́рный","қора"],
+["се́рый","се́рый","кулранг"],
+["кори́чневый","кари́чнивый","жигарранг"],
+["ора́нжевый","ара́нжывый","тўқ сариқ"],
+["ро́зовый","ро́завый","пушти"]
+]
+};
+const WORDS = [];
+TOPICS.forEach(([tid])=>RAW[tid].forEach((r,i)=>WORDS.push({id:tid+i,topic:tid,ru:r[0],tr:r[1],uz:r[2]})));
+const WORD_BY_ID = new Map(WORDS.map(w=>[w.id,w]));
+const TOPIC_NAME = new Map(TOPICS);
+
+const PHRASES = [
+["Танишув",[
+["Как вас зову́т?","как вас заву́т","Исмингиз нима?"],
+["Меня́ зову́т Али́.","миня́ заву́т али́","Менинг исмим Али."],
+["Отку́да вы?","атку́да вы","Қаердансиз?"],
+["Я из Узбекиста́на.","я из узбикиста́на","Мен Ўзбекистонданман."],
+["Ско́лько вам лет?","ско́лька вам лет","Ёшингиз нечада?"],
+["Мне два́дцать лет.","мне два́цать лет","Мен йигирма ёшдаман."]
+]],
+["Тушунмаганда",[
+["Я не понима́ю.","я не панима́ю","Мен тушунмайман."],
+["Повтори́те, пожа́луйста.","пафтари́те пажа́луста","Илтимос, қайтаринг."],
+["Говори́те ме́дленнее, пожа́луйста.","гавари́те ме́длиние пажа́луста","Илтимос, секинроқ гапиринг."],
+["Как э́то по-ру́сски?","как э́та па-ру́ски","Бу русча қандай бўлади?"],
+["Что э́то зна́чит?","што э́та зна́чит","Бу нима дегани?"],
+["Я то́лько начина́ю учи́ть ру́сский.","я то́лька начина́ю учи́ть ру́ский","Мен русчани ўрганишни бошлаганман."]
+]],
+["Дўконда",[
+["Ско́лько э́то сто́ит?","ско́лька э́та сто́ит","Бу қанча туради?"],
+["Мо́жно посмотре́ть?","мо́жна пасматре́ть","Кўрсам бўладими?"],
+["Да́йте, пожа́луйста, два.","да́йте пажа́луста два","Илтимос, иккитасини беринг."],
+["У вас есть ещё?","у вас есть ищё","Яна борми?"],
+["Я возьму́ э́то.","я вазьму́ э́та","Мен шуни оламан."],
+["Мо́жно плати́ть ка́ртой?","мо́жна плати́ть ка́ртай","Карта билан тўласам бўладими?"]
+]],
+["Йўл сўраш",[
+["Как дойти́ до метро́?","как дайти́ да митро́","Метрога қандай бориш керак?"],
+["Где ближа́йшая апте́ка?","гдэ ближа́йшая апте́ка","Энг яқин дорихона қаерда?"],
+["Э́то далеко́?","э́та далико́","Бу узоқми?"],
+["Останови́те здесь, пожа́луйста.","астанави́те здесь пажа́луста","Илтимос, шу ерда тўхтатинг."],
+["Я заблуди́лся.","я заблуди́лся","Мен йўлдан адашдим."]
+]],
+["Кафе ва овқат",[
+["Мо́жно меню́?","мо́жна миню́","Менюни берсангиз?"],
+["Я хочу́ зака́зать.","я хачу́ зака́зать","Мен буюртма бермоқчиман."],
+["Без мя́са, пожа́луйста.","без ми́аса пажа́луста","Гўштсиз, илтимос."],
+["Счёт, пожа́луйста.","щот пажа́луста","Ҳисобни олсам, илтимос."],
+["О́чень вку́сно!","о́чинь фку́сна","Жуда мазали!"]
+]],
+["Ёрдам керак бўлса",[
+["Помоги́те!","памаги́те","Ёрдам беринг!"],
+["Мне ну́жен врач.","мне ну́жын врач","Менга шифокор керак."],
+["Я потеря́л па́спорт.","я патиря́л па́спарт","Мен паспортимни йўқотдим."],
+["Позвони́те в поли́цию.","пазвани́те ф пали́цию","Полицияга қўнғироқ қилинг."]
+]],
+["Иш ва режа",[
+["Дава́йте встре́тимся в три.","дава́йте фстре́тимся ф три","Соат учда учрашайлик."],
+["Я перезвоню́ вам.","я пиризваню́ вам","Мен сизга қайта қўнғироқ қиламан."],
+["Извини́те за опозда́ние.","извини́те за апазда́ние","Кечиккани учун кечирасиз."],
+["Я согла́сен.","я сагла́син","Мен розиман."]
+]]
+];
+
+const ALPHA = [
+["А","а","а","арбу́з","тарвуз"],["Б","б","бэ","бума́га","қоғоз"],["В","в","вэ","вода́","сув"],
+["Г","г","гэ","газе́та","газета"],["Д","д","дэ","дом","уй"],["Е","е","йэ","еда́","овқат"],
+["Ё","ё","йо — доим урғули","ёлка","арча"],["Ж","ж","жэ","жёлтый","сариқ"],["З","з","зэ","зима́","қиш"],
+["И","и","и","игра́","ўйин"],["Й","й","қисқа «й»","йо́гурт","йогурт"],["К","к","ка","кни́га","китоб"],
+["Л","л","эл","ло́жка","қошиқ"],["М","м","эм","молоко́","сут"],["Н","н","эн","но́вый","янги"],
+["О","о","о — урғусиз «а»","окно́","дераза"],["П","п","пэ","письмо́","хат"],["Р","р","эр","рабо́та","иш"],
+["С","с","эс","со́лнце","қуёш"],["Т","т","тэ","тепло́","илиқ"],["У","у","у","у́лица","кўча"],
+["Ф","ф","эф","фру́кты","мевалар"],["Х","х","ха","хлеб","нон"],["Ц","ц","цэ — «тс»","цвето́к","гул"],
+["Ч","ч","че","час","соат"],["Ш","ш","ша — қаттиқ","шко́ла","мактаб"],["Щ","щ","ща — юмшоқ, узун «ш»","щено́к","кучукча"],
+["Ъ","ъ","қаттиқлик белгиси, товуши йўқ","подъе́зд","кираверишжой"],["Ы","ы","ы — «и» ва «у» ораси","сыр","пишлоқ"],
+["Ь","ь","юмшоқлик белгиси, товуши йўқ","соль","туз"],["Э","э","э","эта́ж","қават"],
+["Ю","ю","йу","юг","жануб"],["Я","я","йа","я́блоко","олма"]
+];
+
+const GRAMMAR = [
+{t:"«Бўлмоқ» феъли ҳозирги замонда йўқ",h:`
+<p>Рус тилида ҳозирги замонда <b class="ru">быть</b> («-ман, -сан») ишлатилмайди. Гап тўғридан-тўғри тузилади.</p>
+<div class="tablewrap"><table><tr><td class="rus">Я студе́нт.</td><td>Мен студентман.</td></tr>
+<tr><td class="rus">Он врач.</td><td>У шифокор.</td></tr>
+<tr><td class="rus">Э́то мой дом.</td><td>Бу менинг уйим.</td></tr></table></div>
+<p>Лекин ўтган ва келаси замонда керак: <b class="ru">Он был до́ма</b> — У уйда эди. <b class="ru">Я бу́ду до́ма</b> — Мен уйда бўламан.</p>`},
+{t:"Шахс олмошлари ва ҳозирги замон",h:`
+<p>Феъл шахсга қараб охирини ўзгартиради. Иккита асосий тип:</p>
+<div class="tablewrap"><table>
+<tr><th>шахс</th><th>чита́ть (ўқимоқ)</th><th>говори́ть (гапирмоқ)</th></tr>
+<tr><td class="q">я — мен</td><td class="rus">чита́ю</td><td class="rus">говорю́</td></tr>
+<tr><td class="q">ты — сен</td><td class="rus">чита́ешь</td><td class="rus">говори́шь</td></tr>
+<tr><td class="q">он / она́ — у</td><td class="rus">чита́ет</td><td class="rus">говори́т</td></tr>
+<tr><td class="q">мы — биз</td><td class="rus">чита́ем</td><td class="rus">говори́м</td></tr>
+<tr><td class="q">вы — сиз(лар)</td><td class="rus">чита́ете</td><td class="rus">говори́те</td></tr>
+<tr><td class="q">они́ — улар</td><td class="rus">чита́ют</td><td class="rus">говоря́т</td></tr>
+</table></div>`},
+{t:"Уч жинс — ўзбек тилида йўқ нарса",h:`
+<p>Ҳар бир от учта жинсдан бирига киради, сифат ҳам унга мослашади.</p>
+<div class="tablewrap"><table>
+<tr><th>жинс</th><th>охири</th><th>мисол</th></tr>
+<tr><td>эркак</td><td class="q">ундош</td><td class="rus">но́вый дом — янги уй</td></tr>
+<tr><td>аёл</td><td class="q">-а / -я</td><td class="rus">но́вая кни́га — янги китоб</td></tr>
+<tr><td>ўрта</td><td class="q">-о / -е</td><td class="rus">но́вое окно́ — янги дераза</td></tr>
+</table></div>
+<p><b>Эсда тутинг:</b> <b class="ru">-ь</b> билан тугаган отлар икки хил бўлади: <b class="ru">день</b> (эркак), <b class="ru">соль</b> (аёл) — уларни ёдлаш керак.</p>`},
+{t:"Кўплик",h:`
+<div class="tablewrap"><table>
+<tr><td class="rus">дом → дома́</td><td>уй → уйлар</td></tr>
+<tr><td class="rus">кни́га → кни́ги</td><td>китоб → китоблар</td></tr>
+<tr><td class="rus">окно́ → о́кна</td><td>дераза → деразалар</td></tr>
+<tr><td class="rus">друг → друзья́</td><td>дўст → дўстлар (қоидасиз)</td></tr>
+</table></div>
+<p>Ўзбекчадаги битта <b>-лар</b> ўрнига рус тилида охири жинс ва урғуга қараб ўзгаради — шунинг учун сўзни дарҳол кўплиги билан ёдлаш фойдали.</p>`},
+{t:"Олти келишик (падеж)",h:`
+<p>Ўзбек тилидаги келишик қўшимчалари рус тилида сўз охирини ўзгартиради. <b class="ru">брат</b> (ака) мисолида:</p>
+<div class="tablewrap"><table>
+<tr><th>келишик</th><th>савол</th><th>шакл</th><th>ўзбекча мос</th></tr>
+<tr><td>Именительный</td><td class="q">кто?</td><td class="rus">брат</td><td>ака (бош шакл)</td></tr>
+<tr><td>Роди́тельный</td><td class="q">кого́?</td><td class="rus">бра́та</td><td>аканинг; акасиз</td></tr>
+<tr><td>Да́тельный</td><td class="q">кому́?</td><td class="rus">бра́ту</td><td>акага</td></tr>
+<tr><td>Вини́тельный</td><td class="q">кого́?</td><td class="rus">бра́та</td><td>акани</td></tr>
+<tr><td>Твори́тельный</td><td class="q">кем?</td><td class="rus">бра́том</td><td>ака билан</td></tr>
+<tr><td>Предло́жный</td><td class="q">о ком?</td><td class="rus">о бра́те</td><td>ака ҳақида</td></tr>
+</table></div>
+<p>Бошида фақат иккитаси кифоя: <b>Предложный</b> (<b class="ru">в го́роде</b> — шаҳарда) ва <b>Винительный</b> (<b class="ru">я ви́жу дом</b> — мен уйни кўраман).</p>`},
+{t:"Ўтган замон — энг осон қоида",h:`
+<p>Инфинитивдан <b class="ru">-ть</b> ни олиб, жинсга қараб қўшимча қўйилади:</p>
+<div class="tablewrap"><table>
+<tr><td class="rus">он чита́л</td><td>у (эркак) ўқиди</td></tr>
+<tr><td class="rus">она́ чита́ла</td><td>у (аёл) ўқиди</td></tr>
+<tr><td class="rus">оно́ чита́ло</td><td>у (ўрта жинс) ўқиди</td></tr>
+<tr><td class="rus">они́ чита́ли</td><td>улар ўқиди</td></tr>
+</table></div>
+<p>Бу ерда шахс эмас, <b>жинс</b> муҳим: <b class="ru">я чита́л</b> (эркак киши), <b class="ru">я чита́ла</b> (аёл киши).</p>`},
+{t:"Келаси замон",h:`
+<p><b class="ru">бу́ду / бу́дешь / бу́дет / бу́дем / бу́дете / бу́дут</b> + инфинитив:</p>
+<div class="tablewrap"><table>
+<tr><td class="rus">Я бу́ду рабо́тать.</td><td>Мен ишлайман (ишлаётган бўламан).</td></tr>
+<tr><td class="rus">Мы бу́дем учи́ть ру́сский.</td><td>Биз русча ўрганамиз.</td></tr>
+</table></div>
+<p>Тугалланган иш учун бошқа усул: <b class="ru">Я прочита́ю кни́гу</b> — Китобни ўқиб тугатаман.</p>`},
+{t:"Урғу маънони ўзгартиради",h:`
+<p>Рус тилида урғу ёзувда кўрсатилмайди, лекин уни билмаслик бошқа сўз айтишга олиб келади:</p>
+<div class="tablewrap"><table>
+<tr><td class="rus">за́мок</td><td>қаср</td><td class="rus">замо́к</td><td>қулф</td></tr>
+<tr><td class="rus">му́ка</td><td>азоб</td><td class="rus">мука́</td><td>ун</td></tr>
+<tr><td class="rus">пла́чу</td><td>йиғлайман</td><td class="rus">плачу́</td><td>тўлайман</td></tr>
+</table></div>
+<p>Шу сабабли бу дафтарда ҳар бир сўз урғуси <span class="st">қизил</span> билан белгиланган — сўзни бошидан тўғри урғу билан ёдлаш кейин тузатишдан осон.</p>`},
+{t:"Сон + от: 1 / 2–4 / 5 ва ундан кўп",h:`
+<div class="tablewrap"><table>
+<tr><td class="q">1</td><td class="rus">оди́н дом, одна́ кни́га</td><td>бирлик</td></tr>
+<tr><td class="q">2, 3, 4</td><td class="rus">два до́ма, три кни́ги</td><td>махсус шакл</td></tr>
+<tr><td class="q">5 +</td><td class="rus">пять домо́в, пять книг</td><td>кўплик, родительный</td></tr>
+</table></div>
+<p>Ўзбекчада «беш уй» дегандек ўзгармайди, русчада эса сон отни ўзгартиради. Харидда энг кўп керак бўладиган нарса: <b class="ru">два ко́фе, пять биле́тов</b>.</p>`}
+];
+
+/* ============================== STATE ============================== */
+const DAYMS = 86400000;
+const INTERVALS = [0,1,2,4,7,14,30];
+const todayIdx = () => { const d=new Date(); return Math.floor((d.getTime()-d.getTimezoneOffset()*60000)/DAYMS); };
+const LS = "rus-daftar-v1";
+const DEF = {v:1, cards:{}, streak:0, lastDay:0, day:0, done:0, goal:20, topics:[], mode:"flip", dir:"ru2uz", updated:0};
+let P = load();
+let remoteDoc = null;
+
+function load(){
+  try{ const raw = localStorage.getItem(LS); if(raw) return Object.assign({},DEF,JSON.parse(raw)); }catch(e){}
+  return JSON.parse(JSON.stringify(DEF));
+}
+let saveTimer = null;
+function save(){
+  P.updated = Date.now();
+  try{ localStorage.setItem(LS, JSON.stringify(P)); }catch(e){}
+  if(remoteDoc){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(()=>{ remoteDoc.set(P).catch(()=>{}); }, 900);
+  }
+}
+function rollDay(){
+  const t = todayIdx();
+  if(P.day !== t){ P.day = t; P.done = 0; }
+}
+rollDay();
+
+/* cross-device progress, when the viewer's storage is available */
+(async function connect(){
+  const c = window.claude;
+  if(!c || typeof c.use !== "function") return;
+  let db=null, user=null;
+  try{ db = await c.use("db"); }catch(e){}
+  if(!db) return;
+  try{ user = await c.use("user"); }catch(e){}
+  try{
+    const doc = db.doc("data/users/me/progress");
+    const snap = await doc.get();
+    const data = (snap && snap.exists) ? snap.data() : null;
+    if(data && typeof data.updated === "number" && data.updated > (P.updated||0)){
+      P = Object.assign({}, DEF, data);
+      rollDay();
+      try{ localStorage.setItem(LS, JSON.stringify(P)); }catch(e){}
+      renderAll();
+    }
+    remoteDoc = doc;
+    document.getElementById("save-note").textContent = "Натижа ҳисобингизда сақланади — бошқа қурилмада ҳам давом этади.";
+  }catch(e){ /* stay local */ }
+})();
+
+/* ============================== HELPERS ============================== */
+const ACUTE = "́";
+function markStress(s){
+  let out = "";
+  for(let i=0;i<s.length;i++){
+    if(s[i+1] === ACUTE){ out += '<span class="st">'+s[i]+ACUTE+'</span>'; i++; }
+    else out += esc(s[i]);
+  }
+  return out;
+}
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function plain(s){ return s.split(ACUTE).join(""); }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const SPK = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 4 8 8.5H4v7h4L13 20V4z"/><path d="M16.5 8.8a4.5 4.5 0 0 1 0 6.4" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round"/></svg>';
+function sayBtn(text){ return '<button class="say" data-say="'+esc(plain(text))+'" title="Эшитиш" aria-label="Эшитиш">'+SPK+'</button>'; }
+
+let ruVoice = null;
+function pickVoice(){
+  if(!("speechSynthesis" in window)) return;
+  const vs = speechSynthesis.getVoices();
+  ruVoice = vs.find(v=>/^ru/i.test(v.lang)) || null;
+}
+if("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(text){
+  if(!("speechSynthesis" in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(plain(text));
+    u.lang = "ru-RU"; u.rate = .85;
+    if(ruVoice) u.voice = ruVoice;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-say]");
+  if(b) speak(b.getAttribute("data-say"));
+});
+
+function card(id){ return P.cards[id] || null; }
+function ensure(id){
+  if(!P.cards[id]) P.cards[id] = {box:0, due:todayIdx(), seen:0, ok:0, bad:0};
+  return P.cards[id];
+}
+function grade(id, ok){
+  const c = ensure(id), t = todayIdx();
+  c.seen++;
+  if(ok){ c.ok++; c.box = Math.min(6, c.box+1); }
+  else { c.bad++; c.box = c.box > 2 ? 2 : 0; }
+  c.due = t + INTERVALS[c.box];
+  rollDay();
+  P.done++;
+  if(P.lastDay !== t){
+    P.streak = (P.lastDay === t-1) ? P.streak+1 : 1;
+    P.lastDay = t;
+  }
+  save(); renderStats();
+}
+function dueCount(){
+  const t = todayIdx();
+  return WORDS.reduce((n,w)=>{ const c=card(w.id); return n + (c ? (c.due<=t?1:0) : 0); },0);
+}
+function newCount(){ return WORDS.filter(w=>!card(w.id)).length; }
+function learnedCount(){ return WORDS.filter(w=>{const c=card(w.id); return c && c.box>=4;}).length; }
+
+/* ============================== STATS ============================== */
+function renderStats(){
+  rollDay();
+  const due = dueCount();
+  document.querySelector("#st-due b").textContent = due;
+  document.getElementById("st-due").classList.toggle("warn", due > 0);
+  document.getElementById("st-learned").textContent = learnedCount();
+  document.getElementById("st-streak").textContent = P.streak;
+  document.getElementById("st-today").textContent = P.done + "/" + P.goal;
+  document.getElementById("st-bar").style.width = Math.min(100, Math.round(P.done/P.goal*100)) + "%";
+}
+
+/* ============================== TABS ============================== */
+const TABS = [["drill","Машқ"],["vocab","Луғат"],["phrase","Иборалар"],["alpha","Алифбо"],["gram","Грамматика"]];
+const tabsEl = document.getElementById("tabs");
+tabsEl.innerHTML = TABS.map(([k,label],i)=>
+  '<button class="tab" role="tab" data-tab="'+k+'" aria-selected="'+(i===0)+'" aria-controls="p-'+k+'">'+label+'</button>'
+).join("");
+tabsEl.addEventListener("click", e=>{
+  const b = e.target.closest(".tab"); if(!b) return;
+  const key = b.dataset.tab;
+  tabsEl.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected", String(t===b)));
+  TABS.forEach(([k])=>{ document.getElementById("p-"+k).hidden = (k!==key); });
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+
+/* ============================== TOPIC CHIPS ============================== */
+const chipsEl = document.getElementById("topic-chips");
+function renderChips(){
+  const sel = new Set(P.topics);
+  chipsEl.innerHTML =
+    '<button class="chip" data-topic="*" aria-pressed="'+(sel.size===0)+'">Ҳаммаси</button>' +
+    TOPICS.map(([id,name])=>'<button class="chip" data-topic="'+id+'" aria-pressed="'+sel.has(id)+'">'+name+'</button>').join("");
+}
+chipsEl.addEventListener("click", e=>{
+  const b = e.target.closest(".chip"); if(!b) return;
+  const id = b.dataset.topic;
+  if(id === "*") P.topics = [];
+  else{
+    const s = new Set(P.topics);
+    s.has(id) ? s.delete(id) : s.add(id);
+    P.topics = [...s];
+  }
+  save(); renderChips(); newQueue(); drawDrill();
+});
+
+/* ============================== DRILL ============================== */
+const host = document.getElementById("drill-host");
+const hintEl = document.getElementById("drill-hint");
+let queue = [], cur = null, shown = false, answered = false;
+
+function pool(){
+  const s = new Set(P.topics);
+  return s.size ? WORDS.filter(w=>s.has(w.topic)) : WORDS.slice();
+}
+function newQueue(){
+  const t = todayIdx(), p = pool();
+  const due=[], fresh=[], rest=[];
+  p.forEach(w=>{ const c=card(w.id);
+    if(!c) fresh.push(w);
+    else if(c.due<=t) due.push(w);
+    else rest.push(w);
+  });
+  shuffle(due); shuffle(fresh); shuffle(rest);
+  queue = due.concat(fresh.slice(0,12), rest.slice(0,20));
+  if(!queue.length) queue = shuffle(p).slice(0,20);
+  next();
+}
+function next(){
+  if(!queue.length) newQueue();
+  cur = queue.shift() || pool()[0];
+  shown = false; answered = false;
+}
+
+const modeSeg = document.getElementById("mode-seg");
+const dirSeg = document.getElementById("dir-seg");
+function syncSegs(){
+  modeSeg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.mode===P.mode)));
+  dirSeg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.dir===P.dir)));
+  dirSeg.style.display = P.mode === "write" ? "none" : "";
+}
+modeSeg.addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  P.mode = b.dataset.mode; save(); syncSegs(); drawDrill();
+});
+dirSeg.addEventListener("click", e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  P.dir = b.dataset.dir; save(); syncSegs(); drawDrill();
+});
+
+function boxDots(id){
+  const c = card(id), lvl = c ? c.box : 0;
+  let s = "";
+  for(let i=1;i<=5;i++) s += '<i class="dot'+(i<=lvl?" on":"")+'"></i>';
+  return s;
+}
+
+function drawDrill(){
+  if(!cur) next();
+  if(P.mode === "flip") drawFlip();
+  else if(P.mode === "choice") drawChoice();
+  else drawWrite();
+}
+
+/* --- flip --- */
+function drawFlip(){
+  const ru2 = P.dir === "ru2uz";
+  const front = ru2 ? '<div class="word">'+markStress(cur.ru)+'</div>' : '<div class="word uzq">'+esc(cur.uz)+'</div>';
+  const back = shown ? (ru2
+      ? '<div class="answer"><div class="val uz">'+esc(cur.uz)+'</div><div class="tr">талаффуз: '+esc(cur.tr)+'</div><div class="note">'+TOPIC_NAME.get(cur.topic)+'</div></div>'
+      : '<div class="answer"><div class="val">'+markStress(cur.ru)+'</div><div class="tr">талаффуз: '+esc(cur.tr)+'</div><div class="note">'+TOPIC_NAME.get(cur.topic)+'</div></div>')
+    : '';
+  host.innerHTML =
+    '<div class="card"><div class="ask">'+(ru2?"Бу сўз нима дегани?":"Русча қандай айтилади?")+'</div>'+
+      front +
+      (ru2 ? '<div class="say-row">'+sayBtn(cur.ru)+'<span class="tr">динамикни босиб эшитинг</span></div>' : "") +
+      back +
+    '</div>' +
+    '<div class="btnrow">' + (shown
+      ? '<button class="btn bad" data-g="0">Билмадим</button><button class="btn good" data-g="1">Билдим</button>'
+      : '<button class="btn primary" data-flip="1">Жавобни кўрсатиш</button>') +
+    '</div>';
+  hintEl.innerHTML = '<span class="kb-only"><span class="kbd">Space</span> жавоб · <span class="kbd">1</span> билмадим · <span class="kbd">2</span> билдим</span>';
+}
+
+/* --- choice --- */
+function drawChoice(){
+  const ru2 = P.dir === "ru2uz";
+  if(!cur.opts){
+    const same = WORDS.filter(w=>w.topic===cur.topic && w.id!==cur.id);
+    const others = shuffle(same.length>=3 ? same : WORDS.filter(w=>w.id!==cur.id)).slice(0,3);
+    cur.opts = shuffle([cur].concat(others));
+  }
+  const q = ru2 ? '<div class="word">'+markStress(cur.ru)+'</div>' : '<div class="word uzq">'+esc(cur.uz)+'</div>';
+  host.innerHTML =
+    '<div class="card"><div class="ask">Тўғри жавобни танланг</div>'+q+
+      (ru2 ? '<div class="say-row">'+sayBtn(cur.ru)+'</div>' : '') +
+    '</div>' +
+    '<div class="opts">' + cur.opts.map((o,i)=>
+      '<button class="opt" data-opt="'+o.id+'"><span class="n">'+(i+1)+'</span><span>'+
+      (ru2 ? esc(o.uz) : '<span class="ru">'+markStress(o.ru)+'</span>')+'</span></button>').join("") +
+    '</div>';
+  hintEl.innerHTML = '<span class="kb-only">Рақам тугмалари <span class="kbd">1</span>–<span class="kbd">4</span> билан ҳам танлаш мумкин.</span>';
+}
+
+/* --- write --- */
+const TOUCH = window.matchMedia && window.matchMedia("(hover:none)").matches;
+const ROWS = [
+  "йцукенгшщзхъ".split(""),
+  "фывапролджэё".split(""),
+  "ячсмитьбю".split("")
+];
+function drawWrite(){
+  host.innerHTML =
+    '<div class="card"><div class="ask">Русча ёзинг</div>'+
+      '<div class="word uzq">'+esc(cur.uz)+'</div>'+
+      '<div class="tr">'+TOPIC_NAME.get(cur.topic)+' · '+(cur.ru.includes(" ")?"иккита сўз":"битта сўз")+'</div>'+
+      '<input class="type-in" id="w-in" autocomplete="off" autocapitalize="off" spellcheck="false"'+
+        (TOUCH ? ' inputmode="none"' : '')+' aria-label="Русча жавоб" placeholder="…">'+
+      '<div class="verdict" id="w-verdict"></div>'+
+    '</div>'+
+    '<div class="keys">'+ ROWS.map(r=>'<div class="row">'+r.map(k=>'<button class="key" data-k="'+k+'">'+k+'</button>').join("")+'</div>').join("") +
+      '<div class="row"><button class="key wide" data-k=" ">бўшлиқ</button><button class="key wide" data-k="⌫">ўчириш</button><button class="key wide" data-k="↵">текшириш</button></div>'+
+    '</div>'+
+    '<div class="btnrow"><button class="btn primary" data-check="1">Текшириш</button><button class="btn" data-skip="1">Кўрсатиб бер</button></div>';
+  hintEl.innerHTML = 'Клавиатурада русча ҳарф бўлмаса, экрандаги <b>ЙЦУКЕН</b> тугмаларидан фойдаланинг.';
+  const inp = document.getElementById("w-in");
+  inp.focus();
+  inp.addEventListener("keydown", e=>{ if(e.key === "Enter"){ e.preventDefault(); checkWrite(); } });
+}
+function norm(s){ return plain(s).toLowerCase().replace(/ё/g,"е").replace(/[?.!,]/g,"").replace(/\s+/g," ").trim(); }
+function checkWrite(){
+  if(answered){ next(); drawDrill(); return; }
+  const inp = document.getElementById("w-in");
+  const v = document.getElementById("w-verdict");
+  const ok = norm(inp.value) === norm(cur.ru);
+  answered = true;
+  v.className = "verdict " + (ok ? "ok" : "no");
+  v.innerHTML = ok
+    ? "Тўғри! <span class='ru'>"+markStress(cur.ru)+"</span>"
+    : "Тўғриси: <span class='ru'>"+markStress(cur.ru)+"</span> <span class='tr'>("+esc(cur.tr)+")</span>";
+  grade(cur.id, ok);
+  const btn = host.querySelector("[data-check]");
+  if(btn) btn.textContent = "Кейинги сўз";
+  renderVocab();
+}
+
+host.addEventListener("click", e=>{
+  const t = e.target;
+  if(t.closest("[data-flip]")){ shown = true; drawFlip(); return; }
+  const g = t.closest("[data-g]");
+  if(g){ grade(cur.id, g.dataset.g === "1"); next(); drawDrill(); renderVocab(); return; }
+  const o = t.closest("[data-opt]");
+  if(o && !answered){
+    answered = true;
+    const ok = o.dataset.opt === cur.id;
+    host.querySelectorAll(".opt").forEach(b=>{
+      b.disabled = true;
+      if(b.dataset.opt === cur.id) b.classList.add("right");
+      else if(b === o) b.classList.add("wrong");
+    });
+    grade(cur.id, ok);
+    renderVocab();
+    setTimeout(()=>{ delete cur.opts; next(); drawDrill(); }, ok ? 620 : 1450);
+    return;
+  }
+  if(t.closest("[data-check]")){ checkWrite(); return; }
+  if(t.closest("[data-skip]")){
+    const v = document.getElementById("w-verdict");
+    if(!answered){
+      answered = true;
+      v.className = "verdict no";
+      v.innerHTML = "Тўғриси: <span class='ru'>"+markStress(cur.ru)+"</span> <span class='tr'>("+esc(cur.tr)+")</span>";
+      grade(cur.id, false); renderVocab();
+      const btn = host.querySelector("[data-check]"); if(btn) btn.textContent = "Кейинги сўз";
+    } else { next(); drawDrill(); }
+    return;
+  }
+  const k = t.closest("[data-k]");
+  if(k){
+    const inp = document.getElementById("w-in"); if(!inp) return;
+    const ch = k.dataset.k;
+    if(ch === "⌫") inp.value = inp.value.slice(0,-1);
+    else if(ch === "↵") checkWrite();
+    else inp.value += ch;
+    inp.focus();
+  }
+});
+
+document.addEventListener("keydown", e=>{
+  if(document.getElementById("p-drill").hidden) return;
+  if(e.target.tagName === "INPUT") return;
+  if(P.mode === "flip"){
+    if(e.code === "Space"){ e.preventDefault(); if(!shown){ shown = true; drawFlip(); } }
+    else if(e.key === "1" && shown){ grade(cur.id,false); next(); drawDrill(); renderVocab(); }
+    else if(e.key === "2" && shown){ grade(cur.id,true); next(); drawDrill(); renderVocab(); }
+  } else if(P.mode === "choice" && /^[1-4]$/.test(e.key)){
+    const b = host.querySelectorAll(".opt")[+e.key-1];
+    if(b && !b.disabled) b.click();
+  }
+});
+
+/* ============================== VOCAB ============================== */
+const vocabList = document.getElementById("vocab-list");
+const searchEl = document.getElementById("vocab-search");
+function renderVocab(){
+  const q = norm(searchEl.value || "");
+  let html = "";
+  TOPICS.forEach(([tid,name])=>{
+    const items = WORDS.filter(w=>w.topic===tid && (!q || norm(w.ru).includes(q) || norm(w.tr).includes(q) || norm(w.uz).includes(q)));
+    if(!items.length) return;
+    html += '<div class="group"><h3>'+name+' <em>'+items.length+' сўз</em></h3>' +
+      items.map(w=>
+        '<div class="row">'+
+          '<div class="r-ru">'+sayBtn(w.ru)+'<span>'+markStress(w.ru)+'</span></div>'+
+          '<div class="r-tr tr">'+esc(w.tr)+'</div>'+
+          '<div class="r-uz">'+esc(w.uz)+'</div>'+
+          '<div class="r-lvl" title="Ёдлаш даражаси">'+boxDots(w.id)+'</div>'+
+        '</div>').join("") +
+      '</div>';
+  });
+  vocabList.innerHTML = html || '<p class="lede">Бундай сўз топилмади.</p>';
+}
+searchEl.addEventListener("input", renderVocab);
+
+/* ============================== PHRASES ============================== */
+document.getElementById("phrase-list").innerHTML = PHRASES.map(([g,list])=>
+  '<div class="group"><h3>'+g+' <em>'+list.length+'</em></h3>' +
+  list.map(([ru,tr,uz])=>
+    '<div class="phrase"><div class="p-ru">'+sayBtn(ru)+'<span>'+markStress(ru)+'</span></div>'+
+    '<div class="tr">'+esc(tr)+'</div><div class="p-uz">'+esc(uz)+'</div></div>').join("") +
+  '</div>').join("");
+
+/* ============================== ALPHABET ============================== */
+const grid = document.getElementById("alpha-grid");
+const detail = document.getElementById("alpha-detail");
+let curLetter = 13;
+grid.innerHTML = ALPHA.map(([U,l,name],i)=>
+  '<button class="letter'+((l==="ъ"||l==="ь")?" sign":"")+'" data-i="'+i+'" aria-pressed="'+(i===curLetter)+'">'+
+  '<b>'+U+' '+l+'</b><span>'+esc(name.split(" ")[0])+'</span></button>').join("");
+function drawLetter(){
+  const [U,l,name,ex,uz] = ALPHA[curLetter];
+  detail.innerHTML =
+    '<div class="lcard">'+
+      '<div class="big">'+U+' '+l+'</div>'+
+      '<dl><dt>Ўқилиши</dt><dd>'+esc(name)+'</dd></dl>'+
+      '<dl><dt>Мисол</dt><dd><span class="ru" style="font-size:19px">'+markStress(ex)+'</span> '+sayBtn(ex)+'</dd></dl>'+
+      '<dl><dt>Таржимаси</dt><dd>'+esc(uz)+'</dd></dl>'+
+    '</div>';
+  grid.querySelectorAll(".letter").forEach(b=>b.setAttribute("aria-pressed", String(+b.dataset.i===curLetter)));
+}
+grid.addEventListener("click", e=>{
+  const b = e.target.closest(".letter"); if(!b) return;
+  curLetter = +b.dataset.i; drawLetter();
+  const l = ALPHA[curLetter];
+  if(l[1] !== "ъ" && l[1] !== "ь") speak(l[3]);
+});
+
+/* ============================== GRAMMAR ============================== */
+document.getElementById("gram-list").innerHTML = GRAMMAR.map((g,i)=>
+  '<div class="gcard"><h4>'+esc(g.t)+'</h4>'+g.h+'</div>').join("");
+
+/* ============================== RESET ============================== */
+document.getElementById("reset").addEventListener("click", ()=>{
+  if(!confirm("Барча ёдлаш натижалари ва изчиллик ўчирилади. Давом этамизми?")) return;
+  P = JSON.parse(JSON.stringify(DEF));
+  rollDay(); save();
+  renderAll(); newQueue(); drawDrill();
+});
+
+/* ============================== BOOT ============================== */
+function renderAll(){
+  document.getElementById("word-total").textContent = WORDS.length;
+  renderStats(); renderChips(); syncSegs(); renderVocab(); drawLetter();
+}
+renderAll();
+newQueue();
+drawDrill();
+</script>
