@@ -1,6 +1,6 @@
 /* Рус тили дафтари — оффлайн ишлаши учун service worker.
    CACHE номини build.mjs ҳар йиғишда янгилайди. */
-const CACHE = "rus-daftar-202609281804";
+const CACHE = "rus-daftar-202609281828";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {

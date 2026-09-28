@@ -147,6 +147,8 @@ p.lede{margin:0 0 18px;color:var(--ink-2);max-width:62ch;font-size:14.5px}
 .card .ask{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
 .card .word{font-family:var(--f-serif);font-size:clamp(30px,6.2vw,44px);line-height:1.15;font-weight:700;letter-spacing:-.01em}
 .card .word.uzq{font-family:var(--f-sans);font-size:clamp(24px,5vw,34px)}
+.card .word.small{font-size:clamp(20px,4.2vw,28px);line-height:1.3}
+.card .word.uzq.small{font-size:clamp(18px,3.8vw,24px)}
 .card .say-row{display:flex;justify-content:center;align-items:center;gap:10px}
 .answer{border-top:1px dashed var(--line);padding-top:14px;display:flex;flex-direction:column;gap:6px}
 .answer .val{font-size:21px;font-family:var(--f-serif)}
@@ -271,6 +273,87 @@ td.q{font-family:var(--f-mono);font-size:12.5px;color:var(--ink-3);white-space:n
 .linkbtn{background:none;border:none;padding:0;color:var(--accent);text-decoration:underline;font-size:12.5px}
 .savenote{font-family:var(--f-mono);font-size:11px}
 
+/* ---------- reja ---------- */
+.qhead{margin-bottom:18px}
+.qhead h2{font-family:var(--f-serif);font-size:21px;margin:0 0 4px}
+.qhead p{margin:0 0 10px;color:var(--ink-2);font-size:14.5px;max-width:64ch}
+.qbar{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-3)}
+.qbar .track{flex:1;max-width:320px;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.qbar .track i{display:block;height:100%;background:var(--accent)}
+
+.months{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:22px}
+.mcard{
+  border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);
+  padding:12px 14px;display:flex;flex-direction:column;gap:6px;text-align:left;
+}
+.mcard[data-state="now"]{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.mcard[data-state="done"]{background:var(--green-soft);border-color:var(--green)}
+.mcard[data-state="lock"]{opacity:.55}
+.mcard b{font-size:14.5px}
+.mcard span{font-size:12.5px;color:var(--ink-2);line-height:1.4}
+.mcard .mmeta{font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+
+.daygrid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin:10px 0 20px}
+@media(max-width:560px){.daygrid{grid-template-columns:repeat(6,1fr)}}
+.dcell{
+  aspect-ratio:1;border:1px solid var(--line);background:var(--surface);border-radius:4px;
+  font-family:var(--f-mono);font-size:11.5px;display:grid;place-items:center;padding:0;color:var(--ink-3);
+}
+.dcell[data-s="done"]{background:var(--green);border-color:var(--green);color:#fff}
+.dcell[data-s="now"]{border-color:var(--accent);border-width:2px;color:var(--ink);font-weight:700;background:var(--accent-soft)}
+.dcell[data-s="lock"]{cursor:default;opacity:.5}
+.dcell[data-s="exam"]{border-style:dashed;border-color:var(--red);color:var(--red)}
+.dcell[data-s="exam-done"]{background:var(--red);border-color:var(--red);color:#fff}
+.dcell.sel{outline:2px solid var(--ink);outline-offset:1px}
+
+.today{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  box-shadow:var(--shadow);padding:18px;margin-bottom:18px;
+}
+.today .tline{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;margin-bottom:4px}
+.today .tday{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.today h3{font-family:var(--f-serif);font-size:19px;margin:0 0 12px}
+.tasks{display:flex;flex-direction:column;gap:2px;margin-bottom:14px}
+.task{
+  display:flex;gap:11px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-2);
+}
+.task:last-child{border-bottom:none}
+.task .box{
+  width:19px;height:19px;border:1.5px solid var(--line);border-radius:4px;flex:0 0 auto;
+  display:grid;place-items:center;font-size:12px;color:#fff;
+}
+.task.ok .box{background:var(--green);border-color:var(--green)}
+.task .tx{flex:1;min-width:0;font-size:14.5px}
+.task.ok .tx{color:var(--ink-3)}
+.task .pg{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);white-space:nowrap}
+.task .go{
+  border:1px solid var(--line);background:var(--surface);border-radius:4px;
+  padding:4px 10px;font-size:12.5px;white-space:nowrap;
+}
+.task .go:hover{border-color:var(--accent);color:var(--accent)}
+.doneflag{
+  background:var(--green-soft);border:1px solid var(--green);border-radius:var(--radius);
+  padding:10px 14px;font-size:14px;margin-bottom:12px;
+}
+.lockmsg{font-size:13.5px;color:var(--ink-3);display:flex;gap:8px;align-items:center}
+
+.exam-q{display:flex;flex-direction:column;gap:6px;margin-bottom:6px}
+.exam-meta{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12px;color:var(--ink-3);margin-bottom:10px}
+.score{font-family:var(--f-serif);font-size:34px;font-weight:700}
+.score.pass{color:var(--green)}
+.score.fail{color:var(--red)}
+.gramdone{
+  margin-top:10px;padding-top:10px;border-top:1px solid var(--line-2);
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink-3);
+}
+.gcard.hl{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.planbar{
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+  background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius);
+  padding:9px 14px;margin-bottom:16px;font-size:13.5px;
+}
+.planbar b{font-family:var(--f-mono);font-size:12.5px}
+
 /* ---------- telefon uchun ---------- */
 html{-webkit-text-size-adjust:100%}
 button{touch-action:manipulation}
@@ -284,14 +367,15 @@ body{
 }
 @media (max-width:560px){
   .wrap{padding:0 14px 90px}
-  .top-in{padding:10px 14px 0;gap:8px 12px;align-items:center}
-  .brand h1{font-size:19px}
+  .top-in{padding:10px 14px 0;gap:6px 10px;align-items:center;flex-wrap:nowrap}
+  .brand{flex:0 1 auto}
+  .brand h1{font-size:17px;white-space:nowrap}
   .brand .sub{display:none}
-  .stats{gap:12px;flex:1;justify-content:flex-end}
+  .stats{gap:10px;flex:1 1 auto;justify-content:flex-end;flex-wrap:nowrap}
   .stat{min-width:0}
-  .stat b{font-size:16px}
-  .stat span{font-size:9.5px;letter-spacing:.03em}
-  .goalbar{width:100%;min-width:54px}
+  .stat b{font-size:15px}
+  .stat span{font-size:9px;letter-spacing:.02em}
+  .goalbar{display:none}
   nav.tabs{padding:6px 14px 0}
   .tab{padding:7px 9px 8px;font-size:14px}
   .panel{padding-top:18px}
@@ -337,8 +421,12 @@ body{
 </header>
 
 <main class="wrap">
+  <!-- REJA -->
+  <section class="panel" id="p-plan" role="tabpanel"></section>
+
   <!-- MASHQ -->
-  <section class="panel" id="p-drill" role="tabpanel">
+  <section class="panel" id="p-drill" role="tabpanel" hidden>
+    <div id="plan-bar"></div>
     <div class="toolrow">
       <div class="seg" id="mode-seg" role="group" aria-label="Машқ тури">
         <button data-mode="flip" aria-pressed="true">Карточка</button>
@@ -366,7 +454,7 @@ body{
   <!-- IBORALAR -->
   <section class="panel" id="p-phrase" role="tabpanel" hidden>
     <h2 class="sec">Керакли иборалар</h2>
-    <p class="lede">Ҳар кунги вазиятларда тайёр гаплар. Ёдлаш учун бўлак-бўлак эмас, бутун гап ҳолида ўрганиш тезроқ натижа беради.</p>
+    <p class="lede">Ҳар кунги вазиятларда тайёр гаплар. Булар ҳам сўзлар қатори такрорлаш тизимига киради — ўнг томондаги нуқталар ёдлаш даражасини кўрсатади.</p>
     <div id="phrase-list"></div>
   </section>
 
@@ -602,8 +690,7 @@ color:[
 ]
 };
 const WORDS = [];
-TOPICS.forEach(([tid])=>RAW[tid].forEach((r,i)=>WORDS.push({id:tid+i,topic:tid,ru:r[0],tr:r[1],uz:r[2]})));
-const WORD_BY_ID = new Map(WORDS.map(w=>[w.id,w]));
+TOPICS.forEach(([tid])=>RAW[tid].forEach((r,i)=>WORDS.push({id:tid+i,topic:tid,ru:r[0],tr:r[1],uz:r[2],kind:"word"})));
 const TOPIC_NAME = new Map(TOPICS);
 
 const PHRASES = [
@@ -658,6 +745,13 @@ const PHRASES = [
 ["Я согла́сен.","я сагла́син","Мен розиман."]
 ]]
 ];
+
+/* Иборалар ҳам ёдлаш тизимига киради */
+const PH_ITEMS = [];
+PHRASES.forEach(([group,list])=>list.forEach(r=>
+  PH_ITEMS.push({id:"ph"+PH_ITEMS.length, topic:"ph", group:group, ru:r[0], tr:r[1], uz:r[2], kind:"phrase"})));
+const ITEMS = WORDS.concat(PH_ITEMS);
+const ITEM_BY_ID = new Map(ITEMS.map(i=>[i.id,i]));
 
 const ALPHA = [
 ["А","а","а","арбу́з","тарвуз"],["Б","б","бэ","бума́га","қоғоз"],["В","в","вэ","вода́","сув"],
@@ -754,18 +848,102 @@ const GRAMMAR = [
 <p>Ўзбекчада «беш уй» дегандек ўзгармайди, русчада эса сон отни ўзгартиради. Харидда энг кўп керак бўладиган нарса: <b class="ru">два ко́фе, пять биле́тов</b>.</p>`}
 ];
 
+/* ============================== РЕЖА ============================== */
+const QUARTER = {
+  id:"q1",
+  title:"Чорак 1 — Пойдевор",
+  goal:"Уч ойда: кирилл ёзувини эркин ўқиш, 214 та сўз ва иборани ёдлаш, оддий вазиятларда рус тилида гаплаша олиш.",
+  exam:{id:"q1", count:40, pass:.85}
+};
+const MONTHS = [
+  {title:"Ой 1 — Алифбо ва танишув",
+   goal:"33 ҳарфни таниш, саломлашиш, ўзини таништириш, оила ва сонлар.",
+   letters:true, topics:["greet","fam","num"], phGroups:["Танишув"], grammar:[0,1]},
+  {title:"Ой 2 — Кундалик ҳаёт",
+   goal:"Вақт, овқат, шаҳар ва ранглар мавзусида оддий гап тузиш.",
+   topics:["time","food","city","color"], phGroups:["Тушунмаганда","Кафе ва овқат"], grammar:[2,3,4]},
+  {title:"Ой 3 — Мулоқот ва харид",
+   goal:"Дўконда, йўлда ва меҳмонхонада мустақил гаплаша олиш; феъл ва сифатлар.",
+   topics:["shop","trip","verb","adj"], phGroups:["Дўконда","Йўл сўраш","Ёрдам керак бўлса","Иш ва режа"], grammar:[5,6,7,8]}
+];
+const DPM = 30;                                  // бир ойдаги кун
+const EXAM_DAY = 30;                             // ой имтиҳони куни
+const REVIEW_DAYS = new Set([5,10,15,20,25]);    // мустаҳкамлаш кунлари
+const REV_TARGET = 20;                           // мустаҳкамлаш кунида нечта сўз
+const MONTH_EXAM = {count:20, pass:.85};
+const GRAM_DAYS = [3,11,19,26];
+const LETTER_DAYS = 7;
+
+function buildPlan(){
+  const days = [];
+  MONTHS.forEach((mo,mi)=>{
+    const poolIds = [];
+    mo.topics.forEach(t=>WORDS.filter(w=>w.topic===t).forEach(w=>poolIds.push(w.id)));
+    (mo.phGroups||[]).forEach(g=>PH_ITEMS.filter(p=>p.group===g).forEach(p=>poolIds.push(p.id)));
+
+    const learnDays = [];
+    for(let d=1; d<=DPM; d++) if(d!==EXAM_DAY && !REVIEW_DAYS.has(d)) learnDays.push(d);
+    const per = Math.ceil(poolIds.length/learnDays.length);
+    const letterDays = mo.letters ? learnDays.slice(0,LETTER_DAYS) : [];
+    const perL = letterDays.length ? Math.ceil(ALPHA.length/letterDays.length) : 0;
+    let pi = 0, li = 0;
+
+    for(let d=1; d<=DPM; d++){
+      const n = mi*DPM + d;
+      if(d === EXAM_DAY){
+        days.push({n, mi, d, kind:"exam", examId:"m"+(mi+1), count:MONTH_EXAM.count,
+                   pass:MONTH_EXAM.pass, items:poolIds.slice(), title:"Ой имтиҳони"});
+        continue;
+      }
+      const day = {n, mi, d, kind: REVIEW_DAYS.has(d) ? "review" : "learn", items:[], letters:[], gram:[]};
+      if(day.kind === "learn"){
+        day.items = poolIds.slice(pi, pi+per); pi += per;
+        if(letterDays.indexOf(d) >= 0){ day.letters = ALPHA.map((_,i)=>i).slice(li, li+perL); li += perL; }
+      }
+      const gi = GRAM_DAYS.indexOf(d);
+      if(gi >= 0 && mo.grammar[gi] !== undefined) day.gram = [mo.grammar[gi]];
+      day.title = dayTitle(day);
+      days.push(day);
+    }
+  });
+  return days;
+}
+function dayTitle(day){
+  if(day.kind === "review") return "Мустаҳкамлаш куни";
+  const names = [];
+  day.items.forEach(id=>{
+    const it = ITEM_BY_ID.get(id);
+    const nm = it.kind === "phrase" ? "Иборалар" : TOPIC_NAME.get(it.topic);
+    if(names.indexOf(nm) < 0) names.push(nm);
+  });
+  const head = day.letters.length ? "Алифбо" : null;
+  const all = (head ? [head] : []).concat(names);
+  return all.length ? all.slice(0,2).join(" · ") : "Такрорлаш";
+}
+const PLAN = buildPlan();
+const LAST_DAY = PLAN.length;                    // 90
+const monthDays = mi => PLAN.filter(d=>d.mi===mi);
+
 /* ============================== STATE ============================== */
 const DAYMS = 86400000;
 const INTERVALS = [0,1,2,4,7,14,30];
 const todayIdx = () => { const d=new Date(); return Math.floor((d.getTime()-d.getTimezoneOffset()*60000)/DAYMS); };
 const LS = "rus-daftar-v1";
-const DEF = {v:1, cards:{}, streak:0, lastDay:0, day:0, done:0, goal:20, topics:[], mode:"flip", dir:"ru2uz", updated:0};
+const DEF = {v:2, cards:{}, streak:0, lastDay:0, day:0, done:0, goal:20, topics:[], mode:"flip", dir:"ru2uz", updated:0,
+  plan:{day:1, finished:{}, gram:{}, letters:{}, exams:{}, rev:{}}};
 let P = load();
 let remoteDoc = null;
 
+function normalize(p){
+  const o = Object.assign(JSON.parse(JSON.stringify(DEF)), p || {});
+  o.plan = Object.assign({day:1, finished:{}, gram:{}, letters:{}, exams:{}, rev:{}}, p && p.plan ? p.plan : {});
+  ["finished","gram","letters","exams","rev"].forEach(k=>{ if(!o.plan[k] || typeof o.plan[k] !== "object") o.plan[k] = {}; });
+  o.plan.day = Math.min(Math.max(1, o.plan.day|0 || 1), LAST_DAY+1);
+  return o;
+}
 function load(){
-  try{ const raw = localStorage.getItem(LS); if(raw) return Object.assign({},DEF,JSON.parse(raw)); }catch(e){}
-  return JSON.parse(JSON.stringify(DEF));
+  try{ const raw = localStorage.getItem(LS); if(raw) return normalize(JSON.parse(raw)); }catch(e){}
+  return normalize(null);
 }
 let saveTimer = null;
 function save(){
@@ -795,7 +973,7 @@ rollDay();
     const snap = await doc.get();
     const data = (snap && snap.exists) ? snap.data() : null;
     if(data && typeof data.updated === "number" && data.updated > (P.updated||0)){
-      P = Object.assign({}, DEF, data);
+      P = normalize(data);
       rollDay();
       try{ localStorage.setItem(LS, JSON.stringify(P)); }catch(e){}
       renderAll();
@@ -843,6 +1021,7 @@ document.addEventListener("click", e=>{
   if(b) speak(b.getAttribute("data-say"));
 });
 
+function topicLabel(it){ return it.kind === "phrase" ? ("Иборалар · " + it.group) : TOPIC_NAME.get(it.topic); }
 function card(id){ return P.cards[id] || null; }
 function ensure(id){
   if(!P.cards[id]) P.cards[id] = {box:0, due:todayIdx(), seen:0, ok:0, bad:0};
@@ -856,18 +1035,22 @@ function grade(id, ok){
   c.due = t + INTERVALS[c.box];
   rollDay();
   P.done++;
+  if(session){
+    const k = String(session.n);
+    P.plan.rev[k] = (P.plan.rev[k]||0) + 1;
+  }
   if(P.lastDay !== t){
     P.streak = (P.lastDay === t-1) ? P.streak+1 : 1;
     P.lastDay = t;
   }
-  save(); renderStats();
+  save(); renderStats(); renderPlan();
 }
 function dueCount(){
   const t = todayIdx();
-  return WORDS.reduce((n,w)=>{ const c=card(w.id); return n + (c ? (c.due<=t?1:0) : 0); },0);
+  return ITEMS.reduce((n,w)=>{ const c=card(w.id); return n + (c ? (c.due<=t?1:0) : 0); },0);
 }
-function newCount(){ return WORDS.filter(w=>!card(w.id)).length; }
-function learnedCount(){ return WORDS.filter(w=>{const c=card(w.id); return c && c.box>=4;}).length; }
+function learnedCount(){ return ITEMS.filter(w=>{const c=card(w.id); return c && c.box>=4;}).length; }
+function learnedItem(id){ const c = card(id); return !!c && c.box >= 2; }
 
 /* ============================== STATS ============================== */
 function renderStats(){
@@ -882,17 +1065,380 @@ function renderStats(){
 }
 
 /* ============================== TABS ============================== */
-const TABS = [["drill","Машқ"],["vocab","Луғат"],["phrase","Иборалар"],["alpha","Алифбо"],["gram","Грамматика"]];
+const TABS = [["plan","Режа"],["drill","Машқ"],["vocab","Луғат"],["phrase","Иборалар"],["alpha","Алифбо"],["gram","Грамматика"]];
 const tabsEl = document.getElementById("tabs");
 tabsEl.innerHTML = TABS.map(([k,label],i)=>
   '<button class="tab" role="tab" data-tab="'+k+'" aria-selected="'+(i===0)+'" aria-controls="p-'+k+'">'+label+'</button>'
 ).join("");
+function showTab(key, keepScroll){
+  tabsEl.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected", String(t.dataset.tab===key)));
+  TABS.forEach(([k])=>{ document.getElementById("p-"+k).hidden = (k!==key); });
+  if(!keepScroll) window.scrollTo({top:0, behavior:"smooth"});
+}
 tabsEl.addEventListener("click", e=>{
   const b = e.target.closest(".tab"); if(!b) return;
-  const key = b.dataset.tab;
-  tabsEl.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected", String(t===b)));
-  TABS.forEach(([k])=>{ document.getElementById("p-"+k).hidden = (k!==key); });
-  window.scrollTo({top:0, behavior:"smooth"});
+  showTab(b.dataset.tab);
+});
+
+/* ============================== РЕЖА ПАНЕЛИ ============================== */
+const planEl = document.getElementById("p-plan");
+const planBar = document.getElementById("plan-bar");
+let session = null;                       // {n} — режа бўйича машқ
+let planView = {type:"overview", month:null, sel:null};
+let exam = null;                          // фаол имтиҳон
+let lq = null;                            // фаол ҳарф текшируви
+
+const dayOf = n => PLAN[n-1];
+const curN = () => P.plan.day;
+const curMonth = () => Math.min(MONTHS.length-1, Math.floor((Math.min(curN(), LAST_DAY)-1)/DPM));
+const quarterDone = () => { const e = P.plan.exams[QUARTER.exam.id]; return !!(e && e.passed); };
+
+function dayTasks(day){
+  const t = [];
+  if(day.kind === "exam"){
+    const ex = P.plan.exams[day.examId];
+    t.push({key:"exam", act:"exam", done:!!(ex && ex.passed), nopg:true,
+      label:"Имтиҳон: "+day.count+" савол · ўтиш чегараси "+Math.round(day.pass*100)+"%",
+      btn:(ex && ex.passed) ? "Қайта топшириш" : "Имтиҳонни бошлаш",
+      note: ex ? (ex.tries+" уриниш · энг яхши натижа "+Math.round(ex.best*100)+"%") : ""});
+    return t;
+  }
+  if(day.letters.length){
+    const d = day.letters.filter(i=>P.plan.letters[i]).length;
+    t.push({key:"let", act:"letters", a:d, b:day.letters.length, done:d===day.letters.length,
+      label:day.letters.length+" та ҳарфни ёдлаш", btn:"Ҳарфларни текшириш"});
+  }
+  if(day.items.length){
+    const d = day.items.filter(learnedItem).length;
+    t.push({key:"learn", act:"drill", a:d, b:day.items.length, done:d===day.items.length,
+      label:day.items.length+" та янги сўз ва ибора", btn:"Машқни бошлаш"});
+  }
+  if(day.kind === "review"){
+    const d = Math.min(REV_TARGET, P.plan.rev[day.n]||0);
+    t.push({key:"rev", act:"drill", a:d, b:REV_TARGET, done:d>=REV_TARGET,
+      label:REV_TARGET+" та сўзни қайта машқ қилиш", btn:"Такрорлашни бошлаш"});
+  }
+  const due = dueCount();
+  t.push({key:"due", act:"drill", done:due===0, nopg:true,
+    label: due ? ("Муддати келган "+due+" та сўзни такрорлаш") : "Муддати келган такрор йўқ",
+    btn: due ? "Такрорлаш" : null});
+  day.gram.forEach(gi=>t.push({key:"gram"+gi, act:"gram:"+gi, done:!!P.plan.gram[gi], nopg:true,
+    label:"Грамматика: "+GRAMMAR[gi].t, btn:"Қоидани ўқиш"}));
+  return t;
+}
+const dayComplete = day => dayTasks(day).every(t=>t.done);
+
+function itemsLine(ids, max){
+  const list = ids.slice(0, max||8).map(id=>{
+    const it = ITEM_BY_ID.get(id);
+    return '<span class="ru">'+markStress(it.ru)+'</span>';
+  }).join(", ");
+  return list + (ids.length > (max||8) ? " …" : "");
+}
+
+/* ---------- имтиҳон ---------- */
+function buildExam(ids, count, kind){
+  const src = shuffle(ids.slice()).slice(0, count);
+  return src.map(id=>{
+    const it = ITEM_BY_ID.get(id);
+    const near = ITEMS.filter(w=>w.id!==it.id && w.kind===it.kind);
+    const opts = shuffle([it].concat(shuffle(near).slice(0,3)));
+    return {it, opts};
+  });
+}
+function startExam(day){
+  const isQ = day === "quarter";
+  const ids = isQ ? ITEMS.filter(w=>card(w.id)).map(w=>w.id) : day.items;
+  const count = isQ ? QUARTER.exam.count : day.count;
+  const pass = isQ ? QUARTER.exam.pass : day.pass;
+  const id = isQ ? QUARTER.exam.id : day.examId;
+  const qs = buildExam(ids.length ? ids : ITEMS.map(w=>w.id), count, isQ);
+  exam = {id, pass, qs, i:0, right:0, answered:false,
+          title: isQ ? "Чорак имтиҳони" : (MONTHS[day.mi].title.split("—")[0].trim()+" имтиҳони")};
+  planView = {type:"exam", month:planView.month, sel:planView.sel};
+  renderPlan();
+}
+function answerExam(optId){
+  if(exam.answered) return;
+  exam.answered = true;
+  exam.picked = optId;
+  const q = exam.qs[exam.i];
+  if(optId === q.it.id) exam.right++;
+  renderPlan();
+  setTimeout(()=>{
+    exam.i++; exam.answered = false;
+    if(exam.i >= exam.qs.length) finishExam();
+    else renderPlan();
+  }, optId === q.it.id ? 550 : 1300);
+}
+function finishExam(){
+  const score = exam.right / exam.qs.length;
+  const rec = P.plan.exams[exam.id] || {tries:0, best:0, passed:false};
+  rec.tries++;
+  rec.best = Math.max(rec.best, score);
+  rec.passed = rec.passed || score >= exam.pass;
+  P.plan.exams[exam.id] = rec;
+  exam.score = score;
+  exam.finished = true;
+  save(); renderStats(); renderPlan();
+}
+
+/* ---------- ҳарф текшируви ---------- */
+function startLetters(day){
+  let q = day.letters.filter(i=>!P.plan.letters[i]);
+  if(!q.length) q = day.letters.slice();
+  lq = {queue: shuffle(q), cur:null, answered:false, ok:false, total:q.length, left:0};
+  nextLetter();
+  planView = {type:"letters", month:planView.month, sel:planView.sel};
+  renderPlan();
+}
+function nextLetter(){
+  lq.cur = lq.queue.shift();
+  lq.answered = false;
+  if(lq.cur === undefined){ lq = null; return; }
+  const wrong = shuffle(ALPHA.map((_,i)=>i).filter(i=>i!==lq.cur)).slice(0,3);
+  lq.opts = shuffle([lq.cur].concat(wrong));
+}
+function answerLetter(i){
+  if(lq.answered) return;
+  lq.answered = true;
+  lq.picked = i;
+  lq.ok = (i === lq.cur);
+  if(lq.ok){ P.plan.letters[lq.cur] = true; save(); }
+  else lq.queue.push(lq.cur);
+  renderPlan();
+  setTimeout(()=>{
+    nextLetter();
+    if(!lq){ planView = {type:"overview", month:planView.month, sel:planView.sel}; renderStats(); }
+    renderPlan();
+  }, lq.ok ? 600 : 1500);
+}
+
+/* ---------- чизиш ---------- */
+function renderPlan(){
+  if(planEl.hidden && planView.type !== "overview") planView.type = "overview";
+  if(planView.type === "exam" && exam) return renderExam();
+  if(planView.type === "letters" && lq) return renderLetters();
+  renderOverview();
+  renderPlanBar();
+}
+
+function renderOverview(){
+  const cur = curN();
+  const doneDays = Math.min(cur-1, LAST_DAY);
+  const cmi = cur > LAST_DAY ? MONTHS.length : curMonth();   // чорак тугаса — ҳамма ой ёпилган
+  const mi = planView.month === null ? Math.min(cmi, MONTHS.length-1) : planView.month;
+  const sel = planView.sel && planView.sel <= cur ? planView.sel : Math.min(cur, LAST_DAY);
+
+  let h = '<div class="qhead"><h2>'+QUARTER.title+'</h2><p>'+QUARTER.goal+'</p>'+
+    '<div class="qbar"><div class="track"><i style="width:'+Math.round(doneDays/LAST_DAY*100)+'%"></i></div>'+
+    '<span>'+doneDays+' / '+LAST_DAY+' кун'+(quarterDone()? ' · чорак имтиҳони топширилди':'')+'</span></div></div>';
+
+  h += '<div class="months">' + MONTHS.map((mo,i)=>{
+    const st = i < cmi ? "done" : (i === cmi ? "now" : "lock");
+    const days = monthDays(i);
+    const doneIn = days.filter(d=>d.n < cur).length;
+    const ex = P.plan.exams["m"+(i+1)];
+    return '<button class="mcard" data-month="'+i+'" data-state="'+st+'"'+(st==="lock"?" disabled":"")+'>'+
+      '<b>'+esc(mo.title)+'</b><span>'+esc(mo.goal)+'</span>'+
+      '<span class="mmeta">'+(st==="lock" ? "олдинги ой тугагач очилади"
+        : doneIn+"/"+DPM+" кун"+(ex&&ex.passed ? " · имтиҳон ✓" : ""))+'</span></button>';
+  }).join("") + '</div>';
+
+  h += '<h2 class="sec">'+esc(MONTHS[mi].title)+'</h2><p class="lede">'+esc(MONTHS[mi].goal)+'</p>';
+  h += '<div class="daygrid">' + monthDays(mi).map(d=>{
+    let s;
+    if(d.n < cur) s = d.kind === "exam" ? "exam-done" : "done";
+    else if(d.n === cur) s = "now";
+    else s = d.kind === "exam" ? "exam" : "lock";
+    const lock = d.n > cur;
+    return '<button class="dcell'+(d.n===sel?" sel":"")+'" data-s="'+s+'" data-day="'+d.n+'"'+
+      (lock?" disabled":"")+' title="Кун '+d.n+' — '+esc(d.title)+'">'+
+      (d.kind==="exam" ? "★" : d.d)+'</button>';
+  }).join("") + '</div>';
+
+  if(cur > LAST_DAY) h += renderQuarterCard();
+  else h += renderDayCard(dayOf(sel), sel === cur);
+
+  planEl.innerHTML = h;
+}
+
+function renderDayCard(day, isCur){
+  const tasks = dayTasks(day);
+  const fin = P.plan.finished[day.n];
+  let h = '<div class="today"><div class="tline"><span class="tday">Кун '+day.n+' · '+
+    (day.kind==="exam" ? "имтиҳон" : (day.kind==="review" ? "мустаҳкамлаш" : "янги мавзу"))+'</span>'+
+    (fin ? '<span class="tday">'+esc(fin)+' да тугалланди</span>' : '')+'</div>'+
+    '<h3>'+esc(day.title)+'</h3>';
+
+  if(!isCur){
+    h += '<div class="doneflag">Бу кун тугалланган.</div>';
+    if(day.items.length) h += '<p class="lede" style="margin:0">'+itemsLine(day.items, 12)+'</p>';
+    h += '</div>';
+    return h;
+  }
+
+  h += '<div class="tasks">' + tasks.map(t=>
+    '<div class="task'+(t.done?" ok":"")+'"><span class="box">'+(t.done?"✓":"")+'</span>'+
+    '<span class="tx">'+esc(t.label)+(t.note?' <span class="tr">· '+esc(t.note)+'</span>':'')+'</span>'+
+    (t.nopg||t.b===undefined ? '' : '<span class="pg">'+t.a+'/'+t.b+'</span>')+
+    (t.done||!t.btn ? '' : '<button class="go" data-act="'+t.act+'" data-day="'+day.n+'">'+t.btn+'</button>')+
+    '</div>').join("") + '</div>';
+
+  if(day.items.length) h += '<p class="tr" style="margin:0 0 12px">'+itemsLine(day.items, 10)+'</p>';
+
+  const ready = tasks.every(t=>t.done);
+  h += '<div class="btnrow" style="margin:0;justify-content:flex-start">'+
+    (ready
+      ? '<button class="btn primary" data-act="next">Кейинги кунга ўтиш →</button>'
+      : '<button class="btn primary" data-act="drill" data-day="'+day.n+'">Бугунги машқни бошлаш</button>')+
+    '</div>';
+  if(!ready) h += '<p class="lockmsg" style="margin:12px 0 0">🔒 Кейинги кун барча топшириқ бажарилгач очилади.</p>';
+  h += '</div>';
+  return h;
+}
+
+function renderQuarterCard(){
+  const ex = P.plan.exams[QUARTER.exam.id];
+  let h = '<div class="today"><div class="tline"><span class="tday">Якуний босқич</span></div>'+
+    '<h3>Чорак имтиҳони</h3>';
+  if(ex && ex.passed){
+    h += '<div class="doneflag">Чорак тугалланди — '+Math.round(ex.best*100)+'% натижа билан. '+
+      'Барча 90 кун ва учта ой имтиҳони ортда қолди.</div>'+
+      '<p class="lede">Бундан кейин «Машқ» бўлимида эркин такрорлашни давом эттиринг: '+
+      'тизим ҳар бир сўзни муддати келганда ўзи қайтаради. Янги чорак учун янги сўз ва мавзулар керак.</p>';
+  } else {
+    h += '<p class="lede">Уч ойлик материалдан '+QUARTER.exam.count+' та савол. '+
+      'Ўтиш чегараси '+Math.round(QUARTER.exam.pass*100)+'%.'+
+      (ex ? ' Ҳозирча энг яхши натижа: '+Math.round(ex.best*100)+'%.' : '')+'</p>'+
+      '<div class="btnrow" style="margin:0;justify-content:flex-start">'+
+      '<button class="btn primary" data-act="qexam">Чорак имтиҳонини бошлаш</button></div>';
+  }
+  h += '</div>';
+  return h;
+}
+
+function renderExam(){
+  if(exam.finished){
+    const ok = exam.score >= exam.pass;
+    planEl.innerHTML = '<div class="today" style="text-align:center">'+
+      '<div class="tday">'+esc(exam.title)+'</div>'+
+      '<div class="score '+(ok?"pass":"fail")+'">'+Math.round(exam.score*100)+'%</div>'+
+      '<p class="lede" style="margin:6px auto 14px">'+exam.right+' / '+exam.qs.length+' тўғри жавоб — '+
+      (ok ? "имтиҳон топширилди, кейинги босқич очилди."
+          : "ўтиш учун "+Math.round(exam.pass*100)+"% керак. Сўзларни такрорлаб, қайта уриниб кўринг.")+'</p>'+
+      '<div class="btnrow" style="margin:0">'+
+      (ok ? '' : '<button class="btn" data-act="retry">Қайта топшириш</button>')+
+      '<button class="btn primary" data-act="back">Режага қайтиш</button></div></div>';
+    return;
+  }
+  const q = exam.qs[exam.i];
+  planEl.innerHTML =
+    '<div class="exam-meta"><span>'+esc(exam.title)+'</span><span>Савол '+(exam.i+1)+' / '+exam.qs.length+'</span></div>'+
+    '<div class="card"><div class="ask">Тўғри таржимани танланг</div>'+
+      '<div class="word'+(q.it.kind==="phrase"?" small":"")+'">'+markStress(q.it.ru)+'</div></div>'+
+    '<div class="opts">'+ q.opts.map((o,i)=>{
+      let cls = "opt";
+      if(exam.answered){
+        if(o.id === q.it.id) cls += " right";
+        else if(o.id === exam.picked) cls += " wrong";
+      }
+      return '<button class="'+cls+'" data-exam-opt="'+o.id+'"'+(exam.answered?" disabled":"")+'>'+
+        '<span class="n">'+(i+1)+'</span><span>'+esc(o.uz)+'</span></button>';
+    }).join("") + '</div>'+
+    '<div class="hint"><button class="linkbtn" data-act="back">Имтиҳондан чиқиш</button></div>';
+}
+
+function renderLetters(){
+  const [U,l,name,ex] = ALPHA[lq.cur];
+  planEl.innerHTML =
+    '<div class="exam-meta"><span>Ҳарфларни текшириш</span><span>қолди: '+(lq.queue.length+1)+'</span></div>'+
+    '<div class="card"><div class="ask">Бу ҳарф қандай ўқилади?</div>'+
+      '<div class="word">'+U+' '+l+'</div></div>'+
+    '<div class="opts">'+ lq.opts.map((i,k)=>{
+      let cls = "opt";
+      if(lq.answered){
+        if(i === lq.cur) cls += " right";
+        else if(i === lq.picked) cls += " wrong";
+      }
+      return '<button class="'+cls+'" data-letter-opt="'+i+'"'+(lq.answered?" disabled":"")+'>'+
+        '<span class="n">'+(k+1)+'</span><span>'+esc(ALPHA[i][2])+'</span></button>';
+    }).join("") + '</div>'+
+    (lq.answered && !lq.ok ? '<p class="hint" style="color:var(--red)">Тўғри жавоб: '+esc(name)+
+      ' · мисол: <span class="ru">'+markStress(ex)+'</span></p>' : '')+
+    '<div class="hint"><button class="linkbtn" data-act="back">Тўхтатиш</button></div>';
+}
+
+function renderPlanBar(){
+  if(!session){ planBar.innerHTML = ""; chipsEl.hidden = false; return; }
+  const day = dayOf(session.n);
+  const tasks = dayTasks(day);
+  const learn = tasks.filter(t=>t.key==="learn" || t.key==="rev")[0];
+  const all = tasks.every(t=>t.done);
+  chipsEl.hidden = true;
+  planBar.innerHTML = '<span>'+(all
+      ? "✓ Кун "+day.n+" топшириқлари бажарилди — режага қайтиб кейинги кунни очинг"
+      : "Кун "+day.n+" машқи · "+esc(day.title)+(learn ? ' <b>'+learn.a+'/'+learn.b+'</b>' : ''))+'</span>'+
+    '<button class="btn'+(all?" primary":"")+'" data-act="back-plan" style="padding:6px 12px;font-size:13px">Режага қайтиш</button>';
+}
+
+/* ---------- ҳаракатлар ---------- */
+function startSession(n){
+  session = {n};
+  showTab("drill");
+  newQueue(); drawDrill(); renderPlanBar();
+}
+function endSession(){
+  session = null;
+  renderPlanBar();
+  showTab("plan");
+  renderPlan();
+}
+planEl.addEventListener("click", e=>{
+  const mb = e.target.closest("[data-month]");
+  if(mb){ planView.month = +mb.dataset.month; planView.sel = null; renderPlan(); return; }
+  const dc = e.target.closest("[data-day].dcell");
+  if(dc){ planView.sel = +dc.dataset.day; renderPlan(); return; }
+  const eo = e.target.closest("[data-exam-opt]");
+  if(eo){ answerExam(eo.dataset.examOpt); return; }
+  const lo = e.target.closest("[data-letter-opt]");
+  if(lo){ answerLetter(+lo.dataset.letterOpt); return; }
+
+  const a = e.target.closest("[data-act]");
+  if(!a) return;
+  const act = a.dataset.act;
+  const n = a.dataset.day ? +a.dataset.day : curN();
+
+  if(act === "drill"){ startSession(n); return; }
+  if(act === "letters"){ startLetters(dayOf(n)); return; }
+  if(act === "exam"){ startExam(dayOf(n)); return; }
+  if(act === "qexam"){ startExam("quarter"); return; }
+  if(act === "retry"){ startExam(exam.id === QUARTER.exam.id ? "quarter" : dayOf(curN())); return; }
+  if(act === "back"){ exam = null; lq = null; planView = {type:"overview", month:planView.month, sel:planView.sel}; renderPlan(); return; }
+  if(act.indexOf("gram:") === 0){
+    const gi = +act.slice(5);
+    showTab("gram");
+    const el = document.getElementById("g"+gi);
+    if(el){
+      el.classList.add("hl");
+      setTimeout(()=>el.scrollIntoView({behavior:"smooth", block:"center"}), 60);
+      setTimeout(()=>el.classList.remove("hl"), 2600);
+    }
+    return;
+  }
+  if(act === "next"){
+    const day = dayOf(curN());
+    if(!dayComplete(day)) return;
+    P.plan.finished[day.n] = new Date().toLocaleDateString("ru-RU");
+    P.plan.day = Math.min(curN()+1, LAST_DAY+1);
+    planView = {type:"overview", month:null, sel:null};
+    session = null;
+    save(); renderPlanBar(); renderPlan(); renderStats();
+    return;
+  }
+});
+document.addEventListener("click", e=>{
+  if(e.target.closest('[data-act="back-plan"]')) endSession();
 });
 
 /* ============================== TOPIC CHIPS ============================== */
@@ -901,7 +1447,8 @@ function renderChips(){
   const sel = new Set(P.topics);
   chipsEl.innerHTML =
     '<button class="chip" data-topic="*" aria-pressed="'+(sel.size===0)+'">Ҳаммаси</button>' +
-    TOPICS.map(([id,name])=>'<button class="chip" data-topic="'+id+'" aria-pressed="'+sel.has(id)+'">'+name+'</button>').join("");
+    TOPICS.concat([["ph","Иборалар"]]).map(([id,name])=>
+      '<button class="chip" data-topic="'+id+'" aria-pressed="'+sel.has(id)+'">'+name+'</button>').join("");
 }
 chipsEl.addEventListener("click", e=>{
   const b = e.target.closest(".chip"); if(!b) return;
@@ -921,11 +1468,29 @@ const hintEl = document.getElementById("drill-hint");
 let queue = [], cur = null, shown = false, answered = false;
 
 function pool(){
+  if(session) return sessionPool();
   const s = new Set(P.topics);
-  return s.size ? WORDS.filter(w=>s.has(w.topic)) : WORDS.slice();
+  return s.size ? ITEMS.filter(w=>s.has(w.topic)) : ITEMS.slice();
+}
+/* Режа машқи: шу куннинг ёдланмаган сўзлари + муддати келган такрорлар */
+function sessionPool(){
+  const day = dayOf(session.n), t = todayIdx();
+  const seen = new Set(), arr = [];
+  const add = it => { if(it && !seen.has(it.id)){ seen.add(it.id); arr.push(it); } };
+  day.items.forEach(id=>{ if(!learnedItem(id)) add(ITEM_BY_ID.get(id)); });
+  ITEMS.forEach(w=>{ const c = card(w.id); if(c && c.due <= t) add(w); });
+  if(day.kind === "review" || !arr.length) ITEMS.forEach(w=>{ if(card(w.id)) add(w); });
+  if(!arr.length) day.items.forEach(id=>add(ITEM_BY_ID.get(id)));
+  return arr.length ? arr : ITEMS.slice();
 }
 function newQueue(){
-  const t = todayIdx(), p = pool();
+  const t = todayIdx();
+  let p = pool();
+  if(P.mode === "write"){
+    const only = p.filter(w=>w.kind === "word");
+    if(only.length) p = only;                 // ёзиш режимида узун иборалар сўралмайди
+  }
+  if(session){ queue = shuffle(p.slice()); next(); return; }
   const due=[], fresh=[], rest=[];
   p.forEach(w=>{ const c=card(w.id);
     if(!c) fresh.push(w);
@@ -976,10 +1541,12 @@ function drawDrill(){
 /* --- flip --- */
 function drawFlip(){
   const ru2 = P.dir === "ru2uz";
-  const front = ru2 ? '<div class="word">'+markStress(cur.ru)+'</div>' : '<div class="word uzq">'+esc(cur.uz)+'</div>';
+  const sm = cur.kind === "phrase" ? " small" : "";
+  const front = ru2 ? '<div class="word'+sm+'">'+markStress(cur.ru)+'</div>'
+                    : '<div class="word uzq'+sm+'">'+esc(cur.uz)+'</div>';
   const back = shown ? (ru2
-      ? '<div class="answer"><div class="val uz">'+esc(cur.uz)+'</div><div class="tr">талаффуз: '+esc(cur.tr)+'</div><div class="note">'+TOPIC_NAME.get(cur.topic)+'</div></div>'
-      : '<div class="answer"><div class="val">'+markStress(cur.ru)+'</div><div class="tr">талаффуз: '+esc(cur.tr)+'</div><div class="note">'+TOPIC_NAME.get(cur.topic)+'</div></div>')
+      ? '<div class="answer"><div class="val uz">'+esc(cur.uz)+'</div><div class="tr">талаффуз: '+esc(cur.tr)+'</div><div class="note">'+topicLabel(cur)+'</div></div>'
+      : '<div class="answer"><div class="val">'+markStress(cur.ru)+'</div><div class="tr">талаффуз: '+esc(cur.tr)+'</div><div class="note">'+topicLabel(cur)+'</div></div>')
     : '';
   host.innerHTML =
     '<div class="card"><div class="ask">'+(ru2?"Бу сўз нима дегани?":"Русча қандай айтилади?")+'</div>'+
@@ -998,11 +1565,14 @@ function drawFlip(){
 function drawChoice(){
   const ru2 = P.dir === "ru2uz";
   if(!cur.opts){
-    const same = WORDS.filter(w=>w.topic===cur.topic && w.id!==cur.id);
-    const others = shuffle(same.length>=3 ? same : WORDS.filter(w=>w.id!==cur.id)).slice(0,3);
+    const kin = ITEMS.filter(w=>w.kind===cur.kind && w.id!==cur.id);
+    const same = kin.filter(w=>w.topic===cur.topic);
+    const others = shuffle(same.length>=3 ? same : kin).slice(0,3);
     cur.opts = shuffle([cur].concat(others));
   }
-  const q = ru2 ? '<div class="word">'+markStress(cur.ru)+'</div>' : '<div class="word uzq">'+esc(cur.uz)+'</div>';
+  const sm = cur.kind === "phrase" ? " small" : "";
+  const q = ru2 ? '<div class="word'+sm+'">'+markStress(cur.ru)+'</div>'
+                : '<div class="word uzq'+sm+'">'+esc(cur.uz)+'</div>';
   host.innerHTML =
     '<div class="card"><div class="ask">Тўғри жавобни танланг</div>'+q+
       (ru2 ? '<div class="say-row">'+sayBtn(cur.ru)+'</div>' : '') +
@@ -1025,7 +1595,7 @@ function drawWrite(){
   host.innerHTML =
     '<div class="card"><div class="ask">Русча ёзинг</div>'+
       '<div class="word uzq">'+esc(cur.uz)+'</div>'+
-      '<div class="tr">'+TOPIC_NAME.get(cur.topic)+' · '+(cur.ru.includes(" ")?"иккита сўз":"битта сўз")+'</div>'+
+      '<div class="tr">'+topicLabel(cur)+' · '+(cur.ru.includes(" ")?"иккита сўз":"битта сўз")+'</div>'+
       '<input class="type-in" id="w-in" autocomplete="off" autocapitalize="off" spellcheck="false"'+
         (TOUCH ? ' inputmode="none"' : '')+' aria-label="Русча жавоб" placeholder="…">'+
       '<div class="verdict" id="w-verdict"></div>'+
@@ -1053,14 +1623,14 @@ function checkWrite(){
   grade(cur.id, ok);
   const btn = host.querySelector("[data-check]");
   if(btn) btn.textContent = "Кейинги сўз";
-  renderVocab();
+  refreshLists();
 }
 
 host.addEventListener("click", e=>{
   const t = e.target;
   if(t.closest("[data-flip]")){ shown = true; drawFlip(); return; }
   const g = t.closest("[data-g]");
-  if(g){ grade(cur.id, g.dataset.g === "1"); next(); drawDrill(); renderVocab(); return; }
+  if(g){ grade(cur.id, g.dataset.g === "1"); next(); drawDrill(); refreshLists(); return; }
   const o = t.closest("[data-opt]");
   if(o && !answered){
     answered = true;
@@ -1071,7 +1641,7 @@ host.addEventListener("click", e=>{
       else if(b === o) b.classList.add("wrong");
     });
     grade(cur.id, ok);
-    renderVocab();
+    refreshLists();
     setTimeout(()=>{ delete cur.opts; next(); drawDrill(); }, ok ? 620 : 1450);
     return;
   }
@@ -1082,7 +1652,7 @@ host.addEventListener("click", e=>{
       answered = true;
       v.className = "verdict no";
       v.innerHTML = "Тўғриси: <span class='ru'>"+markStress(cur.ru)+"</span> <span class='tr'>("+esc(cur.tr)+")</span>";
-      grade(cur.id, false); renderVocab();
+      grade(cur.id, false); refreshLists();
       const btn = host.querySelector("[data-check]"); if(btn) btn.textContent = "Кейинги сўз";
     } else { next(); drawDrill(); }
     return;
@@ -1103,8 +1673,8 @@ document.addEventListener("keydown", e=>{
   if(e.target.tagName === "INPUT") return;
   if(P.mode === "flip"){
     if(e.code === "Space"){ e.preventDefault(); if(!shown){ shown = true; drawFlip(); } }
-    else if(e.key === "1" && shown){ grade(cur.id,false); next(); drawDrill(); renderVocab(); }
-    else if(e.key === "2" && shown){ grade(cur.id,true); next(); drawDrill(); renderVocab(); }
+    else if(e.key === "1" && shown){ grade(cur.id,false); next(); drawDrill(); refreshLists(); }
+    else if(e.key === "2" && shown){ grade(cur.id,true); next(); drawDrill(); refreshLists(); }
   } else if(P.mode === "choice" && /^[1-4]$/.test(e.key)){
     const b = host.querySelectorAll(".opt")[+e.key-1];
     if(b && !b.disabled) b.click();
@@ -1114,6 +1684,7 @@ document.addEventListener("keydown", e=>{
 /* ============================== VOCAB ============================== */
 const vocabList = document.getElementById("vocab-list");
 const searchEl = document.getElementById("vocab-search");
+function refreshLists(){ renderVocab(); renderPhrases(); }
 function renderVocab(){
   const q = norm(searchEl.value || "");
   let html = "";
@@ -1135,12 +1706,18 @@ function renderVocab(){
 searchEl.addEventListener("input", renderVocab);
 
 /* ============================== PHRASES ============================== */
-document.getElementById("phrase-list").innerHTML = PHRASES.map(([g,list])=>
-  '<div class="group"><h3>'+g+' <em>'+list.length+'</em></h3>' +
-  list.map(([ru,tr,uz])=>
-    '<div class="phrase"><div class="p-ru">'+sayBtn(ru)+'<span>'+markStress(ru)+'</span></div>'+
-    '<div class="tr">'+esc(tr)+'</div><div class="p-uz">'+esc(uz)+'</div></div>').join("") +
-  '</div>').join("");
+const phraseList = document.getElementById("phrase-list");
+function renderPhrases(){
+  const byGroup = new Map();
+  PH_ITEMS.forEach(p=>{ if(!byGroup.has(p.group)) byGroup.set(p.group, []); byGroup.get(p.group).push(p); });
+  phraseList.innerHTML = [...byGroup].map(([g,list])=>
+    '<div class="group"><h3>'+esc(g)+' <em>'+list.length+'</em></h3>' +
+    list.map(p=>
+      '<div class="phrase"><div class="p-ru">'+sayBtn(p.ru)+'<span>'+markStress(p.ru)+'</span>'+
+        '<span class="r-lvl" style="margin-left:auto" title="Ёдлаш даражаси">'+boxDots(p.id)+'</span></div>'+
+      '<div class="tr">'+esc(p.tr)+'</div><div class="p-uz">'+esc(p.uz)+'</div></div>').join("") +
+    '</div>').join("");
+}
 
 /* ============================== ALPHABET ============================== */
 const grid = document.getElementById("alpha-grid");
@@ -1168,13 +1745,29 @@ grid.addEventListener("click", e=>{
 });
 
 /* ============================== GRAMMAR ============================== */
-document.getElementById("gram-list").innerHTML = GRAMMAR.map((g,i)=>
-  '<div class="gcard"><h4>'+esc(g.t)+'</h4>'+g.h+'</div>').join("");
+const gramList = document.getElementById("gram-list");
+function renderGram(){
+  gramList.innerHTML = GRAMMAR.map((g,i)=>{
+    const ok = !!P.plan.gram[i];
+    return '<div class="gcard" id="g'+i+'"><h4>'+esc(g.t)+'</h4>'+g.h+
+      '<div class="gramdone">'+
+        '<button class="btn'+(ok?" good":"")+'" data-gram="'+i+'" style="padding:7px 14px;font-size:13.5px">'+
+        (ok ? "✓ Тушундим" : "Тушундим")+'</button>'+
+        '<span>'+(ok ? "режада белгиланди" : "ўқиб бўлгач белгиланг — кун топшириғи шу билан ёпилади")+'</span>'+
+      '</div></div>';
+  }).join("");
+}
+gramList.addEventListener("click", e=>{
+  const b = e.target.closest("[data-gram]"); if(!b) return;
+  const i = +b.dataset.gram;
+  if(P.plan.gram[i]) delete P.plan.gram[i]; else P.plan.gram[i] = true;
+  save(); renderGram(); renderPlan();
+});
 
 /* ============================== RESET ============================== */
 document.getElementById("reset").addEventListener("click", ()=>{
   if(!confirm("Барча ёдлаш натижалари ва изчиллик ўчирилади. Давом этамизми?")) return;
-  P = JSON.parse(JSON.stringify(DEF));
+  P = normalize(null);
   rollDay(); save();
   renderAll(); newQueue(); drawDrill();
 });
@@ -1182,7 +1775,7 @@ document.getElementById("reset").addEventListener("click", ()=>{
 /* ============================== BOOT ============================== */
 function renderAll(){
   document.getElementById("word-total").textContent = WORDS.length;
-  renderStats(); renderChips(); syncSegs(); renderVocab(); drawLetter();
+  renderStats(); renderChips(); syncSegs(); refreshLists(); drawLetter(); renderGram(); renderPlan();
 }
 renderAll();
 newQueue();
