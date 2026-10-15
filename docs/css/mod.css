@@ -1,0 +1,104 @@
+/* ============ Бўлимларга хос услублар ============ */
+
+/* ---- Бугун ---- */
+.b-hero{
+  display:flex;gap:16px;align-items:center;justify-content:space-between;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow);
+}
+.b-hero .h-h2{margin:0}
+.b-ring{position:relative;display:grid;place-items:center;flex:0 0 auto}
+.b-ring span{position:absolute;font-family:var(--f-mono);font-size:12px}
+.h-ring b{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+.h-ring{position:relative}
+.h-ring svg{position:absolute;inset:0}
+.h-ring b{display:block;width:30px;height:30px;line-height:30px;text-align:center;font-size:9.5px}
+
+.b-pray{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.b-pr{
+  border:1px solid var(--line);border-radius:6px;padding:7px 4px;text-align:center;
+  display:flex;flex-direction:column;gap:2px;background:var(--surface);
+}
+.b-pr b{font-size:12.5px;font-weight:700}
+.b-pr span{font-size:10.5px;color:var(--ink-3)}
+.b-pr.s-jamoat{background:var(--green-soft);border-color:var(--green)}
+.b-pr.s-jamoat span{color:var(--green)}
+.b-pr.s-yakka{background:var(--surface-2)}
+.b-pr.s-qazo{background:var(--red-soft);border-color:var(--red)}
+.b-pr.s-qazo span{color:var(--red)}
+@media(max-width:420px){.b-pr b{font-size:11px}.b-pr span{font-size:9.5px}}
+
+/* ---- Намоз ---- */
+.n-cal{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+@media(max-width:560px){.n-cal{grid-template-columns:repeat(6,1fr)}}
+.n-day{
+  border:1px solid var(--line);background:var(--surface);border-radius:6px;
+  padding:5px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+.n-day b{font-family:var(--f-mono);font-size:11.5px;font-weight:400;color:var(--ink-2)}
+.n-day.now{border-color:var(--accent);border-width:2px;background:var(--accent-soft)}
+.n-day.future{opacity:.4;cursor:default}
+.n-dots{display:flex;gap:2px}
+.n-dots i{width:4px;height:4px;border-radius:50%;background:var(--line)}
+.n-dots i.jamoat{background:var(--green)}
+.n-dots i.yakka{background:var(--ink-3)}
+.n-dots i.qazo{background:var(--red)}
+
+/* қалқиб чиқадиган ойна (кун / шажара) */
+.n-sheet{
+  position:fixed;inset:0;z-index:60;background:rgba(10,16,24,.45);
+  display:flex;align-items:flex-end;justify-content:center;padding:0;
+}
+.n-sheet-in{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px 12px 0 0;
+  padding:18px 18px calc(22px + env(safe-area-inset-bottom));width:100%;max-width:520px;
+  box-shadow:0 -8px 30px rgba(0,0,0,.25);max-height:86vh;overflow:auto;
+}
+@media(min-width:620px){
+  .n-sheet{align-items:center;padding:20px}
+  .n-sheet-in{border-radius:12px;padding-bottom:20px}
+}
+
+/* ---- Шажара ---- */
+.s-tree{overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch}
+.s-tree ul{position:relative;padding:22px 0 0;white-space:nowrap;margin:0 auto;text-align:center;list-style:none}
+.s-tree > ul{padding-top:0}
+.s-tree li{
+  display:inline-block;vertical-align:top;text-align:center;list-style-type:none;
+  position:relative;padding:22px 6px 0 6px;
+}
+.s-tree > ul > li{padding-top:0}
+.s-tree li::before,.s-tree li::after{
+  content:"";position:absolute;top:0;right:50%;border-top:1px solid var(--line);width:50%;height:22px;
+}
+.s-tree li::after{right:auto;left:50%;border-left:1px solid var(--line)}
+.s-tree li:only-child::after,.s-tree li:only-child::before{display:none}
+.s-tree li:only-child{padding-top:22px}
+.s-tree > ul > li::before,.s-tree > ul > li::after{display:none}
+.s-tree li:first-child::before,.s-tree li:last-child::after{border:0 none}
+.s-tree li:last-child::before{border-right:1px solid var(--line);border-radius:0 5px 0 0}
+.s-tree li:first-child::after{border-radius:5px 0 0 0}
+.s-tree ul ul::before{
+  content:"";position:absolute;top:0;left:50%;border-left:1px solid var(--line);width:0;height:22px;
+}
+.s-node{
+  display:inline-flex;flex-direction:column;gap:1px;white-space:normal;
+  border:1px solid var(--line);background:var(--surface);border-radius:8px;
+  padding:7px 11px;min-width:104px;max-width:150px;cursor:pointer;text-align:center;
+}
+.s-node:hover{border-color:var(--accent)}
+.s-node.self{border-color:var(--gold);background:var(--gold-soft)}
+.s-node b{font-size:13.5px;line-height:1.25}
+.s-node b.f{color:var(--red)}
+.s-node b.m{color:var(--ink)}
+:root[data-theme="dark"] .s-node b.m,:root:not([data-theme="light"]) .s-node b.m{color:var(--ink)}
+.s-yr{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
+.s-sp{font-size:11px;color:var(--ink-3)}
+.s-me{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+
+/* ---- Рус тили бўлими қобиқ ичида ---- */
+#m-rus .r-head{margin-bottom:10px}
+#m-rus .stats{display:flex;gap:20px;flex-wrap:wrap}
+#m-rus nav.tabs{padding:0;margin:0 0 2px;border-bottom:1px solid var(--line)}
+#m-rus .panel{padding-top:20px}
+#m-rus .wrap{padding:0;max-width:none}
