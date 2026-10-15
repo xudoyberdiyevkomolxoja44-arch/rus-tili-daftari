@@ -20,7 +20,7 @@
     const all = H.store.all();
     let rus = null;
     try { rus = JSON.parse(localStorage.getItem(RUS_KEY)); } catch (e) {}
-    return { app: "hamroh", v: VERSION, at: new Date().toISOString(), data: all, rus };
+    return { app: "qadam", v: VERSION, at: new Date().toISOString(), data: all, rus };
   }
 
   function counts() {

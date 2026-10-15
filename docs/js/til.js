@@ -18,6 +18,19 @@
   H.lang = def => { H.langs.push(def); return def; };
   const langDef = id => H.langs.filter(l => l.id === id)[0];
 
+  /* Қўшимча мавзуларни асосий контентга улаш (js/langs/more.js).
+     Мавжуд сўзларнинг id си ўзгармайди — натижа йўқолмайди. */
+  H.langMore = (id, extra) => {
+    const def = langDef(id);
+    if (!def) return;
+    def.topics = def.topics.concat(extra.topics || []);
+    Object.assign(def.words, extra.words || {});
+    (extra.months || []).forEach((tids, mi) => {
+      if (tids && tids.length && def.months[mi]) def.months[mi].topics = def.months[mi].topics.concat(tids);
+    });
+    if (extra.quarterGoal && def.quarter) def.quarter.goal = extra.quarterGoal;
+  };
+
   const todayIdx = () => { const d = new Date(); return Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / DAYMS); };
   const data = () => H.store.get(NS, DEF);
 
@@ -89,9 +102,16 @@
       (mo.phrases || []).forEach(g => items.filter(w => w.group === g).forEach(w => pool.push(w.id)));
       const learnDays = [];
       for (let d = 1; d <= DPM; d++) if (d !== EXAM_DAY && !REVIEW_DAYS.has(d)) learnDays.push(d);
-      const per = Math.max(1, Math.ceil(pool.length / learnDays.length));
-      const scriptDays = mo.script ? learnDays.slice(0, LETTER_DAYS) : [];
-      const chars = (def.script && def.script.items) ? def.script.items.length : 0;
+      /* Аввал ёзув: биринчи кунлар фақат ҳарфларга ажратилади,
+         сўзлар алифбо тугагандан кейин бошланади. */
+      const chars = (mo.script && def.script && def.script.items) ? def.script.items.length : 0;
+      const nScript = chars ? Math.min(12, Math.max(6, Math.ceil(chars / 5))) : 0;
+      const scriptDays = chars ? learnDays.slice(0, nScript) : [];
+      const itemDays = chars ? learnDays.slice(nScript) : learnDays;
+      /* сўзларни барча кунларга текис тарқатамиз — охирги кунлар бўш қолмасин */
+      const nd = Math.max(1, itemDays.length);
+      const base = Math.floor(pool.length / nd), rem = pool.length % nd;
+      const sizes = itemDays.map((_, i) => base + (i < rem ? 1 : 0));
       const perL = scriptDays.length ? Math.ceil(chars / scriptDays.length) : 0;
       let pi = 0, li = 0;
       for (let d = 1; d <= DPM; d++) {
@@ -102,10 +122,12 @@
         }
         const day = { n, mi, d, kind: REVIEW_DAYS.has(d) ? "review" : "learn", items: [], chars: [], gram: [] };
         if (day.kind === "learn") {
-          day.items = pool.slice(pi, pi + per); pi += per;
-          if (scriptDays.indexOf(d) >= 0 && chars) {
-            day.chars = []; for (let k = li; k < Math.min(chars, li + perL); k++) day.chars.push(k);
+          if (scriptDays.indexOf(d) >= 0) {
+            for (let k = li; k < Math.min(chars, li + perL); k++) day.chars.push(k);
             li += perL;
+          } else {
+            const at = itemDays.indexOf(d);
+            if (at >= 0) { day.items = pool.slice(pi, pi + sizes[at]); pi += sizes[at]; }
           }
         }
         const gi = GRAM_DAYS.indexOf(d);
@@ -362,7 +384,8 @@
       else if (x.n === cn) st = "now";
       else st = x.kind === "exam" ? "exam" : "lock";
       return '<button class="t-dcell' + (x.n === sel ? " sel" : "") + '" data-s="' + st + '" data-day="' + x.n + '"' +
-        (x.n > cn ? " disabled" : "") + ' title="Кун ' + x.n + '">' + (x.kind === "exam" ? "★" : x.d) + "</button>";
+        (x.n > cn ? " disabled" : "") + ' title="Кун ' + x.n + ' — ' + esc(dayTitle(x)) + '">' +
+        (x.kind === "exam" ? "★" : x.d) + "</button>";
     }).join("") + "</div>";
 
     h += cn > last ? quarterCard() : dayCard(dayOf(sel), sel === cn);
@@ -465,6 +488,7 @@
     if (ok) exam.right++;
     render();
     setTimeout(() => {
+      if (!exam) return;                     // имтиҳондан чиқиб кетилган
       exam.i++; exam.answered = false;
       if (exam.i >= exam.qs.length) {
         const s = S(cur);
@@ -490,6 +514,7 @@
     render();
   }
   function nextChar() {
+    if (!cq) return;
     const lang = L(cur);
     cq.cur = cq.queue.shift();
     cq.answered = false;
@@ -518,12 +543,14 @@
     const s = S(cur);
     if (cq.ok) { s.plan.script[cq.cur] = true; save(); }
     else cq.queue.push(cq.cur);
+    const wasOk = cq.ok;
     render();
     setTimeout(() => {
+      if (!cq) return;                       // фойдаланувчи аллақачон чиқиб кетган
       nextChar();
       if (!cq) planView = { type: "overview", month: planView.month, sel: planView.sel };
       render();
-    }, cq && cq.ok ? 600 : 1400);
+    }, wasOk ? 600 : 1400);
   }
 
   /* ---------- машқ ---------- */
@@ -816,7 +843,10 @@
       const ok = op.dataset.opt === item.id;
       grade(item.id, ok);
       render();
-      setTimeout(() => { next(); render(); }, ok ? 600 : 1400);
+      setTimeout(() => {
+        if (H.active() !== NS || tab !== "drill") return;   // бошқа жойга ўтиб кетилган
+        next(); render();
+      }, ok ? 600 : 1400);
       return;
     }
     const k = e.target.closest("[data-k]");
