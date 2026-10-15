@@ -12,8 +12,8 @@
     if (wd) parts.push({ k: "ish", v: i.rec.in != null ? 1 : 0 });
     const s = H.sportWeek();
     parts.push({ k: "sport", v: Math.min(1, s.goal ? s.count / s.goal : 0) });
-    const r = H.rusSummary();
-    if (r.started) parts.push({ k: "rus", v: Math.min(1, r.goal ? r.done / r.goal : 0) });
+    const r = H.tilSummary();
+    if (r.started) parts.push({ k: "til", v: Math.min(1, r.goal ? r.done / r.goal : 0) });
     const v = parts.reduce((a, p) => a + p.v, 0) / (parts.length || 1);
     return { pct: v, parts };
   };
@@ -30,7 +30,7 @@
     const i = H.ishToday(), tk = H.ishTasks();
     const s = H.sportWeek(), st = H.sportToday();
     const o = H.oilaToday(), up = H.oilaUpcoming(2).filter(u => u.days <= 30);
-    const r = H.rusSummary();
+    const r = H.tilSummary();
     const sc = H.dayScore();
 
     let h = '<div class="b-hero">' +
@@ -88,12 +88,15 @@
       '<p class="h-note" style="margin-top:8px">Шу ҳафта ' + s.count + '/' + s.goal + ' машғулот · ' + s.minutes + ' дақиқа' +
       (st.length ? ' · бугун: ' + H.esc(st.map(x => x.type).join(", ")) : ' · бугун ҳали йўқ') + '</p></div>';
 
-    /* Рус тили */
-    h += '<div class="h-card" data-m="rus"><div class="h-card-h"><h3>Рус тили</h3>' +
-      '<button class="h-link" data-go="rus">бўлимга →</button></div>' +
-      '<p class="h-note">Режа бўйича <b>' + r.day + '-кун</b>' +
-      (r.due ? ' · такрорга тайёр: <b>' + r.due + '</b> сўз' : ' · такрор қарздорлиги йўқ') +
-      ' · бугун ' + r.done + '/' + r.goal + ' машқ</p></div>';
+    /* Тил ўрганиш */
+    h += '<div class="h-card" data-m="til"><div class="h-card-h"><h3>Тил ўрганиш</h3>' +
+      '<button class="h-link" data-go="til">бўлимга →</button></div>' +
+      (r.started
+        ? '<p class="h-note">' + H.esc(r.name) + ' · режа бўйича <b>' + r.day + '-кун</b>' +
+          (r.due ? ' · такрорга тайёр: <b>' + r.due + '</b> сўз' : ' · такрор қарздорлиги йўқ') +
+          ' · бугун ' + r.done + '/' + r.goal + ' машқ · ўрганилган ' + r.known + '/' + r.total + '</p>'
+        : '<p class="h-note">Саккизта тил: рус, инглиз, қозоқ, немис, япон, хитой, корейс, араб. Бирини танлаб бошланг.</p>') +
+      '</div>';
 
     /* Яқин саналар */
     if (up.length) h += '<div class="h-card" data-m="oila"><div class="h-card-h"><h3>Яқин саналар</h3></div><div class="h-list">' +

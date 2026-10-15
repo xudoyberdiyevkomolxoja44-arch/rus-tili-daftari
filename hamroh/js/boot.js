@@ -4,7 +4,7 @@
   const main = document.getElementById("h-main");
 
   /* бўлимлар тартиби */
-  const ORDER = ["bugun", "namoz", "oila", "shajara", "ish", "sport", "rus", "sozlama"];
+  const ORDER = ["bugun", "namoz", "oila", "shajara", "ish", "sport", "til", "sozlama"];
   H.mods.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
 
   /* модуллар учун жой ва тугмалар */
@@ -28,7 +28,7 @@
     const sc = H.dayScore();
     document.getElementById("h-score").innerHTML =
       '<span class="h-ring">' + H.ring(sc.pct, 30) + '<b>' + Math.round(sc.pct * 100) + '%</b></span>';
-    document.title = "Ҳамроҳ" + (p.name ? " — " + p.name : "");
+    document.title = "Қадам" + (p.name ? " — " + p.name : "");
   }
   H.on("today", head);
   H.on("save", head);

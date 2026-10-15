@@ -50,6 +50,7 @@ window.H = (function () {
   H.toMin = hm => { const p = String(hm || "").split(":"); return (+p[0] || 0) * 60 + (+p[1] || 0); };
   H.nowMin = () => { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); };
   H.plural = (n, w) => n + " " + w;
+  H.TOUCH = !!(window.matchMedia && window.matchMedia("(hover:none)").matches);
 
   /* ---------- сақлаш ---------- */
   const PREFIX = "hamroh:";

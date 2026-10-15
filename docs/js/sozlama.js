@@ -33,7 +33,7 @@
       ["Иш куни", Object.keys(i.days || {}).length + " та"],
       ["Вазифа", (i.tasks || []).length + " та"],
       ["Машғулот", (sp.sessions || []).length + " та"],
-      ["Рус тили", (H.rusSummary().started ? H.rusSummary().day + "-кун" : "бошланмаган")]
+      ["Тил ўрганиш", (H.tilSummary().started ? H.tilSummary().name + " · " + H.tilSummary().day + "-кун" : "бошланмаган")]
     ];
   }
 
@@ -71,8 +71,8 @@
       '<input type="file" accept="application/json,.json" id="h-file" hidden>' +
       '</div></div>';
 
-    h += '<div class="h-card"><div class="h-card-h"><h3>Ҳамроҳ ҳақида</h3></div>' +
-      '<p class="h-note">Версия ' + VERSION + '. Бўлимлар: Бугун, Намоз, Оила, Шажара, Иш, Спорт, Рус тили.</p>' +
+    h += '<div class="h-card"><div class="h-card-h"><h3>Қадам ҳақида</h3></div>' +
+      '<p class="h-note">Версия ' + VERSION + '. Бўлимлар: Бугун, Намоз, Оила, Шажара, Иш, Спорт, Тил ўрганиш (8 тил).</p>' +
       '<p class="h-note" style="margin-top:8px">Илова интернетсиз ҳам ишлайди. Телефон браузерида менюдан ' +
       '«Bosh ekranga qo\'shish» ни танласангиз, алоҳида дастурдек очилади.</p>' +
       '<div class="h-row" style="margin-top:12px">' +
@@ -89,7 +89,7 @@
     rd.onload = () => {
       let obj = null;
       try { obj = JSON.parse(rd.result); } catch (err) {}
-      if (!obj || obj.app !== "hamroh") { alert("Бу Ҳамроҳ нусха файли эмас."); return; }
+      if (!obj || obj.app !== "hamroh" && obj.app !== "qadam") { alert("Бу Қадам нусха файли эмас."); return; }
       if (!confirm("Файлдаги маълумот ҳозиргисининг устига ёзилади. Давом этамизми?")) return;
       H.store.restore(obj.data || {});
       if (obj.rus) { try { localStorage.setItem(RUS_KEY, JSON.stringify(obj.rus)); } catch (err) {} }
@@ -104,7 +104,7 @@
     const a = e.target.closest("[data-act]");
     if (!a) return;
     if (a.dataset.act === "export") {
-      const name = "hamroh-" + H.today() + ".json";
+      const name = "qadam-" + H.today() + ".json";
       H.download(name, JSON.stringify(snapshot(), null, 1)).then(ok => {
         if (!ok) alert("Файлни сақлаб бўлмади.");
       });
@@ -112,9 +112,9 @@
     }
     if (a.dataset.act === "import") { const f = document.getElementById("h-file"); if (f) f.click(); return; }
     if (a.dataset.act === "wipe") {
-      if (!confirm("Намоз, оила, шажара, иш, спорт ва рус тили бўйича БАРЧА ёзувлар ўчирилади. Аввал файлга нусха олганмисиз?")) return;
+      if (!confirm("Намоз, оила, шажара, иш, спорт ва тил бўйича БАРЧА ёзувлар ўчирилади. Аввал файлга нусха олганмисиз?")) return;
       if (!confirm("Ростдан ўчирилсинми? Бу амални қайтариб бўлмайди.")) return;
-      ["namoz", "oila", "shajara", "ish", "sport", "profil"].forEach(ns => H.store.wipe(ns));
+      ["namoz", "oila", "shajara", "ish", "sport", "profil", "til"].forEach(ns => H.store.wipe(ns));
       try { localStorage.removeItem(RUS_KEY); } catch (err) {}
       location.reload();
     }

@@ -1,47 +1,65 @@
 /* ============ Ҳамроҳ — умумий услублар ============ */
 :root{
-  --paper:#F1F4F7;
-  --surface:#FFFFFF;
-  --surface-2:#E8EDF3;
-  --ink:#12263F;
-  --ink-2:#4A5C72;
-  --ink-3:#7A8899;
-  --line:#D3DAE3;
-  --line-2:#E4E9EF;
-  --accent:#2B4C8C;
-  --accent-soft:#DDE5F3;
-  --red:#B3382C;
-  --red-soft:#F6E2DF;
-  --green:#3E7A5E;
-  --green-soft:#DCEBE3;
-  --gold:#8A6A1F;
-  --gold-soft:#F3EAD4;
+  --paper:#F4F0E6;
+  --surface:#FFFCF5;
+  --surface-2:#EBE4D6;
+  --ink:#23313A;
+  --ink-2:#55656E;
+  --ink-3:#8A948F;
+  --line:#DCD3C2;
+  --line-2:#E9E2D5;
+  --accent:#117C7B;
+  --accent-soft:#D5E8E6;
+  --red:#B5502F;
+  --red-soft:#F4E2DA;
+  --green:#4F7A3A;
+  --green-soft:#E0EAD4;
+  --gold:#A87D23;
+  --gold-soft:#F2E8CF;
   --shadow:0 1px 2px rgba(18,38,63,.06), 0 8px 24px -12px rgba(18,38,63,.22);
   --radius:6px;
-  --f-serif:"PT Serif", Georgia, "Times New Roman", serif;
-  --f-sans:"PT Sans", "Segoe UI", system-ui, sans-serif;
-  --f-mono:"PT Mono", "Courier New", monospace;
+  --f-serif:"Literata", "PT Serif", Georgia, serif;
+  --f-sans:"Golos Text", "PT Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", "PT Mono", ui-monospace, monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#0F1620; --surface:#16202C; --surface-2:#1E2A38;
-    --ink:#E6EBF2; --ink-2:#AFBDCD; --ink-3:#7E8DA0;
-    --line:#293747; --line-2:#212D3B;
-    --accent:#88ABEE; --accent-soft:#22334D;
-    --red:#E87866; --red-soft:#3A2420;
-    --green:#74C39A; --green-soft:#1D3229;
-    --gold:#D7B55F; --gold-soft:#2D2616;
+    --paper:#13191B;
+    --surface:#1B2325;
+    --surface-2:#243032;
+    --ink:#ECE6DA;
+    --ink-2:#B3AFA2;
+    --ink-3:#8A8D86;
+    --line:#2E3A3C;
+    --line-2:#263032;
+    --accent:#49BDB4;
+    --accent-soft:#17352F;
+    --red:#DD8260;
+    --red-soft:#35221B;
+    --green:#8FBE6E;
+    --green-soft:#1E2C18;
+    --gold:#D8B35E;
+    --gold-soft:#2E2715;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
   }
 }
 :root[data-theme="dark"]{
-  --paper:#0F1620; --surface:#16202C; --surface-2:#1E2A38;
-  --ink:#E6EBF2; --ink-2:#AFBDCD; --ink-3:#7E8DA0;
-  --line:#293747; --line-2:#212D3B;
-  --accent:#88ABEE; --accent-soft:#22334D;
-  --red:#E87866; --red-soft:#3A2420;
-  --green:#74C39A; --green-soft:#1D3229;
-  --gold:#D7B55F; --gold-soft:#2D2616;
+    --paper:#13191B;
+  --surface:#1B2325;
+  --surface-2:#243032;
+  --ink:#ECE6DA;
+  --ink-2:#B3AFA2;
+  --ink-3:#8A8D86;
+  --line:#2E3A3C;
+  --line-2:#263032;
+  --accent:#49BDB4;
+  --accent-soft:#17352F;
+  --red:#DD8260;
+  --red-soft:#35221B;
+  --green:#8FBE6E;
+  --green-soft:#1E2C18;
+  --gold:#D8B35E;
+  --gold-soft:#2E2715;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box}
@@ -182,7 +200,7 @@ select.h-in{appearance:none;background-image:linear-gradient(45deg,transparent 5
 .h-card[data-m="shajara"]{border-left-color:var(--gold)}
 .h-card[data-m="ish"]{border-left-color:var(--accent)}
 .h-card[data-m="sport"]{border-left-color:#C2691E}
-.h-card[data-m="rus"]{border-left-color:var(--ink-3)}
+
 
 @media (hover:none){
   .h-btn:hover,.h-item:hover{background:var(--surface)}
@@ -199,3 +217,16 @@ select.h-in{appearance:none;background-image:linear-gradient(45deg,transparent 5
   .h-stat b{font-size:18px}
   .h-form{grid-template-columns:1fr 1fr}
 }
+
+/* ---------- миллий безак ---------- */
+.h-top::after{
+  content:"";display:block;height:4px;
+  background:
+    repeating-linear-gradient(135deg, var(--accent) 0 6px, transparent 6px 12px),
+    repeating-linear-gradient(45deg, var(--gold) 0 6px, transparent 6px 12px);
+  background-size:12px 4px, 12px 4px;
+  opacity:.5;
+}
+.h-card[data-m="til"]{border-left-color:var(--gold)}
+.h-card[data-m="sport"]{border-left-color:#C2691E}
+.h-brand h1{letter-spacing:.01em}
