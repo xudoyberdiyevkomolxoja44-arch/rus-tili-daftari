@@ -96,10 +96,11 @@
   }
 
   /* Битта карточка: 1/3 сурат, 2/3 ФИШ. Ўлчами ҳамма жойда бир хил. */
-  function card(x) {
+  function card(x, left, top) {
     const d = data();
     const isSelf = d.selfId === x.id;
-    return '<div class="s-node' + (isSelf ? " self" : "") + '" data-p="' + x.id + '">' +
+    const pos = (left === undefined) ? "" : ' style="left:' + left + 'px;top:' + top + 'px"';
+    return '<div class="s-node' + (isSelf ? " self" : "") + '"' + pos + ' data-p="' + x.id + '">' +
       avatar(x) +
       '<span class="s-info">' +
         '<b class="' + (x.gender === "f" ? "f" : "m") + '">' + H.esc(x.name) + '</b>' +
@@ -108,31 +109,202 @@
       '</span></div>';
   }
 
-  /* Эр-хотин ёнма-ён, фарзандлар иккаласининг тагида */
-  function node(p, seen) {
-    const sp = (p.spouseId && !seen.has(p.spouseId)) ? person(p.spouseId) : null;
-    if (sp) seen.add(sp.id);
+  /* ============ Чизма: авлодлар бўйича жойлаштириш ============
+     Ҳар бир жуфтлик (ёки ёлғиз одам) — битта «блок». Блоклар авлод
+     қаторларига терилади, чизиқлар эса SVG билан чизилади. Шунинг учун
+     ҳар кимнинг ота-онаси айнан ўзининг катагига уланади: эрнинг
+     ота-онаси эрга, хотинники хотинга. */
+  const CW = 164, CH = 74, MG = 16, GX = 24, GY = 52;
 
-    const picked = new Set(), kids = [];
-    const take = who => childrenOf(who.id).forEach(k => {
-      if (!seen.has(k.id) && !picked.has(k.id)) { picked.add(k.id); kids.push(k); }
+  function buildChart(anchorId) {
+    const d = data();
+    const by = new Map(d.people.map(p => [p.id, p]));
+    const start = by.get(anchorId) || d.people[0];
+    if (!start) return null;
+
+    /* 1. Авлод рақамлари — марказдаги одамдан тарқаб */
+    const gen = new Map([[start.id, 0]]);
+    const kidsOf = new Map();
+    d.people.forEach(p => {
+      [p.fatherId, p.motherId].forEach(pid => {
+        if (!pid) return;
+        if (!kidsOf.has(pid)) kidsOf.set(pid, []);
+        kidsOf.get(pid).push(p);
+      });
     });
-    take(p);
-    if (sp) take(sp);
-    kids.sort((a, b) => String(a.birth || "9999").localeCompare(String(b.birth || "9999")));
-    kids.forEach(k => seen.add(k.id));
-
-    let block;
-    if (sp) {
-      /* эркак чапда, аёл ўнгда турсин */
-      const left = (p.gender === "f" && sp.gender !== "f") ? sp : p;
-      const right = (left === p) ? sp : p;
-      block = '<div class="s-pair">' + card(left) +
-        '<span class="s-mar"><i>⚭</i></span>' + card(right) + '</div>';
-    } else {
-      block = card(p);
+    const queue = [start];
+    while (queue.length) {
+      const p = queue.shift(), g = gen.get(p.id);
+      const step = (id, gg) => {
+        const n = by.get(id);
+        if (n && !gen.has(id)) { gen.set(id, gg); queue.push(n); }
+      };
+      if (p.spouseId && by.get(p.spouseId) && by.get(p.spouseId).spouseId === p.id) step(p.spouseId, g);
+      if (p.fatherId) step(p.fatherId, g - 1);
+      if (p.motherId) step(p.motherId, g - 1);
+      (kidsOf.get(p.id) || []).forEach(k => step(k.id, g + 1));
     }
-    return '<li>' + block + (kids.length ? '<ul>' + kids.map(k => node(k, seen)).join("") + '</ul>' : '') + '</li>';
+
+    /* 2. Блоклар */
+    const unitOf = new Map(), units = [];
+    d.people.forEach(p => {
+      if (!gen.has(p.id) || unitOf.has(p.id)) return;
+      const sp = (p.spouseId && by.get(p.spouseId) && by.get(p.spouseId).spouseId === p.id && gen.has(p.spouseId))
+        ? by.get(p.spouseId) : null;
+      let members;
+      if (sp) {
+        const left = (p.gender === "f" && sp.gender !== "f") ? sp : p;
+        members = [left, left === p ? sp : p];
+      } else members = [p];
+      const u = {
+        i: units.length, members, gen: gen.get(p.id),
+        w: members.length > 1 ? CW * 2 + MG : CW,
+        x: 0, up: [], down: []
+      };
+      units.push(u);
+      members.forEach(m => unitOf.set(m.id, u));
+    });
+    if (!units.length) return null;
+
+    /* 3. Ота-она боғлари: қайси блокдан қайси катакка */
+    const links = [];
+    units.forEach(u => {
+      u.members.forEach(m => {
+        const fu = m.fatherId && unitOf.get(m.fatherId);
+        const mu = m.motherId && unitOf.get(m.motherId);
+        const seen = [];
+        [[fu, m.fatherId], [mu, m.motherId]].forEach(([pu, pid]) => {
+          if (!pu || seen.indexOf(pu) >= 0) return;
+          seen.push(pu);
+          const both = (fu === mu) && fu;
+          const link = { pu, cu: u, childId: m.id, both: !!both, parentId: pid };
+          links.push(link);
+          u.up.push(link); pu.down.push(link);
+        });
+      });
+    });
+
+    /* 4. Қаторлар */
+    let minG = Infinity, maxG = -Infinity;
+    units.forEach(u => { minG = Math.min(minG, u.gen); maxG = Math.max(maxG, u.gen); });
+    units.forEach(u => { u.row = u.gen - minG; });
+    const rows = [];
+    for (let r = 0; r <= maxG - minG; r++) rows.push(units.filter(u => u.row === r));
+
+    /* 5. Чап-ўнг тартиб: қариндошлар ёнма-ён, қудалар четга.
+       Турмуш қурган фарзанд ака-укаларнинг четида турсин — шунда
+       хотин томоннинг ота-онаси кесишмасдан ёнига жойлашади. */
+    const key = u => u.members.map(m => m.birth || "9999").sort()[0];
+    const anchorUnit = unitOf.get(start.id) || units[0];
+    (function order() {
+      const path = new Map();
+      let top = anchorUnit, guard = 0;
+      while (top.up.length && guard++ < 60) top = top.up[0].pu;
+      const kidUnits = u => {
+        const list = [];
+        u.down.forEach(l => { if (list.indexOf(l.cu) < 0) list.push(l.cu); });
+        list.sort((a, b) => {
+          const sa = a.members.length > 1 ? 1 : 0, sb = b.members.length > 1 ? 1 : 0;
+          if (sa !== sb) return sa - sb;
+          return String(key(a)).localeCompare(String(key(b)));
+        });
+        return list;
+      };
+      const walk = (u, pth) => {
+        if (path.has(u)) return;
+        path.set(u, pth);
+        kidUnits(u).forEach((k, i) => walk(k, pth + "." + (100 + i)));
+      };
+      walk(top, "500");
+      for (let round = 0, moved = true; moved && round < 40; round++) {
+        moved = false;
+        units.forEach(u => {
+          if (path.has(u)) return;
+          const a = u.down.filter(l => path.has(l.cu))[0];
+          if (a) { path.set(u, path.get(a.cu) + ".900"); moved = true; return; }
+          const b = u.up.filter(l => path.has(l.pu))[0];
+          if (b) { path.set(u, path.get(b.pu) + ".950"); moved = true; }
+        });
+      }
+      units.forEach(u => { u.ord = path.get(u) || "999." + key(u); });
+    })();
+
+    rows.forEach(row => {
+      row.sort((a, b) => a.ord.localeCompare(b.ord));
+      let x = 0;
+      row.forEach(u => { u.x = x + u.w / 2; x += u.w + GX; });
+    });
+
+    /* тартибни бузмасдан фақат устма-уст тушганини суриб қўямиз */
+    const pack = row => {
+      for (let i = 1; i < row.length; i++) {
+        const need = row[i - 1].x + row[i - 1].w / 2 + GX + row[i].w / 2;
+        if (row[i].x < need) row[i].x = need;
+      }
+    };
+    const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+
+    /* 6. Болалар ота-она остига, ота-она болалар устига */
+    for (let it = 0; it < 24; it++) {
+      for (let r = 1; r < rows.length; r++) {
+        rows[r].forEach(u => { if (u.up.length) u.x = avg(u.up.map(l => anchorX(l.pu, l))); });
+        pack(rows[r]);
+      }
+      for (let r = rows.length - 2; r >= 0; r--) {
+        rows[r].forEach(u => { if (u.down.length) u.x = avg(u.down.map(l => memberX(l.cu, l.childId))); });
+        pack(rows[r]);
+      }
+    }
+
+    /* чапга сурамиз */
+    let minX = Infinity, maxX = -Infinity;
+    units.forEach(u => { minX = Math.min(minX, u.x - u.w / 2); maxX = Math.max(maxX, u.x + u.w / 2); });
+    units.forEach(u => { u.x -= minX - 8; });
+
+    return {
+      units, links, rows,
+      width: Math.round(maxX - minX + 16),
+      height: rows.length * CH + (rows.length - 1) * GY + 8,
+      unconnected: d.people.length - unitOf.size
+    };
+  }
+
+  /* катакнинг марказидаги x */
+  function memberX(u, id) {
+    if (u.members.length === 1) return u.x;
+    return u.members[0].id === id ? u.x - (CW + MG) / 2 : u.x + (CW + MG) / 2;
+  }
+  /* чизиқ ота-она блокининг қаеридан чиқади */
+  function anchorX(u, link) {
+    if (u.members.length === 1) return u.x;
+    return link.both ? u.x : memberX(u, link.parentId);
+  }
+  const rowY = u => u.row * (CH + GY);
+
+  function drawChart(ch) {
+    const d = data();
+    let cards = "", paths = "", marks = "";
+    ch.units.forEach(u => {
+      const y = rowY(u);
+      u.members.forEach(m => {
+        const cx = memberX(u, m.id);
+        cards += card(m, Math.round(cx - CW / 2), y);
+      });
+      if (u.members.length > 1) {
+        const midY = y + CH / 2;
+        paths += '<path d="M' + (u.x - MG / 2 - 1) + ' ' + midY + ' H' + (u.x + MG / 2 + 1) + '"/>';
+        marks += '<span class="s-ring" style="left:' + (u.x - 7) + 'px;top:' + (midY - 7) + 'px">⚭</span>';
+      }
+    });
+    ch.links.forEach(l => {
+      const px = anchorX(l.pu, l), py = rowY(l.pu) + CH;
+      const cx = memberX(l.cu, l.childId), cy = rowY(l.cu);
+      const bus = py + GY / 2;
+      paths += '<path d="M' + px + ' ' + py + ' V' + bus + ' H' + cx + ' V' + cy + '"/>';
+    });
+    return '<div class="s-chart" style="width:' + ch.width + 'px;height:' + ch.height + 'px">' +
+      '<svg width="' + ch.width + '" height="' + ch.height + '" aria-hidden="true">' + paths + '</svg>' +
+      cards + marks + '</div>';
   }
 
   function render(el) {
@@ -148,22 +320,25 @@
     }
 
     if (tab === "tree" && d.people.length) {
-      const rs = roots();
-      const rootId = d.rootId && person(d.rootId) ? d.rootId : rs[0].id;
+      const anchorId = (d.rootId && person(d.rootId)) ? d.rootId
+        : ((d.selfId && person(d.selfId)) ? d.selfId : d.people[0].id);
       h += '<div class="h-row" style="margin-bottom:12px">' +
-        '<div class="h-field" style="flex:1;max-width:320px"><label>Кимдан бошлаб кўрсатилсин</label>' +
+        '<div class="h-field" style="flex:1;max-width:340px"><label>Марказда ким турсин</label>' +
         '<select class="h-in" data-root="1">' + d.people.map(p =>
-          '<option value="' + p.id + '"' + (p.id === rootId ? " selected" : "") + '>' + H.esc(p.name) + '</option>').join("") +
-        '</select></div>' +
-        '<button class="h-btn sm" data-act="top" style="align-self:flex-end">⤒ Энг юқоридан</button></div>';
-      const seen = new Set([rootId]);
-      h += '<div class="s-tree"><ul>' + node(person(rootId), seen) + '</ul></div>' +
-        '<p class="h-note" style="margin-top:10px">Исмни босиб таҳрирлаш, фарзанд қўшиш ёки «мен» деб белгилаш мумкин. ' +
-        'Дарахт кенг бўлса, ён томонга суриб кўринг.</p>';
-      h += '<div class="h-stats" style="margin-top:16px">' +
-        '<div class="h-stat"><b>' + d.people.length + '</b><span>жами одам</span></div>' +
-        '<div class="h-stat"><b>' + rs.length + '</b><span>аждод шохи</span></div>' +
-        '<div class="h-stat"><b>' + depth(rootId) + '</b><span>авлод</span></div></div>';
+          '<option value="' + p.id + '"' + (p.id === anchorId ? " selected" : "") + '>' + H.esc(p.name) + '</option>').join("") +
+        '</select></div></div>';
+      const ch = buildChart(anchorId);
+      if (ch) {
+        h += '<div class="s-tree">' + drawChart(ch) + '</div>' +
+          '<p class="h-note" style="margin-top:10px">Исмни босиб таҳрирлаш, ота-она, турмуш ўртоғи, ака-ука ёки фарзанд қўшиш мумкин. ' +
+          'Ҳар кимнинг ота-онаси айнан ўзининг катагига уланади. Дарахт кенг бўлса, ён томонга суриб кўринг.' +
+          (ch.unconnected ? ' <b>' + ch.unconnected + ' киши</b> ҳали ҳеч кимга уланмаган — «Рўйхат» бўлимидан таҳрирлаб улаб қўйинг.' : '') +
+          '</p>';
+        h += '<div class="h-stats" style="margin-top:16px">' +
+          '<div class="h-stat"><b>' + d.people.length + '</b><span>жами одам</span></div>' +
+          '<div class="h-stat"><b>' + ch.rows.length + '</b><span>авлод</span></div>' +
+          '<div class="h-stat"><b>' + ch.units.filter(u => u.members.length > 1).length + '</b><span>оила</span></div></div>';
+      }
     }
 
     if (tab === "list" && d.people.length) {
@@ -323,6 +498,8 @@
       '<div class="h-row" style="margin-top:12px">' +
       (p.fatherId && person(p.fatherId) ? "" : '<button class="h-btn sm" data-x="father">Отасини қўшиш</button>') +
       (p.motherId && person(p.motherId) ? "" : '<button class="h-btn sm" data-x="mother">Онасини қўшиш</button>') +
+      ((p.fatherId && person(p.fatherId)) || (p.motherId && person(p.motherId))
+        ? '<button class="h-btn sm" data-x="sib">Ака-ука, опа-сингил</button>' : '') +
       '<button class="h-btn sm" data-x="child">Фарзанд қўшиш</button>' +
       (p.spouseId && person(p.spouseId) ? "" : '<button class="h-btn sm" data-x="spouse">Турмуш ўртоғи қўшиш</button>') +
       '<button class="h-btn sm" data-x="edit">Таҳрирлаш</button>' +
@@ -343,6 +520,10 @@
       }
       if (x === "spouse") {
         preset = { spouseId: id, gender: p.gender === "f" ? "m" : "f" };
+        editing = null; photoBuf = null; tab = "add"; render(el);
+      }
+      if (x === "sib") {
+        preset = { fatherId: p.fatherId || "", motherId: p.motherId || "", gender: "m" };
         editing = null; photoBuf = null; tab = "add"; render(el);
       }
       if (x === "father" || x === "mother") {
