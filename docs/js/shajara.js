@@ -9,6 +9,19 @@
   const data = () => H.store.get(NS, DEF);
   const person = id => data().people.filter(p => p.id === id)[0];
   const childrenOf = id => data().people.filter(p => p.fatherId === id || p.motherId === id);
+  /* энг юқоридаги аждодни топиш */
+  function topAncestor(id) {
+    const seen = new Set();
+    let cur = person(id);
+    while (cur && !seen.has(cur.id)) {
+      seen.add(cur.id);
+      const up = (cur.fatherId && person(cur.fatherId)) || (cur.motherId && person(cur.motherId));
+      if (!up) break;
+      cur = up;
+    }
+    return cur ? cur.id : id;
+  }
+
   const roots = () => {
     const d = data();
     const r = d.people.filter(p => !p.fatherId && !p.motherId);
@@ -44,6 +57,7 @@
   };
 
   let tab = "tree", editing = null, preset = null;
+  let parentFor = null;  // {childId, role} — янги одам кимнинг ота-онаси бўлиши
   let photoBuf = null;   // null — ўзгармаган, "" — ўчирилган, "data:…" — янги сурат
 
   /* суратни квадрат қилиб кичрайтирамиз — хотирани шишириб юбормаслик учун */
@@ -140,7 +154,8 @@
         '<div class="h-field" style="flex:1;max-width:320px"><label>Кимдан бошлаб кўрсатилсин</label>' +
         '<select class="h-in" data-root="1">' + d.people.map(p =>
           '<option value="' + p.id + '"' + (p.id === rootId ? " selected" : "") + '>' + H.esc(p.name) + '</option>').join("") +
-        '</select></div></div>';
+        '</select></div>' +
+        '<button class="h-btn sm" data-act="top" style="align-self:flex-end">⤒ Энг юқоридан</button></div>';
       const seen = new Set([rootId]);
       h += '<div class="s-tree"><ul>' + node(person(rootId), seen) + '</ul></div>' +
         '<p class="h-note" style="margin-top:10px">Исмни босиб таҳрирлаш, фарзанд қўшиш ёки «мен» деб белгилаш мумкин. ' +
@@ -262,7 +277,7 @@
       return;
     }
     const t = e.target.closest("[data-tab]");
-    if (t) { tab = t.dataset.tab; photoBuf = null; if (tab !== "add") { editing = null; preset = null; } render(el); return; }
+    if (t) { tab = t.dataset.tab; photoBuf = null; parentFor = null; if (tab !== "add") { editing = null; preset = null; } render(el); return; }
     const ed = e.target.closest("[data-edit]");
     if (ed) { editing = person(ed.dataset.edit); preset = null; photoBuf = null; tab = "add"; render(el); return; }
     const dl = e.target.closest("[data-del]");
@@ -279,7 +294,14 @@
       if (d.rootId === p.id) d.rootId = "";
       H.store.save(NS); render(el); return;
     }
-    if (e.target.closest("[data-cancel]")) { editing = null; preset = null; photoBuf = null; render(el); return; }
+    if (e.target.closest("[data-cancel]")) { editing = null; preset = null; photoBuf = null; parentFor = null; render(el); return; }
+    const top = e.target.closest('[data-act="top"]');
+    if (top) {
+      const d2 = data();
+      const from = d2.selfId || d2.rootId || (d2.people[0] && d2.people[0].id);
+      if (from) { d2.rootId = topAncestor(from); H.store.save(NS); render(el); }
+      return;
+    }
     const nd = e.target.closest("[data-p]");
     if (nd) { openNode(el, nd.dataset.p); return; }
   }
@@ -299,6 +321,8 @@
         (p.spouseId && person(p.spouseId) ? " · турмуш ўртоғи: " + H.esc(person(p.spouseId).name) : "") +
         (p.note ? " · " + H.esc(p.note) : "") + '</p>' +
       '<div class="h-row" style="margin-top:12px">' +
+      (p.fatherId && person(p.fatherId) ? "" : '<button class="h-btn sm" data-x="father">Отасини қўшиш</button>') +
+      (p.motherId && person(p.motherId) ? "" : '<button class="h-btn sm" data-x="mother">Онасини қўшиш</button>') +
       '<button class="h-btn sm" data-x="child">Фарзанд қўшиш</button>' +
       (p.spouseId && person(p.spouseId) ? "" : '<button class="h-btn sm" data-x="spouse">Турмуш ўртоғи қўшиш</button>') +
       '<button class="h-btn sm" data-x="edit">Таҳрирлаш</button>' +
@@ -319,6 +343,14 @@
       }
       if (x === "spouse") {
         preset = { spouseId: id, gender: p.gender === "f" ? "m" : "f" };
+        editing = null; photoBuf = null; tab = "add"; render(el);
+      }
+      if (x === "father" || x === "mother") {
+        /* янги одам шу кишининг отаси/онаси бўлиб қўшилади */
+        parentFor = { childId: id, role: x };
+        preset = { gender: x === "father" ? "m" : "f" };
+        const other = x === "father" ? (p.motherId && person(p.motherId)) : (p.fatherId && person(p.fatherId));
+        if (other) preset.spouseId = other.id;      // иккинчи ота-она бўлса — дарҳол эр-хотин қилиб улаймиз
         editing = null; photoBuf = null; tab = "add"; render(el);
       }
       if (x === "edit") { editing = p; preset = null; photoBuf = null; tab = "add"; render(el); }
@@ -342,13 +374,39 @@
     };
     if (!rec.name) return;
     const id = val("id");
+    const wasFather = id ? (person(id).fatherId || "") : "";
+    const wasMother = id ? (person(id).motherId || "") : "";
     if (id) Object.assign(person(id), rec);
     else { rec.id = H.id(); d.people.push(rec); }
-    /* турмуш ўртоғи икки томонлама боғланади */
     const me = id || rec.id;
-    const spId = rec.spouseId;
+    const self = person(me);
+
+    /* «Отасини/онасини қўшиш» орқали келинган бўлса — фарзандга улаймиз */
+    let movedUp = false;
+    if (parentFor && !id) {
+      const kid = person(parentFor.childId);
+      if (kid) {
+        kid[parentFor.role === "father" ? "fatherId" : "motherId"] = me;
+        const otherId = parentFor.role === "father" ? kid.motherId : kid.fatherId;
+        if (otherId && otherId !== me) {
+          const other = person(otherId);
+          if (other) { self.spouseId = otherId; other.spouseId = me; }
+        }
+        movedUp = true;
+      }
+    }
+    parentFor = null;
+
+    /* турмуш ўртоғи икки томонлама боғланади */
+    const spId = self.spouseId;
     if (spId) { const sp = person(spId); if (sp && sp.spouseId !== me) sp.spouseId = me; }
     d.people.forEach(x => { if (x.id !== me && x.spouseId === me && spId !== x.id) x.spouseId = ""; });
+
+    /* ота-она ўзгарган бўлса, дарахтни энг юқори аждоддан кўрсатамиз */
+    if (movedUp || (id && (self.fatherId !== wasFather || self.motherId !== wasMother))) {
+      d.rootId = topAncestor(me);
+    }
+
     editing = null; preset = null; photoBuf = null; tab = "tree";
     H.store.save(NS); render(el);
   }
