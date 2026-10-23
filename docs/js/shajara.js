@@ -157,24 +157,49 @@
   let parentFor = null;  // {childId, role} — янги одам кимнинг ота-онаси бўлиши
   let photoBuf = null;   // null — ўзгармаган, "" — ўчирилган, "data:…" — янги сурат
 
-  /* Суратни квадрат қилиб кичрайтирамиз.
-     Телефон суратлари катта ва ҳар хил форматда бўлгани учун аввал
-     createImageBitmap, у ишламаса оддий <img> орқали ўқилади. */
+  /* Суратни квадрат қилиб, аниқлигини сақлаган ҳолда кичрайтирамиз.
+     320×320 — телефон экранида катталаштирилганда ҳам тиниқ кўринади. */
+  const PHOTO = 320, PHOTO_Q = 0.86;
+
   function photoCanvas(src) {
-    const S = 180;
     const w = src.width || src.naturalWidth, h = src.height || src.naturalHeight;
     if (!w || !h) return null;
-    const c = document.createElement("canvas");
-    c.width = S; c.height = S;
-    const ctx = c.getContext("2d");
     const side = Math.min(w, h);
-    ctx.drawImage(src, (w - side) / 2, (h - side) / 2, side, side, 0, 0, S, S);
-    return c;
+    const sx = (w - side) / 2, sy = (h - side) / 2;
+
+    /* катта суратни бирданига кичрайтирсак доналанади —
+       шунинг учун икки баробардан босқичма-босқич кичрайтирамиз */
+    let cur = document.createElement("canvas");
+    let size = side;
+    cur.width = size; cur.height = size;
+    let cx = cur.getContext("2d");
+    cx.imageSmoothingEnabled = true; cx.imageSmoothingQuality = "high";
+    cx.drawImage(src, sx, sy, side, side, 0, 0, size, size);
+
+    while (size > PHOTO * 2) {
+      const next = document.createElement("canvas");
+      const ns = Math.max(PHOTO, Math.round(size / 2));
+      next.width = ns; next.height = ns;
+      const nx = next.getContext("2d");
+      nx.imageSmoothingEnabled = true; nx.imageSmoothingQuality = "high";
+      nx.drawImage(cur, 0, 0, size, size, 0, 0, ns, ns);
+      cur = next; size = ns;
+    }
+    if (size !== PHOTO) {
+      const out = document.createElement("canvas");
+      out.width = PHOTO; out.height = PHOTO;
+      const ox = out.getContext("2d");
+      ox.imageSmoothingEnabled = true; ox.imageSmoothingQuality = "high";
+      ox.drawImage(cur, 0, 0, size, size, 0, 0, PHOTO, PHOTO);
+      return out;
+    }
+    return cur;
   }
+
   function canvasToData(c) {
     return new Promise(res => {
       if (!c) return res("");
-      const fallback = () => { try { res(c.toDataURL("image/jpeg", 0.75)); } catch (e) { res(""); } };
+      const fallback = () => { try { res(c.toDataURL("image/jpeg", PHOTO_Q)); } catch (e) { res(""); } };
       if (!c.toBlob) return fallback();
       c.toBlob(bl => {
         if (!bl) return fallback();
@@ -182,9 +207,10 @@
         fr.onload = () => res(String(fr.result || ""));
         fr.onerror = fallback;
         fr.readAsDataURL(bl);
-      }, "image/jpeg", 0.75);
+      }, "image/jpeg", PHOTO_Q);
     });
   }
+
   async function readPhoto(file, cb) {
     if (window.createImageBitmap) {
       try {
@@ -647,7 +673,7 @@
           (shot ? '<button type="button" class="h-btn sm" data-photo="clear">Ўчириш</button>' : '') +
           '<input type="file" accept="image/*" id="s-file" hidden>' +
         '</div>' +
-        '<p class="h-note" style="flex-basis:100%;margin:0">Сурат 180×180 қилиб кичрайтирилади ва қурилмада сақланади.</p>' +
+        '<p class="h-note" style="flex-basis:100%;margin:0">Сурат 320×320 қилиб кичрайтирилади — катталаштирганда ҳам тиниқ кўринади.</p>' +
       '</div></div>' +
       '<div class="h-field wide"><label>Исми, фамилияси, отасининг исми</label><input class="h-in" name="name" required value="' + H.esc(p.name || "") + '"></div>' +
       '<div class="h-field"><label>Жинси</label><select class="h-in" name="gender">' +

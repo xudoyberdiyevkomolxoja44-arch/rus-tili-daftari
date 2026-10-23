@@ -79,7 +79,18 @@ window.H = (function () {
       const v = cache[ns];
       if (!v) return;
       v._u = Date.now();
-      try { localStorage.setItem(PREFIX + ns, JSON.stringify(v)); } catch (e) {}
+      try {
+        localStorage.setItem(PREFIX + ns, JSON.stringify(v));
+      } catch (e) {
+        /* хотира тўлса — жим қолмаймиз, акс ҳолда маълумот йўқолади */
+        if (!H._quotaWarned) {
+          H._quotaWarned = true;
+          setTimeout(() => alert(
+            "Қурилма хотираси тўлди — сўнгги ўзгариш сақланмади.\n\n" +
+            "Созлама → «Файлга нусха олиш» орқали заҳира олинг, сўнг " +
+            "шажарадаги айрим суратларни ўчириб хотирани бўшатинг."), 0);
+        }
+      }
       if (cloudDb) {
         clearTimeout(timers[ns]);
         timers[ns] = setTimeout(() => {
