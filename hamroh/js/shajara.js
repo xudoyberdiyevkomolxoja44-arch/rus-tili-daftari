@@ -33,6 +33,88 @@
     return (a || "?") + (b ? " – " + b : "");
   };
 
+
+  /* ============ Қариндошлик атамаси ============
+     «мен» деб белгиланган кишига нисбатан ҳисобланади.
+     Ака/ука ва опа/сингил туғилган йилига қараб ажратилади. */
+  function relTo(x) {
+    const d = data();
+    const me = d.selfId ? person(d.selfId) : null;
+    if (!me || !x || x.id === me.id) return "";
+    const isF = p => p.gender === "f";
+    const sib = (a, b) => !!a && !!b && a.id !== b.id &&
+      ((a.fatherId && a.fatherId === b.fatherId) || (a.motherId && a.motherId === b.motherId));
+    const older = (a, b) => {                 // a, b дан каттами?
+      const ab = String(a.birth || ""), bb = String(b.birth || "");
+      if (!ab || !bb || ab === bb) return null;
+      return ab < bb;
+    };
+
+    if (me.spouseId === x.id) return isF(x) ? "хотиним" : "эрим";
+
+    /* юқорига: ота-она, бобо-буви */
+    const up = new Map();
+    (function climb(p, lvl) {
+      if (!p || lvl > 4) return;
+      [p.fatherId, p.motherId].forEach(id => {
+        const n = id && person(id);
+        if (!n || up.has(n.id)) return;
+        up.set(n.id, lvl);
+        climb(n, lvl + 1);
+      });
+    })(me, 1);
+    if (up.has(x.id)) {
+      const l = up.get(x.id);
+      if (l === 1) return isF(x) ? "онам" : "отам";
+      if (l === 2) return isF(x) ? "бувим" : "бобом";
+      return isF(x) ? "катта бувим" : "катта бобом";
+    }
+
+    /* пастга: фарзанд, набира */
+    const down = new Map();
+    (function dive(p, lvl) {
+      if (!p || lvl > 4) return;
+      childrenOf(p.id).forEach(k => {
+        if (down.has(k.id)) return;
+        down.set(k.id, lvl);
+        dive(k, lvl + 1);
+      });
+    })(me, 1);
+    if (down.has(x.id)) {
+      const l = down.get(x.id);
+      if (l === 1) return isF(x) ? "қизим" : "ўғлим";
+      if (l === 2) return "набирам";
+      return "эварам";
+    }
+
+    /* ака-ука, опа-сингил */
+    if (sib(me, x)) {
+      const o = older(x, me);
+      if (o === null) return isF(x) ? "опа-синглим" : "ака-укам";
+      if (isF(x)) return o ? "опам" : "синглим";
+      return o ? "акам" : "укам";
+    }
+
+    const f = me.fatherId ? person(me.fatherId) : null;
+    const m = me.motherId ? person(me.motherId) : null;
+    if (sib(f, x)) return isF(x) ? "аммам" : "амаким";
+    if (sib(m, x)) return isF(x) ? "холам" : "тоғам";
+
+    const mySibs = data().people.filter(p => sib(me, p));
+    if (mySibs.some(sb => x.fatherId === sb.id || x.motherId === sb.id)) return "жияним";
+    const spouseOfSib = mySibs.filter(sb => sb.spouseId === x.id)[0];
+    if (spouseOfSib) return isF(spouseOfSib) ? "поччам" : "янгам";
+
+    const sp = me.spouseId ? person(me.spouseId) : null;
+    if (sp) {
+      if (sp.fatherId === x.id) return "қайнотам";
+      if (sp.motherId === x.id) return "қайнонам";
+      if (sib(sp, x)) return isF(x) ? "қайинсинглим" : "қайним";
+    }
+    if (childrenOf(me.id).some(k => k.spouseId === x.id)) return isF(x) ? "келиним" : "куёвим";
+    return "";
+  }
+
   /* ҳозирги ёш: «35 ёш 6 ой» */
   function ageText(p) {
     if (p.death) return "";
@@ -121,7 +203,8 @@
         '<b class="' + (x.gender === "f" ? "f" : "m") + '">' + H.esc(x.name) + '</b>' +
         (years(x) ? '<span class="s-yr">' + years(x) +
           (ageText(x) ? ' · ' + ageText(x) : '') + '</span>' : '') +
-        (isSelf ? '<span class="s-me">мен</span>' : '') +
+        (isSelf ? '<span class="s-me">мен</span>'
+                : (relTo(x) ? '<span class="s-rel">' + relTo(x) + '</span>' : '')) +
       '</span></div>';
   }
 
@@ -139,13 +222,13 @@
      Сурат доим катакнинг учдан бирини эгаллайди (AV * 3 = CW). */
   function setLines(lines) {
     LINES = Math.max(2, Math.min(8, lines));
-    CH = LINES * 16 + 26; AV = CH - 16; CW = AV * 3;
+    CH = LINES * 16 + 41; AV = CH - 16; CW = AV * 3;
   }
   function fitCard(people) {
     if (autoLines) { setLines(autoLines); return; }
     const maxLen = people.reduce((n, p) => Math.max(n, String(p.name || "").length), 0);
     for (let lines = 2; lines <= 6; lines++) {
-      const ch = lines * 16 + 26, av = ch - 16, cw = av * 3;
+      const ch = lines * 16 + 41, av = ch - 16, cw = av * 3;
       const cpl = Math.max(6, Math.floor((cw - 16 - av - 9) / 6.4));
       if (lines * cpl >= maxLen || lines === 6) { setLines(lines); return; }
     }
@@ -378,7 +461,7 @@
           const f = p.fatherId ? person(p.fatherId) : null, m = p.motherId ? person(p.motherId) : null;
           const sp = p.spouseId ? person(p.spouseId) : null;
           return '<div class="h-item">' + avatar(p, "sm") + '<span class="ttl">' + H.esc(p.name) +
-            '<span class="sub">' + (fmtFull(p.birth) || "сана йўқ") +
+            '<span class="sub">' + (relTo(p) ? relTo(p) + " · " : "") + (fmtFull(p.birth) || "сана йўқ") +
             (fmtFull(p.death) ? " – " + fmtFull(p.death) : "") +
             (f ? " · отаси: " + H.esc(f.name) : "") + (m ? " · онаси: " + H.esc(m.name) : "") +
             (sp ? " · ⚭ " + H.esc(sp.name) : "") + '</span></span>' +
@@ -399,7 +482,7 @@
       const zoom = box.querySelector(".s-zoom");
       if (chart && zoom) {
         const W = +chart.dataset.w, Hh = +chart.dataset.h;
-        const fit = () => Math.min(1, Math.max(0.2, (box.clientWidth - 6) / W));
+        const fit = () => Math.max(0.2, Math.min(1, (box.clientWidth - 8) / W, (box.clientHeight - 8) / Hh));
         let k = d.zoom ? d.zoom : fit();
         const apply = v => {
           k = Math.max(0.2, Math.min(2, v));
@@ -612,7 +695,9 @@
       '<h3 style="margin:0">' + H.esc(p.name) + '</h3></span>' +
       '<button class="h-link" data-close="1">ёпиш</button></div>' +
       '<p class="h-note">' +
-        (fmtFull(p.birth) ? "Туғилган: " + fmtFull(p.birth) : "сана кўрсатилмаган") +
+        (relTo(p) ? "<b>" + relTo(p) + "</b> · " : "") +
+        (fmtFull(p.birth) ? "Туғилган: " + fmtFull(p.birth) +
+          (ageText(p) ? " (" + ageText(p) + ")" : "") : "сана кўрсатилмаган") +
         (fmtFull(p.death) ? " · вафоти: " + fmtFull(p.death) : "") +
         (p.spouseId && person(p.spouseId) ? " · турмуш ўртоғи: " + H.esc(person(p.spouseId).name) : "") +
         (p.note ? " · " + H.esc(p.note) : "") + '</p>' +

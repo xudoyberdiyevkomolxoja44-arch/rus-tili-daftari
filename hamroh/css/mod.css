@@ -60,8 +60,16 @@
 }
 
 /* ---- Шажара ---- */
-.s-tree{overflow:auto;max-height:70vh;padding:6px 0 12px;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior:contain}
-.s-zoom{position:relative;margin:0 auto}
+/* Чизма майдони доимий баландликда — пастдаги сонлар қимирламайди */
+.s-tree{
+  height:min(58vh,520px);min-height:260px;
+  overflow:auto;-webkit-overflow-scrolling:touch;
+  touch-action:pan-x pan-y;overscroll-behavior:contain;
+  display:flex;                       /* ичидагини марказлаш учун */
+  border:1px solid var(--line-2);border-radius:10px;background:var(--surface);
+}
+.s-zoom{margin:auto}                  /* ҳам кўндаланг, ҳам тик марказда */
+.s-zoom{position:relative;flex:0 0 auto}
 .s-chart{position:relative;transform-origin:top left}
 .s-chart .s-node{width:var(--cw);height:var(--ch)}
 .s-chart .s-ava{flex:0 0 var(--av);width:var(--av);height:var(--av)}
@@ -71,7 +79,7 @@
 .s-chart svg path{fill:none;stroke:var(--line);stroke-width:1.4}
 .s-ring{
   position:absolute;width:14px;height:14px;display:grid;place-items:center;
-  font-size:11px;color:var(--ink-3);background:var(--paper);border-radius:50%;line-height:1;
+  font-size:11px;color:var(--ink-3);background:var(--surface);border-radius:50%;line-height:1;
 }
 /* Карточка: ҳамма жойда бир хил ўлчам — 1/3 сурат, 2/3 ФИШ */
 .s-chart .s-node{position:absolute}
@@ -102,6 +110,7 @@
 .s-info b.f{color:var(--red)}
 .s-yr{display:block;margin-top:2px;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
 .s-me{display:block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.s-rel{display:block;margin-top:1px;font-size:10.5px;color:var(--accent);font-weight:700}
 
 
 @media(max-width:420px){
