@@ -102,3 +102,12 @@
 #m-rus nav.tabs{padding:0;margin:0 0 2px;border-bottom:1px solid var(--line)}
 #m-rus .panel{padding-top:20px}
 #m-rus .wrap{padding:0;max-width:none}
+
+/* шажара: сана киритиш (йил / ой / кун) */
+.s-date{display:grid;grid-template-columns:1.05fr 1.6fr .85fr;gap:5px}
+.s-date .h-in{padding:9px 8px}
+.s-date select.h-in{padding-right:26px;background-position:calc(100% - 12px) 50%, calc(100% - 8px) 50%}
+@media(max-width:620px){
+  .h-form .s-datefield{grid-column:1/-1}
+  .s-date{grid-template-columns:1fr 1.5fr .85fr}
+}

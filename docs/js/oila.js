@@ -35,6 +35,12 @@
     };
     d.members.forEach(m => push(m.name + " — туғилган куни", m.birth, "tug"));
     d.events.forEach(e => push(e.title, e.date, "sana"));
+    /* шажарадаги тўлиқ санаси маълум одамлар ҳам шу ерда кўринади */
+    if (H.shajaraDates) H.shajaraDates().forEach(x => push(x.name + " — туғилган куни", x.date, "tug"));
+    const seen = new Set();
+    for (let i = out.length - 1; i >= 0; i--) {
+      if (seen.has(out[i].title)) out.splice(i, 1); else seen.add(out[i].title);
+    }
     out.sort((a, b) => a.days - b.days);
     return limit ? out.slice(0, limit) : out;
   }

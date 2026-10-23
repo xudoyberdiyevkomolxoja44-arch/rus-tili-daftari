@@ -20,6 +20,29 @@
     return (a || "?") + (b ? " – " + b : "");
   };
 
+  /* сана: "1991", "1991-04" ёки "1991-04-10" кўринишида сақланади */
+  const dparts = v => { const p = String(v || "").split("-"); return { y: p[0] || "", m: p[1] || "", d: p[2] || "" }; };
+  function dmake(y, m, d) {
+    y = String(y || "").trim().replace(/[^0-9]/g, "");
+    m = String(m || "").trim(); d = String(d || "").trim().replace(/[^0-9]/g, "");
+    if (!y) return "";
+    if (!m) return y;
+    if (!d) return y + "-" + H.pad(+m);
+    return y + "-" + H.pad(+m) + "-" + H.pad(+d);
+  }
+  function fmtFull(v) {
+    const p = dparts(v);
+    if (!p.y) return "";
+    if (!p.m) return p.y;
+    const mn = H.MONTHS[(+p.m) - 1] || p.m;
+    return (p.d ? (+p.d) + "-" : "") + mn + " " + p.y;
+  }
+  H.shajaraDates = function () {
+    /* тўлиқ санаси маълум одамлар — Оила бўлимидаги «яқин саналар» учун */
+    return data().people.filter(p => { const x = dparts(p.birth); return x.y && x.m && x.d && !p.death; })
+      .map(p => ({ name: p.name, date: p.birth }));
+  };
+
   let tab = "tree", editing = null, preset = null;
 
   H.shajaraCount = () => data().people.length;
@@ -80,9 +103,12 @@
       h += '<div class="h-card" data-m="shajara"><div class="h-list">' +
         d.people.slice().sort((a, b) => (a.birth || "9999") < (b.birth || "9999") ? -1 : 1).map(p => {
           const f = p.fatherId ? person(p.fatherId) : null, m = p.motherId ? person(p.motherId) : null;
+          const sp = p.spouseId ? person(p.spouseId) : null;
           return '<div class="h-item"><span class="ttl">' + H.esc(p.name) +
-            '<span class="sub">' + (years(p) || "сана йўқ") +
-            (f ? " · отаси: " + H.esc(f.name) : "") + (m ? " · онаси: " + H.esc(m.name) : "") + '</span></span>' +
+            '<span class="sub">' + (fmtFull(p.birth) || "сана йўқ") +
+            (fmtFull(p.death) ? " – " + fmtFull(p.death) : "") +
+            (f ? " · отаси: " + H.esc(f.name) : "") + (m ? " · онаси: " + H.esc(m.name) : "") +
+            (sp ? " · ⚭ " + H.esc(sp.name) : "") + '</span></span>' +
             '<button class="h-link" data-edit="' + p.id + '">таҳрир</button>' +
             '<button class="h-link" data-del="' + p.id + '">ўчириш</button></div>';
         }).join("") + '</div></div>';
@@ -103,6 +129,17 @@
     return 1 + Math.max.apply(null, kids.map(k => depth(k.id, seen)));
   }
 
+  function dateField(label, name, val) {
+    const v = dparts(val);
+    return '<div class="h-field s-datefield"><label>' + label + '</label><div class="s-date">' +
+      '<input class="h-in" name="' + name + 'Y" inputmode="numeric" maxlength="4" placeholder="йил" value="' + H.esc(v.y) + '">' +
+      '<select class="h-in" name="' + name + 'M"><option value="">ой</option>' +
+      H.MONTHS.map((nm, i) => '<option value="' + (i + 1) + '"' + ((+v.m) === i + 1 ? " selected" : "") + '>' + nm + '</option>').join("") +
+      '</select>' +
+      '<input class="h-in" name="' + name + 'D" inputmode="numeric" maxlength="2" placeholder="кун" value="' + H.esc(v.d ? String(+v.d) : "") + '">' +
+      '</div></div>';
+  }
+
   function form() {
     const d = data();
     const p = editing || preset || {};
@@ -115,8 +152,8 @@
       '<div class="h-field"><label>Жинси</label><select class="h-in" name="gender">' +
       '<option value="m"' + (p.gender !== "f" ? " selected" : "") + '>Эркак</option>' +
       '<option value="f"' + (p.gender === "f" ? " selected" : "") + '>Аёл</option></select></div>' +
-      '<div class="h-field"><label>Туғилган йили</label><input class="h-in" name="birth" placeholder="1952 ёки 1952-04-10" value="' + H.esc(p.birth || "") + '"></div>' +
-      '<div class="h-field"><label>Вафот йили</label><input class="h-in" name="death" placeholder="2014" value="' + H.esc(p.death || "") + '"></div>' +
+      dateField("Туғилган санаси", "birth", p.birth) +
+      dateField("Вафот этган санаси", "death", p.death) +
       '<div class="h-field"><label>Отаси</label><select class="h-in" name="fatherId">' + opts(p.fatherId, "m") + '</select></div>' +
       '<div class="h-field"><label>Онаси</label><select class="h-in" name="motherId">' + opts(p.motherId, "f") + '</select></div>' +
       '<div class="h-field"><label>Турмуш ўртоғи</label><select class="h-in" name="spouseId">' + opts(p.spouseId) + '</select></div>' +
@@ -162,9 +199,14 @@
     box.className = "n-sheet";
     box.innerHTML = '<div class="n-sheet-in"><div class="h-card-h"><h3>' + H.esc(p.name) + '</h3>' +
       '<button class="h-link" data-close="1">ёпиш</button></div>' +
-      '<p class="h-note">' + (years(p) || "сана кўрсатилмаган") + (p.note ? " · " + H.esc(p.note) : "") + '</p>' +
+      '<p class="h-note">' +
+        (fmtFull(p.birth) ? "Туғилган: " + fmtFull(p.birth) : "сана кўрсатилмаган") +
+        (fmtFull(p.death) ? " · вафоти: " + fmtFull(p.death) : "") +
+        (p.spouseId && person(p.spouseId) ? " · турмуш ўртоғи: " + H.esc(person(p.spouseId).name) : "") +
+        (p.note ? " · " + H.esc(p.note) : "") + '</p>' +
       '<div class="h-row" style="margin-top:12px">' +
       '<button class="h-btn sm" data-x="child">Фарзанд қўшиш</button>' +
+      (p.spouseId && person(p.spouseId) ? "" : '<button class="h-btn sm" data-x="spouse">Турмуш ўртоғи қўшиш</button>') +
       '<button class="h-btn sm" data-x="edit">Таҳрирлаш</button>' +
       '<button class="h-btn sm" data-x="self">' + (d.selfId === id ? "«мен» белгисини олиш" : "«мен» деб белгилаш") + '</button>' +
       '<button class="h-btn sm" data-x="root">Шу ердан кўрсатиш</button>' +
@@ -175,7 +217,16 @@
       if (!b) return;
       const x = b.dataset.x;
       box.remove();
-      if (x === "child") { preset = p.gender === "f" ? { motherId: id } : { fatherId: id }; editing = null; tab = "add"; render(el); }
+      if (x === "child") {
+        preset = p.gender === "f" ? { motherId: id } : { fatherId: id };
+        const sp = p.spouseId ? person(p.spouseId) : null;
+        if (sp) { if (sp.gender === "f") preset.motherId = sp.id; else preset.fatherId = sp.id; }
+        editing = null; tab = "add"; render(el);
+      }
+      if (x === "spouse") {
+        preset = { spouseId: id, gender: p.gender === "f" ? "m" : "f" };
+        editing = null; tab = "add"; render(el);
+      }
       if (x === "edit") { editing = p; preset = null; tab = "add"; render(el); }
       if (x === "self") { d.selfId = d.selfId === id ? "" : id; H.store.save(NS); render(el); }
       if (x === "root") { d.rootId = id; H.store.save(NS); tab = "tree"; render(el); }
@@ -188,18 +239,20 @@
     const el = e.currentTarget, d = data(), f = e.target;
     const val = n => (f.elements[n] ? String(f.elements[n].value).trim() : "");
     const rec = {
-      name: val("name"), gender: val("gender"), birth: val("birth"), death: val("death"),
+      name: val("name"), gender: val("gender"),
+      birth: dmake(val("birthY"), val("birthM"), val("birthD")),
+      death: dmake(val("deathY"), val("deathM"), val("deathD")),
       fatherId: val("fatherId"), motherId: val("motherId"), spouseId: val("spouseId"), note: val("note")
     };
     if (!rec.name) return;
     const id = val("id");
     if (id) Object.assign(person(id), rec);
-    else {
-      rec.id = H.id();
-      d.people.push(rec);
-      if (rec.spouseId) { const sp = person(rec.spouseId); if (sp && !sp.spouseId) sp.spouseId = rec.id; }
-      if (!d.people.length) d.rootId = rec.id;
-    }
+    else { rec.id = H.id(); d.people.push(rec); }
+    /* турмуш ўртоғи икки томонлама боғланади */
+    const me = id || rec.id;
+    const spId = rec.spouseId;
+    if (spId) { const sp = person(spId); if (sp && sp.spouseId !== me) sp.spouseId = me; }
+    d.people.forEach(x => { if (x.id !== me && x.spouseId === me && spId !== x.id) x.spouseId = ""; });
     editing = null; preset = null; tab = "tree";
     H.store.save(NS); render(el);
   }
