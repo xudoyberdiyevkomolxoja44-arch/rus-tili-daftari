@@ -1,7 +1,7 @@
 /* Қадам — оффлайн ишлаши учун service worker.
    CACHE номини build.mjs ҳар йиғишда янгилайди. */
-const CACHE = "qadam-202610231359";
-const CORE = ["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png","./css/app.css?v=202610231359","./css/mod.css?v=202610231359","./css/til.css?v=202610231359","./js/boot.js?v=202610231359","./js/bugun.js?v=202610231359","./js/core.js?v=202610231359","./js/ish.js?v=202610231359","./js/langs/ar.js?v=202610231359","./js/langs/de.js?v=202610231359","./js/langs/en.js?v=202610231359","./js/langs/ja.js?v=202610231359","./js/langs/kk.js?v=202610231359","./js/langs/ko.js?v=202610231359","./js/langs/more.js?v=202610231359","./js/langs/ru.js?v=202610231359","./js/langs/zh.js?v=202610231359","./js/namoz.js?v=202610231359","./js/oila.js?v=202610231359","./js/shajara.js?v=202610231359","./js/sozlama.js?v=202610231359","./js/sport.js?v=202610231359","./js/til.js?v=202610231359"];
+const CACHE = "qadam-202610231408";
+const CORE = ["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png","./css/app.css?v=202610231408","./css/mod.css?v=202610231408","./css/til.css?v=202610231408","./js/boot.js?v=202610231408","./js/bugun.js?v=202610231408","./js/core.js?v=202610231408","./js/ish.js?v=202610231408","./js/langs/ar.js?v=202610231408","./js/langs/de.js?v=202610231408","./js/langs/en.js?v=202610231408","./js/langs/ja.js?v=202610231408","./js/langs/kk.js?v=202610231408","./js/langs/ko.js?v=202610231408","./js/langs/more.js?v=202610231408","./js/langs/ru.js?v=202610231408","./js/langs/zh.js?v=202610231408","./js/namoz.js?v=202610231408","./js/oila.js?v=202610231408","./js/shajara.js?v=202610231408","./js/sozlama.js?v=202610231408","./js/sport.js?v=202610231408","./js/til.js?v=202610231408"];
 
 self.addEventListener("install", e => {
   e.waitUntil(

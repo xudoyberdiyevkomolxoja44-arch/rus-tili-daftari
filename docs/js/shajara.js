@@ -44,6 +44,27 @@
   };
 
   let tab = "tree", editing = null, preset = null;
+  let photoBuf = null;   // null — ўзгармаган, "" — ўчирилган, "data:…" — янги сурат
+
+  /* суратни квадрат қилиб кичрайтирамиз — хотирани шишириб юбормаслик учун */
+  function readPhoto(file, cb) {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = function () {
+      const S = 180;
+      const c = document.createElement("canvas");
+      c.width = S; c.height = S;
+      const ctx = c.getContext("2d");
+      const side = Math.min(img.width, img.height);
+      ctx.drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, S, S);
+      URL.revokeObjectURL(url);
+      let out = "";
+      try { out = c.toDataURL("image/jpeg", 0.72); } catch (e) {}
+      cb(out);
+    };
+    img.onerror = function () { URL.revokeObjectURL(url); cb(""); };
+    img.src = url;
+  }
 
   H.shajaraCount = () => data().people.length;
 
@@ -53,15 +74,24 @@
     show(el) { render(el); }
   });
 
-  /* Битта карточка */
+  /* Сурат ёки бош ҳарф — барча жойда бир хил кўринади */
+  function avatar(x, cls) {
+    const letter = (String(x.name || "?").trim()[0] || "?").toUpperCase();
+    return '<span class="s-ava ' + (cls || "") + (x.gender === "f" ? " f" : "") + '">' +
+      (x.photo ? '<img src="' + x.photo + '" alt="">' : '<i>' + H.esc(letter) + '</i>') + '</span>';
+  }
+
+  /* Битта карточка: 1/3 сурат, 2/3 ФИШ. Ўлчами ҳамма жойда бир хил. */
   function card(x) {
     const d = data();
     const isSelf = d.selfId === x.id;
     return '<div class="s-node' + (isSelf ? " self" : "") + '" data-p="' + x.id + '">' +
-      '<b class="' + (x.gender === "f" ? "f" : "m") + '">' + H.esc(x.name) + '</b>' +
-      (years(x) ? '<span class="s-yr">' + years(x) + '</span>' : '') +
-      (isSelf ? '<span class="s-me">мен</span>' : '') +
-      '</div>';
+      avatar(x) +
+      '<span class="s-info">' +
+        '<b class="' + (x.gender === "f" ? "f" : "m") + '">' + H.esc(x.name) + '</b>' +
+        (years(x) ? '<span class="s-yr">' + years(x) + '</span>' : '') +
+        (isSelf ? '<span class="s-me">мен</span>' : '') +
+      '</span></div>';
   }
 
   /* Эр-хотин ёнма-ён, фарзандлар иккаласининг тагида */
@@ -126,7 +156,7 @@
         d.people.slice().sort((a, b) => (a.birth || "9999") < (b.birth || "9999") ? -1 : 1).map(p => {
           const f = p.fatherId ? person(p.fatherId) : null, m = p.motherId ? person(p.motherId) : null;
           const sp = p.spouseId ? person(p.spouseId) : null;
-          return '<div class="h-item"><span class="ttl">' + H.esc(p.name) +
+          return '<div class="h-item">' + avatar(p, "sm") + '<span class="ttl">' + H.esc(p.name) +
             '<span class="sub">' + (fmtFull(p.birth) || "сана йўқ") +
             (fmtFull(p.death) ? " – " + fmtFull(p.death) : "") +
             (f ? " · отаси: " + H.esc(f.name) : "") + (m ? " · онаси: " + H.esc(m.name) : "") +
@@ -183,9 +213,19 @@
     const opts = (sel, gender) => '<option value="">— йўқ —</option>' + d.people
       .filter(x => x.id !== p.id && (!gender || x.gender === gender))
       .map(x => '<option value="' + x.id + '"' + (x.id === sel ? " selected" : "") + '>' + H.esc(x.name) + '</option>').join("");
+    const shot = (photoBuf !== null) ? photoBuf : (p.photo || "");
     return '<form data-form="p" class="h-form">' +
       '<input type="hidden" name="id" value="' + (p.id || "") + '">' +
-      '<div class="h-field wide"><label>Исми, фамилияси</label><input class="h-in" name="name" required value="' + H.esc(p.name || "") + '"></div>' +
+      '<div class="h-field wide"><label>Сурат</label><div class="s-photo">' +
+        avatar({ name: p.name || "?", gender: p.gender, photo: shot }, "big") +
+        '<div class="h-row">' +
+          '<button type="button" class="h-btn sm" data-photo="pick">' + (shot ? "Бошқа сурат" : "Сурат танлаш") + '</button>' +
+          (shot ? '<button type="button" class="h-btn sm" data-photo="clear">Ўчириш</button>' : '') +
+          '<input type="file" accept="image/*" id="s-file" hidden>' +
+        '</div>' +
+        '<p class="h-note" style="flex-basis:100%;margin:0">Сурат 180×180 қилиб кичрайтирилади ва қурилмада сақланади.</p>' +
+      '</div></div>' +
+      '<div class="h-field wide"><label>Исми, фамилияси, отасининг исми</label><input class="h-in" name="name" required value="' + H.esc(p.name || "") + '"></div>' +
       '<div class="h-field"><label>Жинси</label><select class="h-in" name="gender">' +
       '<option value="m"' + (p.gender !== "f" ? " selected" : "") + '>Эркак</option>' +
       '<option value="f"' + (p.gender === "f" ? " selected" : "") + '>Аёл</option></select></div>' +
@@ -200,16 +240,31 @@
   }
 
   function onChange(e) {
+    const el = e.currentTarget;
     const r = e.target.closest("[data-root]");
-    if (r) { const d = data(); d.rootId = r.value; H.store.save(NS); render(e.currentTarget); }
+    if (r) { const d = data(); d.rootId = r.value; H.store.save(NS); render(el); return; }
+    const f = e.target.closest("#s-file");
+    if (f && f.files && f.files[0]) {
+      readPhoto(f.files[0], src => {
+        if (!src) { alert("Суратни ўқиб бўлмади."); return; }
+        photoBuf = src;
+        render(el);
+      });
+    }
   }
 
   function onClick(e) {
     const el = e.currentTarget, d = data();
+    const ph = e.target.closest("[data-photo]");
+    if (ph) {
+      if (ph.dataset.photo === "pick") { const f = el.querySelector("#s-file"); if (f) f.click(); }
+      else { photoBuf = ""; render(el); }
+      return;
+    }
     const t = e.target.closest("[data-tab]");
-    if (t) { tab = t.dataset.tab; if (tab !== "add") { editing = null; preset = null; } render(el); return; }
+    if (t) { tab = t.dataset.tab; photoBuf = null; if (tab !== "add") { editing = null; preset = null; } render(el); return; }
     const ed = e.target.closest("[data-edit]");
-    if (ed) { editing = person(ed.dataset.edit); preset = null; tab = "add"; render(el); return; }
+    if (ed) { editing = person(ed.dataset.edit); preset = null; photoBuf = null; tab = "add"; render(el); return; }
     const dl = e.target.closest("[data-del]");
     if (dl) {
       const p = person(dl.dataset.del);
@@ -224,7 +279,7 @@
       if (d.rootId === p.id) d.rootId = "";
       H.store.save(NS); render(el); return;
     }
-    if (e.target.closest("[data-cancel]")) { editing = null; preset = null; render(el); return; }
+    if (e.target.closest("[data-cancel]")) { editing = null; preset = null; photoBuf = null; render(el); return; }
     const nd = e.target.closest("[data-p]");
     if (nd) { openNode(el, nd.dataset.p); return; }
   }
@@ -234,7 +289,9 @@
     if (!p) return;
     const box = document.createElement("div");
     box.className = "n-sheet";
-    box.innerHTML = '<div class="n-sheet-in"><div class="h-card-h"><h3>' + H.esc(p.name) + '</h3>' +
+    box.innerHTML = '<div class="n-sheet-in"><div class="h-card-h" style="align-items:flex-start">' +
+      '<span class="h-row" style="gap:10px;flex-wrap:nowrap;align-items:center">' + avatar(p, "big") +
+      '<h3 style="margin:0">' + H.esc(p.name) + '</h3></span>' +
       '<button class="h-link" data-close="1">ёпиш</button></div>' +
       '<p class="h-note">' +
         (fmtFull(p.birth) ? "Туғилган: " + fmtFull(p.birth) : "сана кўрсатилмаган") +
@@ -258,13 +315,13 @@
         preset = p.gender === "f" ? { motherId: id } : { fatherId: id };
         const sp = p.spouseId ? person(p.spouseId) : null;
         if (sp) { if (sp.gender === "f") preset.motherId = sp.id; else preset.fatherId = sp.id; }
-        editing = null; tab = "add"; render(el);
+        editing = null; photoBuf = null; tab = "add"; render(el);
       }
       if (x === "spouse") {
         preset = { spouseId: id, gender: p.gender === "f" ? "m" : "f" };
-        editing = null; tab = "add"; render(el);
+        editing = null; photoBuf = null; tab = "add"; render(el);
       }
-      if (x === "edit") { editing = p; preset = null; tab = "add"; render(el); }
+      if (x === "edit") { editing = p; preset = null; photoBuf = null; tab = "add"; render(el); }
       if (x === "self") { d.selfId = d.selfId === id ? "" : id; H.store.save(NS); render(el); }
       if (x === "root") { d.rootId = id; H.store.save(NS); tab = "tree"; render(el); }
     });
@@ -275,7 +332,9 @@
     e.preventDefault();
     const el = e.currentTarget, d = data(), f = e.target;
     const val = n => (f.elements[n] ? String(f.elements[n].value).trim() : "");
+    const base = editing || preset || {};
     const rec = {
+      photo: (photoBuf !== null) ? photoBuf : (base.photo || ""),
       name: val("name"), gender: val("gender"),
       birth: dmake(val("birthY"), val("birthM"), val("birthD")),
       death: dmake(val("deathY"), val("deathM"), val("deathD")),
@@ -290,7 +349,7 @@
     const spId = rec.spouseId;
     if (spId) { const sp = person(spId); if (sp && sp.spouseId !== me) sp.spouseId = me; }
     d.people.forEach(x => { if (x.id !== me && x.spouseId === me && spId !== x.id) x.spouseId = ""; });
-    editing = null; preset = null; tab = "tree";
+    editing = null; preset = null; photoBuf = null; tab = "tree";
     H.store.save(NS); render(el);
   }
 })(window.H);

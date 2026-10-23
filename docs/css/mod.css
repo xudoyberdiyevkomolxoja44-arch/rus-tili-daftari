@@ -81,30 +81,50 @@
 .s-tree ul ul::before{
   content:"";position:absolute;top:0;left:50%;border-left:1px solid var(--line);width:0;height:22px;
 }
+/* Карточка: ҳамма жойда бир хил ўлчам — 1/3 сурат, 2/3 ФИШ */
 .s-node{
-  display:inline-flex;flex-direction:column;gap:1px;white-space:normal;
-  border:1px solid var(--line);background:var(--surface);border-radius:8px;
-  padding:7px 11px;min-width:104px;max-width:150px;cursor:pointer;text-align:center;
+  display:flex;align-items:center;gap:9px;white-space:normal;
+  border:1px solid var(--line);background:var(--surface);border-radius:9px;
+  padding:8px;width:192px;height:78px;cursor:pointer;text-align:left;overflow:hidden;
 }
 .s-node:hover{border-color:var(--accent)}
 .s-node.self{border-color:var(--gold);background:var(--gold-soft)}
-.s-node b{font-size:13.5px;line-height:1.25}
-.s-node b.f{color:var(--red)}
-.s-node b.m{color:var(--ink)}
-:root[data-theme="dark"] .s-node b.m,:root:not([data-theme="light"]) .s-node b.m{color:var(--ink)}
+.s-ava{
+  flex:0 0 62px;width:62px;height:62px;border-radius:7px;overflow:hidden;
+  background:var(--surface-2);display:grid;place-items:center;
+}
+.s-ava img{width:100%;height:100%;object-fit:cover;display:block}
+.s-ava i{font-style:normal;font-family:var(--f-serif);font-size:20px;color:var(--ink-3)}
+.s-ava.f{background:var(--red-soft)}
+.s-ava.f i{color:var(--red)}
+.s-ava.sm{flex:0 0 auto;width:34px;height:34px;border-radius:6px}
+.s-ava.sm i{font-size:15px}
+.s-ava.big{flex:0 0 auto;width:62px;height:62px;border-radius:9px}
+.s-ava.big i{font-size:26px}
+.s-info{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:1px;justify-content:center}
+.s-info b{
+  font-size:12.5px;line-height:1.22;font-weight:700;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.s-info b.f{color:var(--red)}
 .s-yr{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
-.s-sp{font-size:11px;color:var(--ink-3)}
+.s-me{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+
 /* эр-хотин жуфтлиги: ёнма-ён, оралиғида никоҳ белгиси */
 .s-pair{display:inline-flex;align-items:center;vertical-align:top;white-space:normal}
-.s-pair .s-node{min-width:96px}
-.s-mar{position:relative;flex:0 0 auto;width:26px;height:20px;display:flex;align-items:center;justify-content:center}
+.s-mar{position:relative;flex:0 0 auto;width:22px;height:20px;display:flex;align-items:center;justify-content:center}
 .s-mar::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--line)}
 .s-mar i{position:relative;font-style:normal;font-size:12px;color:var(--ink-3);background:var(--paper);padding:0 3px;line-height:1}
+
 @media(max-width:420px){
-  .s-pair .s-node{min-width:86px;max-width:124px;padding:6px 8px}
-  .s-mar{width:20px}
+  .s-node{width:160px;height:70px;gap:7px;padding:7px}
+  .s-ava{flex:0 0 54px;width:54px;height:54px}
+  .s-ava i{font-size:17px}
+  .s-info b{font-size:11.5px;-webkit-line-clamp:3}
+  .s-yr{font-size:10px}
+  .s-mar{width:16px}
+  .s-mar i{padding:0 1px;font-size:11px}
 }
-.s-me{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
 
 /* ---- Рус тили бўлими қобиқ ичида ---- */
 #m-rus .r-head{margin-bottom:10px}
@@ -121,3 +141,6 @@
   .h-form .s-datefield{grid-column:1/-1}
   .s-date{grid-template-columns:1fr 1.5fr .85fr}
 }
+
+/* формадаги сурат блоки */
+.s-photo{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
