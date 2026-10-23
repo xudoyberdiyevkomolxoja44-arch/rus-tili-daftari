@@ -53,20 +53,42 @@
     show(el) { render(el); }
   });
 
-  function node(p, seen) {
+  /* Битта карточка */
+  function card(x) {
     const d = data();
-    const sp = p.spouseId ? person(p.spouseId) : null;
-    const kids = childrenOf(p.id).filter(k => !seen.has(k.id));
-    kids.forEach(k => seen.add(k.id));
-    const isSelf = d.selfId === p.id;
-    return '<li><div class="s-node' + (isSelf ? " self" : "") + '" data-p="' + p.id + '">' +
-      '<b class="' + (p.gender === "f" ? "f" : "m") + '">' + H.esc(p.name) + '</b>' +
-      (years(p) ? '<span class="s-yr">' + years(p) + '</span>' : '') +
-      (sp ? '<span class="s-sp">⚭ ' + H.esc(sp.name) + '</span>' : '') +
+    const isSelf = d.selfId === x.id;
+    return '<div class="s-node' + (isSelf ? " self" : "") + '" data-p="' + x.id + '">' +
+      '<b class="' + (x.gender === "f" ? "f" : "m") + '">' + H.esc(x.name) + '</b>' +
+      (years(x) ? '<span class="s-yr">' + years(x) + '</span>' : '') +
       (isSelf ? '<span class="s-me">мен</span>' : '') +
-      '</div>' +
-      (kids.length ? '<ul>' + kids.map(k => node(k, seen)).join("") + '</ul>' : '') +
-      '</li>';
+      '</div>';
+  }
+
+  /* Эр-хотин ёнма-ён, фарзандлар иккаласининг тагида */
+  function node(p, seen) {
+    const sp = (p.spouseId && !seen.has(p.spouseId)) ? person(p.spouseId) : null;
+    if (sp) seen.add(sp.id);
+
+    const picked = new Set(), kids = [];
+    const take = who => childrenOf(who.id).forEach(k => {
+      if (!seen.has(k.id) && !picked.has(k.id)) { picked.add(k.id); kids.push(k); }
+    });
+    take(p);
+    if (sp) take(sp);
+    kids.sort((a, b) => String(a.birth || "9999").localeCompare(String(b.birth || "9999")));
+    kids.forEach(k => seen.add(k.id));
+
+    let block;
+    if (sp) {
+      /* эркак чапда, аёл ўнгда турсин */
+      const left = (p.gender === "f" && sp.gender !== "f") ? sp : p;
+      const right = (left === p) ? sp : p;
+      block = '<div class="s-pair">' + card(left) +
+        '<span class="s-mar"><i>⚭</i></span>' + card(right) + '</div>';
+    } else {
+      block = card(p);
+    }
+    return '<li>' + block + (kids.length ? '<ul>' + kids.map(k => node(k, seen)).join("") + '</ul>' : '') + '</li>';
   }
 
   function render(el) {
@@ -118,13 +140,28 @@
       (editing ? "Маълумотни таҳрирлаш" : "Янги одам") + '</h3></div>' + form() + '</div>';
 
     el.innerHTML = h;
+
+    /* дарахт экранга сиғмаса, «мен» катаги кўриниб турсин */
+    const box = el.querySelector(".s-tree");
+    if (box) {
+      const me = box.querySelector(".s-node.self") || box.querySelector(".s-node");
+      if (me && box.scrollWidth > box.clientWidth) {
+        const a = box.getBoundingClientRect(), b = me.getBoundingClientRect();
+        box.scrollLeft += (b.left - a.left) - box.clientWidth / 2 + b.width / 2;
+      }
+    }
   }
 
   function depth(id, seen) {
     seen = seen || new Set();
     if (seen.has(id)) return 0;
     seen.add(id);
-    const kids = childrenOf(id);
+    const p = person(id);
+    const kids = childrenOf(id).slice();
+    if (p && p.spouseId) {
+      seen.add(p.spouseId);
+      childrenOf(p.spouseId).forEach(k => { if (!kids.some(x => x.id === k.id)) kids.push(k); });
+    }
     if (!kids.length) return 1;
     return 1 + Math.max.apply(null, kids.map(k => depth(k.id, seen)));
   }

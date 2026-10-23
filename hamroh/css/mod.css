@@ -94,6 +94,16 @@
 :root[data-theme="dark"] .s-node b.m,:root:not([data-theme="light"]) .s-node b.m{color:var(--ink)}
 .s-yr{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
 .s-sp{font-size:11px;color:var(--ink-3)}
+/* эр-хотин жуфтлиги: ёнма-ён, оралиғида никоҳ белгиси */
+.s-pair{display:inline-flex;align-items:center;vertical-align:top;white-space:normal}
+.s-pair .s-node{min-width:96px}
+.s-mar{position:relative;flex:0 0 auto;width:26px;height:20px;display:flex;align-items:center;justify-content:center}
+.s-mar::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--line)}
+.s-mar i{position:relative;font-style:normal;font-size:12px;color:var(--ink-3);background:var(--paper);padding:0 3px;line-height:1}
+@media(max-width:420px){
+  .s-pair .s-node{min-width:86px;max-width:124px;padding:6px 8px}
+  .s-mar{width:20px}
+}
 .s-me{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
 
 /* ---- Рус тили бўлими қобиқ ичида ---- */
