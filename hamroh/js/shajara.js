@@ -363,10 +363,8 @@
       const ch = buildChart(anchorId);
       if (ch) {
         h += '<div class="s-tree">' + drawChart(ch) + '</div>' +
-          '<p class="h-note" style="margin-top:10px">Исмни босиб таҳрирлаш, ота-она, турмуш ўртоғи, ака-ука ёки фарзанд қўшиш мумкин. ' +
-          'Ҳар кимнинг ота-онаси айнан ўзининг катагига уланади. Дарахт кенг бўлса, ён томонга суриб кўринг.' +
-          (ch.unconnected ? ' <b>' + ch.unconnected + ' киши</b> ҳали ҳеч кимга уланмаган — «Рўйхат» бўлимидан таҳрирлаб улаб қўйинг.' : '') +
-          '</p>';
+          (ch.unconnected ? '<p class="h-note" style="margin-top:10px"><b>' + ch.unconnected +
+            ' киши</b> ҳали ҳеч кимга уланмаган — «Рўйхат» бўлимидан таҳрирлаб улаб қўйинг.</p>' : '');
         h += '<div class="h-stats" style="margin-top:16px">' +
           '<div class="h-stat"><b>' + d.people.length + '</b><span>жами одам</span></div>' +
           '<div class="h-stat"><b>' + ch.rows.length + '</b><span>авлод</span></div>' +
@@ -446,13 +444,15 @@
         }
 
         /* фокус нуқтасини жойида ушлаб туриб масштабни ўзгартириш */
-        const zoomAt = (ratio, px, py) => {
-          const r = box.getBoundingClientRect();
-          const cx = (px - r.left + box.scrollLeft) / k;
-          const cy = (py - r.top + box.scrollTop) / k;
+        /* Масштаб ўзгарганда экран марказидаги жой жойида қолади —
+           шунда дарахт четга қочиб кетмайди. */
+        const zoomAt = ratio => {
+          const cx = (box.scrollLeft + box.clientWidth / 2) / k;
+          const cy = (box.scrollTop + box.clientHeight / 2) / k;
           const nk = apply(k * ratio);
-          box.scrollLeft = cx * nk - (px - r.left);
-          box.scrollTop = cy * nk - (py - r.top);
+          void box.scrollWidth;                      // янги ўлчам ҳисобга олинсин
+          box.scrollLeft = Math.max(0, cx * nk - box.clientWidth / 2);
+          box.scrollTop = Math.max(0, cy * nk - box.clientHeight / 2);
           d.zoom = nk;
         };
 
@@ -470,9 +470,7 @@
           const d1 = Math.hypot(ev.touches[0].clientX - ev.touches[1].clientX,
                                 ev.touches[0].clientY - ev.touches[1].clientY);
           if (!dist0) { dist0 = d1; return; }
-          const mx = (ev.touches[0].clientX + ev.touches[1].clientX) / 2;
-          const my = (ev.touches[0].clientY + ev.touches[1].clientY) / 2;
-          zoomAt(d1 / dist0, mx, my);
+          zoomAt(d1 / dist0);
           dist0 = d1;
         }, { passive: false });
         box.addEventListener("touchend", () => {
@@ -485,7 +483,7 @@
         box.addEventListener("wheel", ev => {
           if (!ev.ctrlKey && !ev.metaKey) return;
           ev.preventDefault();
-          zoomAt(ev.deltaY < 0 ? 1.1 : 0.9, ev.clientX, ev.clientY);
+          zoomAt(ev.deltaY < 0 ? 1.1 : 0.9);
           H.store.save(NS);
         }, { passive: false });
 
