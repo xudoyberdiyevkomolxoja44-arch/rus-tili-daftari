@@ -157,24 +157,54 @@
   let parentFor = null;  // {childId, role} — янги одам кимнинг ота-онаси бўлиши
   let photoBuf = null;   // null — ўзгармаган, "" — ўчирилган, "data:…" — янги сурат
 
-  /* суратни квадрат қилиб кичрайтирамиз — хотирани шишириб юбормаслик учун */
-  function readPhoto(file, cb) {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = function () {
-      const S = 180;
-      const c = document.createElement("canvas");
-      c.width = S; c.height = S;
-      const ctx = c.getContext("2d");
-      const side = Math.min(img.width, img.height);
-      ctx.drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, S, S);
-      URL.revokeObjectURL(url);
-      let out = "";
-      try { out = c.toDataURL("image/jpeg", 0.72); } catch (e) {}
-      cb(out);
-    };
-    img.onerror = function () { URL.revokeObjectURL(url); cb(""); };
-    img.src = url;
+  /* Суратни квадрат қилиб кичрайтирамиз.
+     Телефон суратлари катта ва ҳар хил форматда бўлгани учун аввал
+     createImageBitmap, у ишламаса оддий <img> орқали ўқилади. */
+  function photoCanvas(src) {
+    const S = 180;
+    const w = src.width || src.naturalWidth, h = src.height || src.naturalHeight;
+    if (!w || !h) return null;
+    const c = document.createElement("canvas");
+    c.width = S; c.height = S;
+    const ctx = c.getContext("2d");
+    const side = Math.min(w, h);
+    ctx.drawImage(src, (w - side) / 2, (h - side) / 2, side, side, 0, 0, S, S);
+    return c;
+  }
+  function canvasToData(c) {
+    return new Promise(res => {
+      if (!c) return res("");
+      const fallback = () => { try { res(c.toDataURL("image/jpeg", 0.75)); } catch (e) { res(""); } };
+      if (!c.toBlob) return fallback();
+      c.toBlob(bl => {
+        if (!bl) return fallback();
+        const fr = new FileReader();
+        fr.onload = () => res(String(fr.result || ""));
+        fr.onerror = fallback;
+        fr.readAsDataURL(bl);
+      }, "image/jpeg", 0.75);
+    });
+  }
+  async function readPhoto(file, cb) {
+    if (window.createImageBitmap) {
+      try {
+        let bmp;
+        try { bmp = await createImageBitmap(file, { imageOrientation: "from-image" }); }
+        catch (e) { bmp = await createImageBitmap(file); }
+        const data = await canvasToData(photoCanvas(bmp));
+        if (bmp && bmp.close) bmp.close();
+        if (data) { cb(data); return; }
+      } catch (e) {}
+    }
+    try {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = function () {
+        canvasToData(photoCanvas(img)).then(data => { URL.revokeObjectURL(url); cb(data); });
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); cb(""); };
+      img.src = url;
+    } catch (e) { cb(""); }
   }
 
   H.shajaraCount = () => data().people.length;
@@ -640,7 +670,12 @@
     const f = e.target.closest("#s-file");
     if (f && f.files && f.files[0]) {
       readPhoto(f.files[0], src => {
-        if (!src) { alert("Суратни ўқиб бўлмади."); return; }
+        if (!src) {
+          alert("Суратни ўқиб бўлмади. Телефон уни HEIC форматида сақлаган бўлиши мумкин — " +
+                "камера созламасидан «JPEG / мос келувчи» форматни танланг, ёки суратни " +
+                "галереяда таҳрирлаб (масалан кесиб) сақлагач қайта уриниб кўринг.");
+          return;
+        }
         photoBuf = src;
         render(el);
       });

@@ -65,8 +65,10 @@
    рақамлар эса энг пастда туради */
 #m-shajara{
   display:flex;flex-direction:column;
-  min-height:calc(100vh - 128px);
-  min-height:calc(100dvh - 128px);
+  /* svh — браузер манзил сатри кўринган ҳолатдаги баландлик:
+     шунда рақамлар ҳеч қачон экрандан тушиб кетмайди */
+  min-height:calc(100vh - 210px);      /* эски браузерлар учун эҳтиёткор ўлчам */
+  min-height:calc(100svh - 130px);     /* svh — манзил сатри кўринган ҳолат */
   margin-bottom:-74px;
 }
 #m-shajara .h-stats{margin-top:auto;padding-top:12px}
