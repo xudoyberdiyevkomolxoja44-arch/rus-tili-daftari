@@ -60,8 +60,13 @@
 }
 
 /* ---- Шажара ---- */
-.s-tree{overflow-x:auto;padding:6px 0 12px;-webkit-overflow-scrolling:touch}
-.s-chart{position:relative;margin:0 auto}
+.s-tree{overflow:auto;max-height:70vh;padding:6px 0 12px;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y;overscroll-behavior:contain}
+.s-zoom{position:relative;margin:0 auto}
+.s-chart{position:relative;transform-origin:top left}
+.s-chart .s-node{width:var(--cw);height:var(--ch)}
+.s-chart .s-ava{flex:0 0 var(--av);width:var(--av);height:var(--av)}
+.s-chart .s-info b{-webkit-line-clamp:var(--lines)}
+
 .s-chart svg{position:absolute;inset:0;overflow:visible;pointer-events:none}
 .s-chart svg path{fill:none;stroke:var(--line);stroke-width:1.4}
 .s-ring{
@@ -89,14 +94,14 @@
 .s-ava.sm i{font-size:15px}
 .s-ava.big{flex:0 0 auto;width:62px;height:62px;border-radius:9px}
 .s-ava.big i{font-size:26px}
-.s-info{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:1px;justify-content:center}
+.s-info{flex:1 1 auto;min-width:0;display:block;align-self:center}
 .s-info b{
   font-size:12.5px;line-height:1.22;font-weight:700;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
 }
 .s-info b.f{color:var(--red)}
-.s-yr{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
-.s-me{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.s-yr{display:block;margin-top:2px;font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3)}
+.s-me{display:block;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
 
 
 @media(max-width:420px){

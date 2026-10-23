@@ -33,6 +33,21 @@
     return (a || "?") + (b ? " – " + b : "");
   };
 
+  /* ҳозирги ёш: «35 ёш 6 ой» */
+  function ageText(p) {
+    if (p.death) return "";
+    const b = dparts(p.birth);
+    if (!b.y) return "";
+    const now = new Date();
+    const by = +b.y, bm = +(b.m || 1), bd = +(b.d || 1);
+    let y = now.getFullYear() - by;
+    let m = (now.getMonth() + 1) - bm;
+    if (now.getDate() < bd) m--;
+    if (m < 0) { y--; m += 12; }
+    if (y < 0 || y > 140) return "";
+    return y + " ёш" + (m ? " " + m + " ой" : "");
+  }
+
   /* сана: "1991", "1991-04" ёки "1991-04-10" кўринишида сақланади */
   const dparts = v => { const p = String(v || "").split("-"); return { y: p[0] || "", m: p[1] || "", d: p[2] || "" }; };
   function dmake(y, m, d) {
@@ -104,7 +119,8 @@
       avatar(x) +
       '<span class="s-info">' +
         '<b class="' + (x.gender === "f" ? "f" : "m") + '">' + H.esc(x.name) + '</b>' +
-        (years(x) ? '<span class="s-yr">' + years(x) + '</span>' : '') +
+        (years(x) ? '<span class="s-yr">' + years(x) +
+          (ageText(x) ? ' · ' + ageText(x) : '') + '</span>' : '') +
         (isSelf ? '<span class="s-me">мен</span>' : '') +
       '</span></div>';
   }
@@ -114,13 +130,33 @@
      қаторларига терилади, чизиқлар эса SVG билан чизилади. Шунинг учун
      ҳар кимнинг ота-онаси айнан ўзининг катагига уланади: эрнинг
      ота-онаси эрга, хотинники хотинга. */
-  const CW = 164, CH = 74, MG = 16, GX = 24, GY = 52;
+  let CW = 174, CH = 74, AV = 58, LINES = 3;
+  let autoLines = 0;   // ўлчаб аниқланган қатор сони
+  let fitPass = 0;     // ўлчаш уринишлари сони
+  const MG = 16, GX = 24, GY = 52;
+
+  /* Энг узун ФИШ сиғадиган қилиб катак ўлчамини танлаймиз.
+     Сурат доим катакнинг учдан бирини эгаллайди (AV * 3 = CW). */
+  function setLines(lines) {
+    LINES = Math.max(2, Math.min(8, lines));
+    CH = LINES * 16 + 26; AV = CH - 16; CW = AV * 3;
+  }
+  function fitCard(people) {
+    if (autoLines) { setLines(autoLines); return; }
+    const maxLen = people.reduce((n, p) => Math.max(n, String(p.name || "").length), 0);
+    for (let lines = 2; lines <= 6; lines++) {
+      const ch = lines * 16 + 26, av = ch - 16, cw = av * 3;
+      const cpl = Math.max(6, Math.floor((cw - 16 - av - 9) / 6.4));
+      if (lines * cpl >= maxLen || lines === 6) { setLines(lines); return; }
+    }
+  }
 
   function buildChart(anchorId) {
     const d = data();
     const by = new Map(d.people.map(p => [p.id, p]));
     const start = by.get(anchorId) || d.people[0];
     if (!start) return null;
+    fitCard(d.people);
 
     /* 1. Авлод рақамлари — марказдаги одамдан тарқаб */
     const gen = new Map([[start.id, 0]]);
@@ -247,7 +283,7 @@
     /* 6. Болалар ота-она остига, ота-она болалар устига */
     for (let it = 0; it < 24; it++) {
       for (let r = 1; r < rows.length; r++) {
-        rows[r].forEach(u => { if (u.up.length) u.x = avg(u.up.map(l => anchorX(l.pu, l))); });
+        rows[r].forEach(u => { if (u.up.length) u.x = avg(u.up.map(l => anchorX(l.pu))); });
         pack(rows[r]);
       }
       for (let r = rows.length - 2; r >= 0; r--) {
@@ -275,9 +311,9 @@
     return u.members[0].id === id ? u.x - (CW + MG) / 2 : u.x + (CW + MG) / 2;
   }
   /* чизиқ ота-она блокининг қаеридан чиқади */
-  function anchorX(u, link) {
-    if (u.members.length === 1) return u.x;
-    return link.both ? u.x : memberX(u, link.parentId);
+  /* Чизиқ жуфтликнинг ўртасидан чиқади — фарзанд иккаласиники */
+  function anchorX(u) {
+    return u.x;
   }
   const rowY = u => u.row * (CH + GY);
 
@@ -297,14 +333,16 @@
       }
     });
     ch.links.forEach(l => {
-      const px = anchorX(l.pu, l), py = rowY(l.pu) + CH;
+      const px = anchorX(l.pu), py = rowY(l.pu) + CH;
       const cx = memberX(l.cu, l.childId), cy = rowY(l.cu);
       const bus = py + GY / 2;
       paths += '<path d="M' + px + ' ' + py + ' V' + bus + ' H' + cx + ' V' + cy + '"/>';
     });
-    return '<div class="s-chart" style="width:' + ch.width + 'px;height:' + ch.height + 'px">' +
+    return '<div class="s-zoom"><div class="s-chart" data-w="' + ch.width + '" data-h="' + ch.height + '"' +
+      ' style="width:' + ch.width + 'px;height:' + ch.height + 'px;' +
+      '--cw:' + CW + 'px;--ch:' + CH + 'px;--av:' + AV + 'px;--lines:' + LINES + '">' +
       '<svg width="' + ch.width + '" height="' + ch.height + '" aria-hidden="true">' + paths + '</svg>' +
-      cards + marks + '</div>';
+      cards + marks + '</div></div>';
   }
 
   function render(el) {
@@ -322,11 +360,6 @@
     if (tab === "tree" && d.people.length) {
       const anchorId = (d.rootId && person(d.rootId)) ? d.rootId
         : ((d.selfId && person(d.selfId)) ? d.selfId : d.people[0].id);
-      h += '<div class="h-row" style="margin-bottom:12px">' +
-        '<div class="h-field" style="flex:1;max-width:340px"><label>Марказда ким турсин</label>' +
-        '<select class="h-in" data-root="1">' + d.people.map(p =>
-          '<option value="' + p.id + '"' + (p.id === anchorId ? " selected" : "") + '>' + H.esc(p.name) + '</option>').join("") +
-        '</select></div></div>';
       const ch = buildChart(anchorId);
       if (ch) {
         h += '<div class="s-tree">' + drawChart(ch) + '</div>' +
@@ -361,13 +394,103 @@
 
     el.innerHTML = h;
 
-    /* дарахт экранга сиғмаса, «мен» катаги кўриниб турсин */
+    /* Масштаб: аввал экранга сиғдирилади, кейин бармоқ билан ўзгартирилади */
     const box = el.querySelector(".s-tree");
     if (box) {
-      const me = box.querySelector(".s-node.self") || box.querySelector(".s-node");
-      if (me && box.scrollWidth > box.clientWidth) {
-        const a = box.getBoundingClientRect(), b = me.getBoundingClientRect();
-        box.scrollLeft += (b.left - a.left) - box.clientWidth / 2 + b.width / 2;
+      const chart = box.querySelector(".s-chart");
+      const zoom = box.querySelector(".s-zoom");
+      if (chart && zoom) {
+        const W = +chart.dataset.w, Hh = +chart.dataset.h;
+        const fit = () => Math.min(1, Math.max(0.2, (box.clientWidth - 6) / W));
+        let k = d.zoom ? d.zoom : fit();
+        const apply = v => {
+          k = Math.max(0.2, Math.min(2, v));
+          chart.style.transform = "scale(" + k + ")";
+          zoom.style.width = Math.ceil(W * k) + "px";
+          zoom.style.height = Math.ceil(Hh * k) + "px";
+          return k;
+        };
+        apply(k);
+
+        /* ФИШ сиғмаса — катакни баландроқ қилиб қайта чизамиз */
+        /* ФИШ тўлиқ сиғдими? Шрифт юклангандан кейин ўлчаймиз —
+           акс ҳолда захира шрифт билан нотўғри чиқади. */
+        const measure = () => {
+          if (!el.isConnected || !chart.isConnected) return false;
+          const names = [].slice.call(chart.querySelectorAll(".s-info b"));
+          if (!names.length) return false;
+          const limits = names.map(n => n.clientHeight);
+          names.forEach(n => { n.style.webkitLineClamp = "unset"; });
+          const fulls = names.map(n => n.scrollHeight);
+          names.forEach(n => { n.style.webkitLineClamp = ""; });
+          const tooSmall = fulls.some((f, i) => f > limits[i] + 1);
+          if (tooSmall && LINES < 8 && fitPass < 6) {
+            autoLines = LINES + 1; fitPass++;
+            setTimeout(() => render(el), 0);
+            return true;
+          }
+          if (!autoLines) autoLines = LINES;
+          return false;
+        };
+        if (document.fonts && document.fonts.status !== "loaded") {
+          document.fonts.ready.then(() => measure());
+        } else if (measure()) {
+          return;
+        }
+
+        /* «мен» катаги кўринадиган жойга суриб қўямиз */
+        const me = chart.querySelector(".s-node.self") || chart.querySelector(".s-node");
+        if (me && box.scrollWidth > box.clientWidth) {
+          const r1 = box.getBoundingClientRect(), r2 = me.getBoundingClientRect();
+          box.scrollLeft += (r2.left - r1.left) - box.clientWidth / 2 + r2.width / 2;
+        }
+
+        /* фокус нуқтасини жойида ушлаб туриб масштабни ўзгартириш */
+        const zoomAt = (ratio, px, py) => {
+          const r = box.getBoundingClientRect();
+          const cx = (px - r.left + box.scrollLeft) / k;
+          const cy = (py - r.top + box.scrollTop) / k;
+          const nk = apply(k * ratio);
+          box.scrollLeft = cx * nk - (px - r.left);
+          box.scrollTop = cy * nk - (py - r.top);
+          d.zoom = nk;
+        };
+
+        let dist0 = 0, busy = false;
+        box.addEventListener("touchstart", ev => {
+          if (ev.touches.length === 2) {
+            busy = true;
+            dist0 = Math.hypot(ev.touches[0].clientX - ev.touches[1].clientX,
+                               ev.touches[0].clientY - ev.touches[1].clientY);
+          }
+        }, { passive: true });
+        box.addEventListener("touchmove", ev => {
+          if (ev.touches.length !== 2 || !busy) return;
+          ev.preventDefault();
+          const d1 = Math.hypot(ev.touches[0].clientX - ev.touches[1].clientX,
+                                ev.touches[0].clientY - ev.touches[1].clientY);
+          if (!dist0) { dist0 = d1; return; }
+          const mx = (ev.touches[0].clientX + ev.touches[1].clientX) / 2;
+          const my = (ev.touches[0].clientY + ev.touches[1].clientY) / 2;
+          zoomAt(d1 / dist0, mx, my);
+          dist0 = d1;
+        }, { passive: false });
+        box.addEventListener("touchend", () => {
+          if (!busy) return;
+          busy = false; dist0 = 0;
+          H.store.save(NS);
+        });
+
+        /* компьютерда: Ctrl + ғилдирак ёки чертиб суриш */
+        box.addEventListener("wheel", ev => {
+          if (!ev.ctrlKey && !ev.metaKey) return;
+          ev.preventDefault();
+          zoomAt(ev.deltaY < 0 ? 1.1 : 0.9, ev.clientX, ev.clientY);
+          H.store.save(NS);
+        }, { passive: false });
+
+        /* икки марта босилса — экранга сиғдириш */
+        box.addEventListener("dblclick", () => { d.zoom = 0; H.store.save(NS); render(el); });
       }
     }
   }
@@ -536,7 +659,7 @@
       }
       if (x === "edit") { editing = p; preset = null; photoBuf = null; tab = "add"; render(el); }
       if (x === "self") { d.selfId = d.selfId === id ? "" : id; H.store.save(NS); render(el); }
-      if (x === "root") { d.rootId = id; H.store.save(NS); tab = "tree"; render(el); }
+      if (x === "root") { d.rootId = id; autoLines = 0; fitPass = 0; H.store.save(NS); tab = "tree"; render(el); }
     });
     document.body.appendChild(box);
   }
