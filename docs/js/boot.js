@@ -53,7 +53,48 @@
     else if (H.active() === "bugun" || H.active() === "namoz") head();
   }, 60000);
 
+  /* ---------- янгиланишни кафолатлаш ----------
+     Телефонда эски нусха илиб қолмаслиги учун: service worker ҳар сафар
+     қайта текширилади, сервердаги версия фарқ қилса — кэш тозаланиб,
+     саҳифа бир марта қайта юкланади. */
+  H.hardRefresh = async function () {
+    try {
+      if ("serviceWorker" in navigator) {
+        const rs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(rs.map(r => r.unregister()));
+      }
+      if (window.caches) { for (const k of await caches.keys()) await caches.delete(k); }
+    } catch (e) {}
+    location.reload();
+  };
+
+  async function checkVersion() {
+    const meta = document.querySelector('meta[name="app-version"]');
+    if (!meta || !meta.content) return;
+    try {
+      const r = await fetch("version.json?t=" + Date.now(), { cache: "no-store" });
+      if (!r.ok) return;
+      const j = await r.json();
+      if (!j.version || j.version === meta.content) return;
+      if (sessionStorage.getItem("qadam-upd") === j.version) return;   // бир мартадан ортиқ эмас
+      sessionStorage.setItem("qadam-upd", j.version);
+      await H.hardRefresh();
+    } catch (e) {}
+  }
+
   if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
-    addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+    const had = !!navigator.serviceWorker.controller;
+    let reloading = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (!had || reloading) return;
+      reloading = true;
+      location.reload();
+    });
+    addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js", { updateViaCache: "none" })
+        .then(reg => { try { reg.update(); } catch (e) {} })
+        .catch(() => {});
+      setTimeout(checkVersion, 1200);
+    });
   }
 })(window.H);

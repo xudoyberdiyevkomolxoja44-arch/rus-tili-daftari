@@ -18,9 +18,11 @@ const src = readFileSync(join(SRC, "index.html"), "utf8");
 const at = src.indexOf(SPLIT);
 if (at < 0) throw new Error("hamroh/index.html да '" + SPLIT + "' топилмади.");
 
-const headBits = src.slice(0, at).trim();
-const bodyBits = src.slice(at);
-const VERSION = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
+const VER = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
+const stamp = t => t.replace(/(href|src)="((?:css|js)\/[^"]+)"/g, (m, a, u) => a + '="' + u + "?v=" + VER + '"');
+const headBits = stamp(src.slice(0, at).trim());
+const bodyBits = stamp(src.slice(at));
+const VERSION = VER;
 
 const page = `<!doctype html>
 <html lang="uz">
@@ -34,9 +36,10 @@ const page = `<!doctype html>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Қадам">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon-192.png" sizes="192x192">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="app-version" content="${VER}">
+<link rel="manifest" href="manifest.webmanifest?v=${VER}">
+<link rel="icon" href="icon-192.png?v=${VER}" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=${VER}">
 ${headBits}
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
@@ -69,9 +72,20 @@ if (existsSync(swPath)) {
   sw = sw.replace(/const CORE = \[[^\]]*\];/,
     "const CORE = " + JSON.stringify(
       ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"]
-        .concat(assets.map(a => "./" + a))
+        .concat(assets.map(a => "./" + a + "?v=" + VER))
     ) + ";");
   writeFileSync(swPath, sw, "utf8");
+}
+
+writeFileSync(join(OUT, "version.json"), JSON.stringify({ version: VERSION }), "utf8");
+
+/* manifestdagi ikonka manzillariga ham versiya qo'shamiz -
+   aks holda telefon eski ikonkani keshdan oladi */
+const manPath = join(OUT, "manifest.webmanifest");
+if (existsSync(manPath)) {
+  let man = readFileSync(manPath, "utf8");
+  man = man.replace(/"(icon-[^"?]+\.png|apple-touch-icon\.png)(\?v=[0-9]*)?"/g, '"$1?v=' + VER + '"');
+  writeFileSync(manPath, man, "utf8");
 }
 
 console.log("docs/ тайёр — саҳифа " + (page.length / 1024).toFixed(0) + " KB, " +

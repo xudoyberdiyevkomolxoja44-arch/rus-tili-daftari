@@ -8,6 +8,10 @@
 
   H.store.get(NS, DEF);          /* бошланғич қийматни дарҳол рўйхатдан ўтказамиз */
   const data = () => H.store.get(NS, DEF);
+  function buildId() {
+    const m = document.querySelector('meta[name="app-version"]');
+    return m && m.content ? m.content : "—";
+  }
 
   function applyTheme() {
     const t = data().theme;
@@ -72,11 +76,18 @@
       '</div></div>';
 
     h += '<div class="h-card"><div class="h-card-h"><h3>Қадам ҳақида</h3></div>' +
-      '<p class="h-note">Версия ' + VERSION + '. Бўлимлар: Бугун, Намоз, Оила, Шажара, Иш, Спорт, Тил ўрганиш (8 тил).</p>' +
+      '<p class="h-note">Версия ' + VERSION + ' · нусха ' + buildId() +
+      '. Бўлимлар: Бугун, Намоз, Оила, Шажара, Иш, Спорт, Тил ўрганиш (8 тил).</p>' +
       '<p class="h-note" style="margin-top:8px">Илова интернетсиз ҳам ишлайди. Телефон браузерида менюдан ' +
       '«Bosh ekranga qo\'shish» ни танласангиз, алоҳида дастурдек очилади.</p>' +
       '<div class="h-row" style="margin-top:12px">' +
-      '<button class="h-btn bad" data-act="wipe">Барча маълумотни ўчириш</button></div></div>';
+      '<button class="h-btn" data-act="refresh">Иловани янгилаш</button>' +
+      '<button class="h-btn bad" data-act="wipe">Барча маълумотни ўчириш</button></div>' +
+      '<p class="h-note" style="margin-top:8px">«Иловани янгилаш» — агар телефонда эски кўриниш қолиб кетса, ' +
+      'шу тугма кэшни тозалаб, энг сўнгги нусхани юклайди. Маълумотларингизга тегмайди.</p>' +
+      '<p class="h-note" style="margin-top:8px">Бош экрандаги <b>ном ва белги</b> илова ўрнатилганда ёзиб қолинади — ' +
+      'уни янгилаш учун эски белгини бош экрандан ўчириб, сайтни браузерда очиб, ' +
+      'менюдан «Bosh ekranga qo‘shish» ни қайта танланг.</p></div>';
 
     el.innerHTML = h;
   }
@@ -111,6 +122,11 @@
       return;
     }
     if (a.dataset.act === "import") { const f = document.getElementById("h-file"); if (f) f.click(); return; }
+    if (a.dataset.act === "refresh") {
+      if (H.hardRefresh) H.hardRefresh();
+      else location.reload();
+      return;
+    }
     if (a.dataset.act === "wipe") {
       if (!confirm("Намоз, оила, шажара, иш, спорт ва тил бўйича БАРЧА ёзувлар ўчирилади. Аввал файлга нусха олганмисиз?")) return;
       if (!confirm("Ростдан ўчирилсинми? Бу амални қайтариб бўлмайди.")) return;

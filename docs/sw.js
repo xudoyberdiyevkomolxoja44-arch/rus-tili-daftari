@@ -1,7 +1,7 @@
 /* Қадам — оффлайн ишлаши учун service worker.
    CACHE номини build.mjs ҳар йиғишда янгилайди. */
-const CACHE = "qadam-202610151251";
-const CORE = ["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png","./css/app.css","./css/mod.css","./css/til.css","./js/boot.js","./js/bugun.js","./js/core.js","./js/ish.js","./js/langs/ar.js","./js/langs/de.js","./js/langs/en.js","./js/langs/ja.js","./js/langs/kk.js","./js/langs/ko.js","./js/langs/more.js","./js/langs/ru.js","./js/langs/zh.js","./js/namoz.js","./js/oila.js","./js/shajara.js","./js/sozlama.js","./js/sport.js","./js/til.js"];
+const CACHE = "qadam-202610231232";
+const CORE = ["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png","./css/app.css?v=202610231232","./css/mod.css?v=202610231232","./css/til.css?v=202610231232","./js/boot.js?v=202610231232","./js/bugun.js?v=202610231232","./js/core.js?v=202610231232","./js/ish.js?v=202610231232","./js/langs/ar.js?v=202610231232","./js/langs/de.js?v=202610231232","./js/langs/en.js?v=202610231232","./js/langs/ja.js?v=202610231232","./js/langs/kk.js?v=202610231232","./js/langs/ko.js?v=202610231232","./js/langs/more.js?v=202610231232","./js/langs/ru.js?v=202610231232","./js/langs/zh.js?v=202610231232","./js/namoz.js?v=202610231232","./js/oila.js?v=202610231232","./js/shajara.js?v=202610231232","./js/sozlama.js?v=202610231232","./js/sport.js?v=202610231232","./js/til.js?v=202610231232"];
 
 self.addEventListener("install", e => {
   e.waitUntil(
@@ -37,6 +37,12 @@ self.addEventListener("fetch", e => {
 
   const url = new URL(req.url);
   const sameOrigin = url.origin === location.origin;
+
+  // version.json doim tarmoqdan - yangilanishni shu fayl aniqlaydi
+  if (sameOrigin && url.pathname.indexOf("version.json") >= 0) {
+    e.respondWith(fetch(req).catch(() => new Response('{"version":""}', { status: 200 })));
+    return;
+  }
 
   // Ўз js/css файлларимиз: аввал тармоқ, узилса — кэш.
   // Шундай қилинмаса, янгиланишдан кейин эски код илиб қолади.
