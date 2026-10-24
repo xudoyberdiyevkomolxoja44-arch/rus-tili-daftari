@@ -8,6 +8,8 @@
     ["shom", "Shom"], ["xufton", "Xufton"]
   ];
   const STATES = [["jamoat", "Jamoat", "ok"], ["yakka", "Yakka", ""], ["qazo", "Qazo", "warn"]];
+  /* «qazo» — oʻqilmay qolgan, «qazoq» — keyinroq qazosi oʻqilgan */
+  const QQ = "qazoq";
   const METHODS = {
     ca:    { name: "Markaziy Osiyo (18° / 18°)", fajr: 18, isha: 18 },
     mwl:   { name: "Jahon musulmonlar ligasi (18° / 17°)", fajr: 18, isha: 17 },
@@ -113,20 +115,36 @@
   H.namozDayStat = function (iso) {
     const d = H.store.get(NS, DEF);
     const rec = d.log[iso || H.today()] || {};
-    let done = 0, jamoat = 0;
+    let done = 0, jamoat = 0, qazo = 0, qq = 0;
     PRAYERS.forEach(([k]) => {
       if (rec[k] === "jamoat") { done++; jamoat++; }
       else if (rec[k] === "yakka") done++;
+      else if (rec[k] === "qazo") qazo++;
+      else if (rec[k] === QQ) qq++;
     });
-    return { done, jamoat, total: 5, rec };
+    return { done, jamoat, qazo, qq, total: 5, rec };
   };
 
   function mark(iso, key, state) {
     const d = H.store.get(NS, DEF);
     const rec = d.log[iso] = d.log[iso] || {};
-    if (rec[key] === state) delete rec[key]; else rec[key] = state;
+    if (state === "__qazo") rec[key] = "qazo";                       /* qazosi oʻqildi — bekor qilindi */
+    else if (rec[key] === state) delete rec[key];
+    else if (state === "qazo" && rec[key] === QQ) delete rec[key];   /* «Qazo» qayta bosilsa — belgi olinadi */
+    else rec[key] = state;
     if (!Object.keys(rec).length) delete d.log[iso];
     H.store.save(NS);
+  }
+
+  /* kunlik daftarda «Qazo» va «Qazosi oʻqildi» deb belgilanganlar soni */
+  function logQazo() {
+    const d = H.store.get(NS, DEF);
+    let qazo = 0, qq = 0;
+    for (const iso in d.log) {
+      const rec = d.log[iso];
+      PRAYERS.forEach(([k]) => { if (rec[k] === "qazo") qazo++; else if (rec[k] === QQ) qq++; });
+    }
+    return { qazo, qq };
   }
 
   function streak() {
@@ -141,13 +159,13 @@
 
   function monthStat(key) {
     const days = H.monthDays(key).filter(x => x <= H.today());
-    let done = 0, jamoat = 0, full = 0;
+    let done = 0, jamoat = 0, full = 0, qq = 0;
     days.forEach(iso => {
       const s = H.namozDayStat(iso);
-      done += s.done; jamoat += s.jamoat;
+      done += s.done; jamoat += s.jamoat; qq += s.qq;
       if (s.done >= 5) full++;
     });
-    return { days: days.length, done, jamoat, full, total: days.length * 5 };
+    return { days: days.length, done, jamoat, full, qq, total: days.length * 5 };
   }
 
   let viewMonth = null;
@@ -157,6 +175,24 @@
     init(el) { el.addEventListener("click", onClick); el.addEventListener("change", onChange); },
     show(el) { render(el); }
   });
+
+  /* bitta namoz uchun uchta holat tugmasi va «Qazosi oʻqildi» yorligʻi */
+  function stateBtns(k, cur, attr) {
+    return STATES.map(function (x) {
+      var st = x[0], nm = x[1], cls = x[2];
+      var on = cur === st || (st === "qazo" && cur === QQ);
+      var tone = (cur === QQ && st === "qazo") ? "ok" : (cls === "warn" ? "bad" : (cls === "ok" ? "ok" : "pri"));
+      return '<button class="h-btn sm' + (on ? " " + tone : "") + '" data-' + attr + '="' + k +
+        '" data-state="' + st + '"' + (on ? ' aria-pressed="true"' : '') + '>' + nm + '</button>';
+    }).join("");
+  }
+  function qqChip(k, cur, attr) {
+    if (cur !== "qazo" && cur !== QQ) return "";
+    const on = cur === QQ;
+    return '<span class="n-qq"><button class="h-btn sm' + (on ? " ok" : "") + '" data-' + attr + '="' + k +
+      '" data-state="' + (on ? "__qazo" : QQ) + '"' + (on ? ' aria-pressed="true"' : '') + '>' +
+      (on ? "✓ Qazosi oʻqildi" : "Qazosi oʻqildi") + '</button></span>';
+  }
 
   function timeRow(t, k, label) {
     return '<div class="h-item"><span class="ttl">' + label + '</span>' +
@@ -172,6 +208,7 @@
     const mk = viewMonth || H.monthKey(today);
     const ms = monthStat(mk);
     const qazoTotal = PRAYERS.reduce((a, [k]) => a + (d.qazo[k] || 0), 0);
+    const lg = logQazo();
 
     let h = '<div class="h-card lift" data-m="namoz">' +
       '<div class="h-card-h"><h3>Bugungi namozlar</h3>' +
@@ -182,15 +219,11 @@
       '<div class="h-list">' +
       PRAYERS.map(([k, label]) => {
         const cur = st.rec[k];
-        return '<div class="h-item">' +
+        return '<div class="h-item' + (cur === "qazo" || cur === QQ ? " n-wrap" : "") + '">' +
           '<span class="ttl">' + label + '</span>' +
           '<span class="num">' + (t[k] == null ? "—" : H.hm(t[k])) + '</span>' +
-          '<span class="h-row" style="gap:4px;flex-wrap:nowrap">' +
-          STATES.map(([s, nm, cls]) =>
-            '<button class="h-btn sm' + (cur === s ? " " + (cls === "warn" ? "bad" : (cls === "ok" ? "ok" : "pri")) : "") +
-            '" data-mark="' + k + '" data-state="' + s + '"' +
-            (cur === s ? ' aria-pressed="true"' : '') + '>' + nm + '</button>').join("") +
-          '</span></div>';
+          '<span class="h-row" style="gap:4px;flex-wrap:nowrap">' + stateBtns(k, cur, "mark") + '</span>' +
+          qqChip(k, cur, "mark") + '</div>';
       }).join("") + '</div>' +
       '<p class="h-note" style="margin-top:10px">Quyosh chiqishi: ' + (t.quyosh == null ? "—" : H.hm(t.quyosh)) +
       ' — bomdod vaqti shunda tugaydi.</p></div>';
@@ -212,13 +245,17 @@
       '<div class="h-stat"><b>' + (ms.total ? Math.round(ms.done / ms.total * 100) : 0) + '%</b><span>oʻqilgan</span></div>' +
       '<div class="h-stat"><b>' + ms.jamoat + '</b><span>jamoat bilan</span></div>' +
       '<div class="h-stat"><b>' + ms.full + '</b><span>toʻliq kun</span></div>' +
+      (ms.qq ? '<div class="h-stat"><b>' + ms.qq + '</b><span>qazosi oʻqilgan</span></div>' : '') +
       '<div class="h-stat"><b>' + streak() + '</b><span>ketma-ket kun</span></div>' +
       '</div></div>';
 
     /* qazo daftari */
     h += '<div class="h-card" data-m="namoz"><div class="h-card-h"><h3>Qazo daftari</h3>' +
       '<span class="h-pill' + (qazoTotal ? " warn" : " ok") + '">' + qazoTotal + ' ta</span></div>' +
-      '<p class="h-note" style="margin:-4px 0 10px">Oʻqilmay qolgan namozlar hisobi. Qazosini oʻqiganingizda «−» ni bosing.</p>' +
+      '<p class="h-note" style="margin:-4px 0 10px">Oʻqilmay qolgan namozlar hisobi. Qazosini oʻqiganingizda «−» ni bosing.' +
+      (lg.qazo || lg.qq ? '<br>Kunlik daftarda «Qazo» deb belgilangani: <b>' + lg.qazo + '</b> ta' +
+        (lg.qq ? ', qazosi oʻqilgani: <b>' + lg.qq + '</b> ta' : '') + ' — u hisob alohida yuritiladi.' : '') +
+      '</p>' +
       '<div class="h-list">' + PRAYERS.map(([k, label]) =>
         '<div class="h-item"><span class="ttl">' + label + '</span>' +
         '<span class="num">' + (d.qazo[k] || 0) + '</span>' +
@@ -325,12 +362,10 @@
     box.className = "n-sheet";
     box.innerHTML = '<div class="n-sheet-in"><div class="h-card-h"><h3>' + H.fmtLong(iso) + '</h3>' +
       '<button class="h-link" data-close="1">yopish</button></div><div class="h-list">' +
-      PRAYERS.map(([k, label]) => '<div class="h-item"><span class="ttl">' + label + '</span>' +
-        '<span class="h-row" style="gap:4px;flex-wrap:nowrap">' +
-        STATES.map(([s, nm, cls]) => '<button class="h-btn sm' +
-          (rec[k] === s ? " " + (cls === "warn" ? "bad" : (cls === "ok" ? "ok" : "pri")) : "") +
-          '" data-dmark="' + k + '" data-state="' + s + '">' + nm + '</button>').join("") +
-        '</span></div>').join("") + '</div></div>';
+      PRAYERS.map(([k, label]) => '<div class="h-item' +
+        (rec[k] === "qazo" || rec[k] === QQ ? " n-wrap" : "") + '"><span class="ttl">' + label + '</span>' +
+        '<span class="h-row" style="gap:4px;flex-wrap:nowrap">' + stateBtns(k, rec[k], "dmark") + '</span>' +
+        qqChip(k, rec[k], "dmark") + '</div>').join("") + '</div></div>';
     box.addEventListener("click", ev => {
       if (ev.target === box || ev.target.closest("[data-close]")) { box.remove(); render(el); return; }
       const b = ev.target.closest("[data-dmark]");

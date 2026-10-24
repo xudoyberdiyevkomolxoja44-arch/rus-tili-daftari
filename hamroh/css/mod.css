@@ -26,6 +26,8 @@
 .b-pr.s-yakka{background:var(--surface-2)}
 .b-pr.s-qazo{background:var(--red-soft);border-color:var(--red)}
 .b-pr.s-qazo span{color:var(--red)}
+.b-pr.s-qazoq{background:var(--green-soft);border-color:var(--green);opacity:.75}
+.b-pr.s-qazoq span{color:var(--green)}
 @media(max-width:420px){.b-pr b{font-size:11px}.b-pr span{font-size:9.5px}}
 
 /* ---- Namoz ---- */
@@ -43,6 +45,11 @@
 .n-dots i.jamoat{background:var(--green)}
 .n-dots i.yakka{background:var(--ink-3)}
 .n-dots i.qazo{background:var(--red)}
+.n-dots i.qazoq{background:var(--green);opacity:.5}
+/* «Qazosi oʻqildi» yorligʻi qator ostida, oʻng tomonda turadi */
+.h-item.n-wrap{flex-wrap:wrap}
+.n-qq{flex:0 0 100%;display:flex;justify-content:flex-end;margin:-2px 0 2px}
+.n-qq .h-btn{font-size:11.5px;padding:3px 9px}
 
 /* qalqib chiqadigan oyna (kun / shajara) */
 .n-sheet{

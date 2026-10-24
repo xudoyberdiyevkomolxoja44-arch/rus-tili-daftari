@@ -65,10 +65,13 @@
         .map(([k, nm]) => {
           const v = n.rec[k];
           return '<div class="b-pr' + (v ? " s-" + v : "") + '"><b>' + nm + '</b>' +
-            '<span>' + (v === "jamoat" ? "jamoat" : v === "yakka" ? "yakka" : v === "qazo" ? "qazo" : "—") + '</span></div>';
+            '<span>' + (v === "jamoat" ? "jamoat" : v === "yakka" ? "yakka" : v === "qazo" ? "qazo" :
+              v === "qazoq" ? "qazosi oʻqildi" : "—") + '</span></div>';
         }).join("") + '</div>' +
       '<p class="h-note" style="margin-top:10px">' + n.done + '/5 oʻqildi' +
-      (n.jamoat ? ' · ' + n.jamoat + ' tasi jamoat bilan' : '') + '</p></div>';
+      (n.jamoat ? ' · ' + n.jamoat + ' tasi jamoat bilan' : '') +
+      (n.qq ? ' · ' + n.qq + ' tasining qazosi oʻqildi' : '') +
+      (n.qazo ? ' · ' + n.qazo + ' ta qazo' : '') + '</p></div>';
 
     /* Ish */
     h += '<div class="h-card" data-m="ish"><div class="h-card-h"><h3>Ish</h3>' +
