@@ -62,6 +62,7 @@
 
   /* hisob bilan sinxronlash (boʻlmasa ilova baribir ishlayveradi) */
   H.cloud.init().then(head).catch(() => {});
+  if (H.cloudInit) H.cloudInit();
 
   /* kun almashsa — oʻzi yangilansin */
   let curDay = H.today();

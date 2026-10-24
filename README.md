@@ -56,6 +56,54 @@ Shunga qaramay **mahalliy taqvim bilan solishtirib koʻrish kerak**: sozlamalard
 - **Sozlama → Faylga nusxa olish** barchasini bitta JSON faylga chiqaradi. Vaqti-vaqti bilan
   nusxa olib qoʻyish tavsiya etiladi.
 
+## Umumiy server (oila uchun)
+
+Har bir odam oʻz hisobi bilan kiradi: namoz, oila, ish, sport va til natijalari
+**faqat oʻziga** koʻrinadi, **shajara** esa oilaga umumiy va oʻzi yangilanadi.
+
+Sozlash (bir marta, 5 daqiqa):
+
+1. `console.firebase.google.com` → **Add project** → nom: `qadam` → Google Analytics shart emas.
+2. **Build → Firestore Database → Create database** → *production mode* → joy: `eur3` yoki yaqinrogʻi.
+3. **Build → Authentication → Get started → Sign-in method → Email/Password → Enable**.
+4. **Project settings (⚙) → Your apps → Web `</>`** → nom: `qadam` → **Register app**.
+   Chiqqan `firebaseConfig` dagi `apiKey`, `authDomain`, `projectId`, `appId` ni
+   `hamroh/js/firebase-config.js` ga koʻchiring va `node build.mjs` qiling.
+5. **Firestore → Rules** boʻlimiga quyidagini qoʻying va **Publish**:
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+      match /data/{doc} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+    }
+    match /families/{code} {
+      allow read, write: if request.auth != null;
+      match /data/{doc} {
+        allow read, write: if request.auth != null;
+      }
+    }
+  }
+}
+```
+
+6. **Authentication → Settings → Authorized domains** ga
+   `xudoyberdiyevkomolxoja44-arch.github.io` ni qoʻshing.
+
+Soʻng ilovada: **Sozlama → Hisob → Roʻyxatdan oʻtish**, keyin **Oila → Yangi oila ochish**.
+Chiqqan 6 harfli kodni yaqinlaringizga bering — ular ham roʻyxatdan oʻtib,
+**Oilaga qoʻshilish** orqali kiradi.
+
+> Oila kodi — maxfiy soʻz vazifasini oʻtaydi (32⁶ ≈ 1 milliard variant).
+> Uni begonaga bermang; kerak boʻlsa yangi oila ochib, eskisidan chiqib ketish mumkin.
+>
+> Claude ilovasidagi nusxada umumiy server ishlamaydi (u yerda tashqi serverga
+> ulanish taqiqlangan) — u faqat shu qurilmada ishlaydigan nusxa boʻlib qoladi.
+
 ## Oʻzgartirish kiritish
 
 ```bash

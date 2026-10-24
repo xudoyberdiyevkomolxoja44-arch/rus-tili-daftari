@@ -94,6 +94,12 @@ window.H = (function () {
       return cache[ns];
     },
     set(ns, data) { cache[ns] = data; this.save(ns); },
+    /* serverdan kelgan nusxani joyiga qoʻyish (qayta yubormaydi) */
+    replace(ns, data) {
+      cache[ns] = Object.assign(JSON.parse(JSON.stringify(defs[ns] || {})), data);
+      try { localStorage.setItem(PREFIX + ns, JSON.stringify(cache[ns])); } catch (e) {}
+      H.emit("save", ns);
+    },
     save(ns) {
       const v = cache[ns];
       if (!v) return;
@@ -116,6 +122,7 @@ window.H = (function () {
           try { cloudDb.doc("data/users/me/" + ns).set(v).catch(() => {}); } catch (e) {}
         }, 1200);
       }
+      if (H.cloudPush) H.cloudPush(ns);
       H.emit("save", ns);
     },
     all() {

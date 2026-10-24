@@ -41,15 +41,80 @@
     ];
   }
 
+  H.on("account", () => { const el = document.getElementById("m-sozlama"); if (el && !el.hidden) render(el); });
+
   H.mod({
     id: "sozlama", title: "Sozlama",
     init(el) { el.addEventListener("click", onClick); el.addEventListener("submit", onSubmit); el.addEventListener("change", onChange); },
     show(el) { render(el); }
   });
 
+
+  /* ---------- Umumiy server: hisob va oila ---------- */
+  function accountBlock() {
+    const a = H.acc || { on: false };
+    if (!a.on) {
+      return '<div class="h-card"><div class="h-card-h"><h3>Umumiy server</h3>' +
+        '<span class="h-pill">ulanmagan</span></div>' +
+        '<p class="h-note">Hozir ilova faqat shu qurilmada ishlaydi. Oila aʼzolari ' +
+        'oʻz hisobi bilan kirib, shajarani birgalikda yuritishi uchun server sozlamasi kerak ' +
+        '(js/firebase-config.js).</p></div>';
+    }
+    const pill = a.status === "ulangan" ? ' ok' : (a.status === "xato" ? ' warn' : '');
+    let h = '<div class="h-card"><div class="h-card-h"><h3>Hisob</h3>' +
+      '<span class="h-pill' + pill + '">' + H.esc(a.status) + '</span></div>';
+    if (a.err) h += '<p class="h-note" style="color:var(--red)">' + H.esc(a.err) + '</p>';
+
+    if (!a.user) {
+      h += '<p class="h-note" style="margin-bottom:10px">Oʻz hisobingiz bilan kiring — namoz, ish, ' +
+        'sport va til natijalaringiz faqat sizga koʻrinadi, shajara esa oilaga umumiy boʻladi.</p>' +
+        '<form data-form="login" class="h-form">' +
+        '<div class="h-field wide"><label>Ism (roʻyxatdan oʻtishda)</label><input class="h-in" name="name" autocomplete="name"></div>' +
+        '<div class="h-field wide"><label>Email</label><input class="h-in" type="email" name="email" required autocomplete="email"></div>' +
+        '<div class="h-field wide"><label>Parol</label><input class="h-in" type="password" name="pass" required minlength="6" autocomplete="current-password"></div>' +
+        '<div class="h-field wide h-row">' +
+          '<button class="h-btn pri" data-auth="in">Kirish</button>' +
+          '<button class="h-btn" data-auth="up" type="button">Roʻyxatdan oʻtish</button>' +
+          '<button class="h-link" data-auth="reset" type="button">Parolni unutdim</button>' +
+        '</div></form></div>';
+      return h;
+    }
+
+    h += '<div class="h-list"><div class="h-item"><span class="ttl">' + H.esc(a.user.email) +
+      (a.user.name ? '<span class="sub">' + H.esc(a.user.name) + '</span>' : '') + '</span>' +
+      '<button class="h-btn sm" data-auth="out">Chiqish</button></div></div>';
+    h += '<div class="h-row" style="margin-top:10px">' +
+      '<button class="h-btn sm" data-auth="sync">Hozir sinxronlash</button></div></div>';
+
+    /* oila */
+    h += '<div class="h-card" data-m="shajara"><div class="h-card-h"><h3>Oila</h3>' +
+      (a.family ? '<span class="h-pill ok">' + H.esc(a.family) + '</span>' : '') + '</div>';
+    if (a.family) {
+      h += '<p class="h-note">Shajara shu oilaga umumiy: kim oʻzgartirsa, hammada ' +
+        'oʻzi yangilanadi. Qolgan boʻlimlar — namoz, oila aʼzolari, ish, sport, til — ' +
+        'faqat sizga koʻrinadi.</p>' +
+        '<p class="h-note" style="margin-top:8px">Oila kodi: <b>' + H.esc(a.family) + '</b> — ' +
+        'shu kodni yaqinlaringizga bering, ular «Oilaga qoʻshilish» orqali kiradi.</p>' +
+        '<div class="h-row" style="margin-top:10px">' +
+        '<button class="h-btn sm" data-fam="copy">Kodni nusxalash</button>' +
+        '<button class="h-btn sm bad" data-fam="leave">Oiladan chiqish</button></div>';
+    } else {
+      h += '<p class="h-note" style="margin-bottom:10px">Shajarani birgalikda yuritish uchun oila ' +
+        'oching yoki mavjud oila kodi bilan qoʻshiling.</p>' +
+        '<form data-form="family" class="h-form">' +
+        '<div class="h-field"><label>Oila kodi</label><input class="h-in" name="code" placeholder="ABC123" maxlength="8"></div>' +
+        '<div class="h-field h-row" style="align-items:flex-end">' +
+          '<button class="h-btn pri">Qoʻshilish</button>' +
+          '<button class="h-btn" data-fam="new" type="button">Yangi oila ochish</button>' +
+        '</div></form>';
+    }
+    return h + '</div>';
+  }
+
   function render(el) {
     const d = data();
-    let h = '<div class="h-card"><div class="h-card-h"><h3>Profil</h3></div>' +
+    let h = accountBlock();
+    h += '<div class="h-card"><div class="h-card-h"><h3>Profil</h3></div>' +
       '<form data-form="profil" class="h-form">' +
       '<div class="h-field wide"><label>Ismingiz</label>' +
       '<input class="h-in" name="name" value="' + H.esc(d.name || "") + '" placeholder="Ilova sizni shu nom bilan chaqiradi"></div>' +
@@ -110,8 +175,52 @@
     rd.readAsText(f.files[0]);
   }
 
+  async function doAuth(el, kind, f) {
+    const g = n => (f && f.elements[n] ? String(f.elements[n].value).trim() : "");
+    try {
+      if (kind === "in") await H.cloudSignIn(g("email"), g("pass"));
+      if (kind === "up") {
+        if (g("pass").length < 6) { alert("Parol kamida 6 belgidan iborat boʻlsin."); return; }
+        await H.cloudSignUp(g("email"), g("pass"), g("name"));
+      }
+      if (kind === "out") await H.cloudSignOut();
+      if (kind === "sync") await H.cloudPullNow();
+      if (kind === "reset") {
+        if (!g("email")) { alert("Avval email yozing."); return; }
+        await H.cloudReset(g("email"));
+        alert("Parolni tiklash havolasi emailingizga yuborildi.");
+      }
+      render(el);
+    } catch (err) {
+      alert("Boʻlmadi: " + (err && err.message ? err.message : err));
+    }
+  }
+
   function onClick(e) {
     const el = e.currentTarget;
+    const au = e.target.closest("[data-auth]");
+    if (au) {
+      e.preventDefault();
+      doAuth(el, au.dataset.auth, el.querySelector('form[data-form="login"]'));
+      return;
+    }
+    const fm = e.target.closest("[data-fam]");
+    if (fm) {
+      e.preventDefault();
+      const act = fm.dataset.fam;
+      if (act === "new") {
+        H.cloudCreateFamily().then(code => { alert("Oila ochildi. Kod: " + code); render(el); })
+          .catch(err => alert("Boʻlmadi: " + (err && err.message || err)));
+      } else if (act === "leave") {
+        if (confirm("Oiladan chiqasizmi? Umumiy shajara endi yangilanmaydi.")) {
+          H.cloudLeaveFamily().then(() => render(el));
+        }
+      } else if (act === "copy") {
+        try { navigator.clipboard.writeText(H.acc.family); alert("Kod nusxalandi: " + H.acc.family); }
+        catch (err) { alert("Oila kodi: " + H.acc.family); }
+      }
+      return;
+    }
     const a = e.target.closest("[data-act]");
     if (!a) return;
     if (a.dataset.act === "export") {
@@ -139,6 +248,14 @@
   function onSubmit(e) {
     e.preventDefault();
     const el = e.currentTarget, d = data(), f = e.target;
+    if (f.dataset.form === "family") {
+      const code = String(f.elements.code.value || "").trim();
+      if (!code) return;
+      H.cloudJoinFamily(code).then(() => { alert("Oilaga qoʻshildingiz."); render(el); })
+        .catch(err => alert("Boʻlmadi: " + (err && err.message || err)));
+      return;
+    }
+    if (f.dataset.form === "login") { doAuth(el, "in", f); return; }
     if (f.dataset.form !== "profil") return;
     d.name = String(f.elements.name.value).trim();
     d.theme = f.elements.theme.value;
