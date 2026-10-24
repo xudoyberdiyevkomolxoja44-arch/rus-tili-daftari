@@ -1,6 +1,6 @@
-/* ============ Тил ўрганиш бўлими ============ */
+/* ============ Til oʻrganish boʻlimi ============ */
 
-/* ---- тил танлаш ---- */
+/* ---- til tanlash ---- */
 .t-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
 .t-lang{
   border:1px solid var(--line);background:var(--surface);border-radius:10px;
@@ -17,7 +17,7 @@
 .t-due{font-style:normal;color:var(--red)}
 .t-start{font-size:12.5px;color:var(--accent);margin-top:2px}
 
-/* ---- бўлим қобиғи ---- */
+/* ---- boʻlim qobigʻi ---- */
 .t-bar{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
 .t-cur{font-family:var(--f-serif);font-size:17px}
 .t-prog{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);margin-left:auto}
@@ -29,7 +29,7 @@
 }
 .t-tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--gold);font-weight:700}
 
-/* ---- машқ карточкаси ---- */
+/* ---- mashq kartochkasi ---- */
 .t-card{
   background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
   padding:26px 20px;text-align:center;display:flex;flex-direction:column;gap:10px;
@@ -103,7 +103,7 @@
 .t-key.wide{min-width:68px;font-size:12px}
 @media(max-width:560px){.t-key{min-width:23px;height:33px;font-size:14px}.t-key.wide{min-width:52px;font-size:11px}}
 
-/* ---- рўйхатлар ---- */
+/* ---- roʻyxatlar ---- */
 .t-search{
   width:100%;max-width:340px;padding:9px 12px;border:1px solid var(--line);
   border-radius:6px;background:var(--surface);color:var(--ink);font-size:16px;margin-bottom:16px;
@@ -133,7 +133,7 @@
 .t-p-nat .t-lvl{margin-left:auto}
 .t-p-uz{font-size:14px;color:var(--ink-2)}
 
-/* ---- ёзув белгилари ---- */
+/* ---- yozuv belgilari ---- */
 .t-scripts{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:7px}
 .t-sc{
   border:1px solid var(--line);background:var(--surface);border-radius:8px;
@@ -147,7 +147,7 @@
 .t-sc .t-say{position:absolute;top:8px;right:8px;width:24px;height:24px}
 .t-sc .t-say svg{width:11px;height:11px}
 
-/* ---- грамматика ---- */
+/* ---- grammatika ---- */
 .t-gcard{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:15px 17px;margin-bottom:11px}
 .t-gcard h4{margin:0 0 8px;font-family:var(--f-serif);font-size:16.5px}
 .t-gcard p{margin:0 0 8px;font-size:14px;color:var(--ink-2)}
@@ -159,7 +159,7 @@
 .t-tw td.n{font-family:var(--f-serif);font-size:15px;white-space:nowrap}
 .t-gdone{margin-top:10px;padding-top:9px;border-top:1px solid var(--line-2);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
-/* ---- режа ---- */
+/* ---- reja ---- */
 .t-qhead{margin-bottom:16px}
 .t-qhead h2{font-family:var(--f-serif);font-size:19px;margin:0 0 4px}
 .t-qhead p{margin:0 0 9px;color:var(--ink-2);font-size:14px;max-width:62ch}
@@ -207,7 +207,7 @@
 .t-score.pass{color:var(--green)}
 .t-score.fail{color:var(--red)}
 
-/* ёзув тизимлари учун шрифт стеклари */
+/* yozuv tizimlari uchun shrift steklari */
 .ja{font-family:"Hiragino Sans","Yu Gothic","Noto Sans JP","Meiryo",var(--f-sans)}
 .zh{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",var(--f-sans)}
 .ko{font-family:"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",var(--f-sans)}

@@ -1,35 +1,35 @@
-/* ============ Намоз ============
-   Вақтлар қуёшнинг ҳолатидан ҳисобланади (интернет керак эмас).
-   Маҳаллий тақвимдан фарқ қилса, созламалардаги ± дақиқа тузатиши ишлатилади. */
+/* ============ Namoz ============
+   Vaqtlar quyoshning holatidan hisoblanadi (internet kerak emas).
+   Mahalliy taqvimdan farq qilsa, sozlamalardagi ± daqiqa tuzatishi ishlatiladi. */
 (function (H) {
   const NS = "namoz";
   const PRAYERS = [
-    ["bomdod", "Бомдод"], ["peshin", "Пешин"], ["asr", "Аср"],
-    ["shom", "Шом"], ["xufton", "Хуфтон"]
+    ["bomdod", "Bomdod"], ["peshin", "Peshin"], ["asr", "Asr"],
+    ["shom", "Shom"], ["xufton", "Xufton"]
   ];
-  const STATES = [["jamoat", "Жамоат", "ok"], ["yakka", "Якка", ""], ["qazo", "Қазо", "warn"]];
+  const STATES = [["jamoat", "Jamoat", "ok"], ["yakka", "Yakka", ""], ["qazo", "Qazo", "warn"]];
   const METHODS = {
-    ca:    { name: "Марказий Осиё (18° / 18°)", fajr: 18, isha: 18 },
-    mwl:   { name: "Жаҳон мусулмонлар лигаси (18° / 17°)", fajr: 18, isha: 17 },
-    umm:   { name: "Умму-л-Қуро (18.5° / шомдан +90 дақ.)", fajr: 18.5, ishaMin: 90 },
-    misr:  { name: "Миср (19.5° / 17.5°)", fajr: 19.5, isha: 17.5 }
+    ca:    { name: "Markaziy Osiyo (18° / 18°)", fajr: 18, isha: 18 },
+    mwl:   { name: "Jahon musulmonlar ligasi (18° / 17°)", fajr: 18, isha: 17 },
+    umm:   { name: "Ummu-l-Quro (18.5° / shomdan +90 daq.)", fajr: 18.5, ishaMin: 90 },
+    misr:  { name: "Misr (19.5° / 17.5°)", fajr: 19.5, isha: 17.5 }
   };
   const CITIES = [
-    ["Тошкент", 41.2995, 69.2401], ["Самарқанд", 39.6270, 66.9750], ["Бухоро", 39.7747, 64.4286],
-    ["Наманган", 41.0011, 71.6673], ["Андижон", 40.7821, 72.3442], ["Фарғона", 40.3864, 71.7864],
-    ["Қўқон", 40.5283, 70.9425], ["Марғилон", 40.4714, 71.7244], ["Нукус", 42.4531, 59.6103],
-    ["Урганч", 41.5500, 60.6333], ["Хива", 41.3783, 60.3639], ["Қарши", 38.8606, 65.7847],
-    ["Термиз", 37.2242, 67.2783], ["Жиззах", 40.1158, 67.8422], ["Гулистон", 40.4897, 68.7842],
-    ["Навоий", 40.0844, 65.3792], ["Зарафшон", 41.5872, 64.2050], ["Нурафшон", 41.0400, 69.3600]
+    ["Toshkent", 41.2995, 69.2401], ["Samarqand", 39.6270, 66.9750], ["Buxoro", 39.7747, 64.4286],
+    ["Namangan", 41.0011, 71.6673], ["Andijon", 40.7821, 72.3442], ["Fargʻona", 40.3864, 71.7864],
+    ["Qoʻqon", 40.5283, 70.9425], ["Margʻilon", 40.4714, 71.7244], ["Nukus", 42.4531, 59.6103],
+    ["Urganch", 41.5500, 60.6333], ["Xiva", 41.3783, 60.3639], ["Qarshi", 38.8606, 65.7847],
+    ["Termiz", 37.2242, 67.2783], ["Jizzax", 40.1158, 67.8422], ["Guliston", 40.4897, 68.7842],
+    ["Navoiy", 40.0844, 65.3792], ["Zarafshon", 41.5872, 64.2050], ["Nurafshon", 41.0400, 69.3600]
   ];
   const DEF = {
     log: {}, qazo: { bomdod: 0, peshin: 0, asr: 0, shom: 0, xufton: 0 },
     cfg: {
-      city: "Тошкент", lat: 41.2995, lon: 69.2401, method: "ca", asr: "hanafiy",
+      city: "Toshkent", lat: 41.2995, lon: 69.2401, method: "ca", asr: "hanafiy",
       adj: { bomdod: 0, quyosh: 0, peshin: 0, asr: 0, shom: 0, xufton: 0 }
     }
   };
-  H.store.get(NS, DEF);          /* бошланғич қийматни дарҳол рўйхатдан ўтказамиз */
+  H.store.get(NS, DEF);          /* boshlangʻich qiymatni darhol roʻyxatdan oʻtkazamiz */
   const d2r = Math.PI / 180;
   const dsin = d => Math.sin(d * d2r), dcos = d => Math.cos(d * d2r), dtan = d => Math.tan(d * d2r);
   const asind = x => Math.asin(x) / d2r, acosd = x => Math.acos(x) / d2r;
@@ -51,12 +51,12 @@
     const RA = fixHour(atan2d(dcos(e) * dsin(L), dcos(L)) / 15);
     return { decl: asind(dsin(e) * dsin(L)), eqt: q / 15 - RA };
   }
-  /* қуёш берилган бурчакда бўладиган вақт (соатларда) */
+  /* quyosh berilgan burchakda boʻladigan vaqt (soatlarda) */
   function angleTime(jd, lat, angle, t, before) {
     const s = sun(jd + t);
     const noon = fixHour(12 - s.eqt);
     const x = (-dsin(angle) - dsin(s.decl) * dsin(lat)) / (dcos(s.decl) * dcos(lat));
-    if (x > 1 || x < -1) return NaN;              // қутб яқинидаги ҳолат
+    if (x > 1 || x < -1) return NaN;              // qutb yaqinidagi holat
     const T = acosd(x) / 15;
     return noon + (before ? -T : T);
   }
@@ -65,7 +65,7 @@
     return angleTime(jd, lat, -acotd(factor + dtan(Math.abs(lat - s.decl))), t, false);
   }
 
-  /* дақиқаларда (ярим тундан) қайтаради */
+  /* daqiqalarda (yarim tundan) qaytaradi */
   H.namozTimes = function (iso, cfg) {
     cfg = cfg || H.store.get(NS, DEF).cfg;
     const d = H.date(iso || H.today());
@@ -92,7 +92,7 @@
       if (!isFinite(hours)) { out[k] = null; return; }
       out[k] = Math.round(hours * 60) + (cfg.adj[k] || 0);
     });
-    if (out.peshin != null) out.peshin += 2;        // зуҳр — зеволдан 2 дақиқа кейин
+    if (out.peshin != null) out.peshin += 2;        // zuhr — zevoldan 2 daqiqa keyin
     return out;
   };
 
@@ -102,12 +102,12 @@
     const order = ["bomdod", "quyosh", "peshin", "asr", "shom", "xufton"];
     for (const k of order) {
       if (t[k] != null && t[k] > now) {
-        const nm = k === "quyosh" ? "Қуёш" : (PRAYERS.filter(p => p[0] === k)[0] || ["", k])[1];
+        const nm = k === "quyosh" ? "Quyosh" : (PRAYERS.filter(p => p[0] === k)[0] || ["", k])[1];
         return { key: k, name: nm, at: t[k], left: t[k] - now };
       }
     }
     const tm = H.namozTimes(H.shiftDay(H.today(), 1), cfg);
-    return { key: "bomdod", name: "Бомдод", at: tm.bomdod, left: 1440 - now + (tm.bomdod || 0), tomorrow: true };
+    return { key: "bomdod", name: "Bomdod", at: tm.bomdod, left: 1440 - now + (tm.bomdod || 0), tomorrow: true };
   };
 
   H.namozDayStat = function (iso) {
@@ -132,7 +132,7 @@
   function streak() {
     const d = H.store.get(NS, DEF);
     let n = 0, cur = H.today();
-    if (H.namozDayStat(cur).done < 5) cur = H.shiftDay(cur, -1);   // бугун ҳали тугамаган
+    if (H.namozDayStat(cur).done < 5) cur = H.shiftDay(cur, -1);   // bugun hali tugamagan
     for (let i = 0; i < 400; i++) {
       if (H.namozDayStat(cur).done >= 5) { n++; cur = H.shiftDay(cur, -1); } else break;
     }
@@ -153,7 +153,7 @@
   let viewMonth = null;
 
   H.mod({
-    id: NS, title: "Намоз",
+    id: NS, title: "Namoz",
     init(el) { el.addEventListener("click", onClick); el.addEventListener("change", onChange); },
     show(el) { render(el); }
   });
@@ -174,11 +174,11 @@
     const qazoTotal = PRAYERS.reduce((a, [k]) => a + (d.qazo[k] || 0), 0);
 
     let h = '<div class="h-card lift" data-m="namoz">' +
-      '<div class="h-card-h"><h3>Бугунги намозлар</h3>' +
+      '<div class="h-card-h"><h3>Bugungi namozlar</h3>' +
       '<span class="h-pill' + (st.done === 5 ? " ok" : "") + '">' + st.done + '/5</span></div>' +
       '<p class="h-note" style="margin:-4px 0 12px">' + H.fmtLong(today) + ' · ' + H.esc(d.cfg.city) +
-      ' · кейингиси: <b>' + nx.name + '</b> ' + H.hm(nx.at) +
-      ' (' + Math.floor(nx.left / 60) + ' соат ' + (nx.left % 60) + ' дақиқа қолди)</p>' +
+      ' · keyingisi: <b>' + nx.name + '</b> ' + H.hm(nx.at) +
+      ' (' + Math.floor(nx.left / 60) + ' soat ' + (nx.left % 60) + ' daqiqa qoldi)</p>' +
       '<div class="h-list">' +
       PRAYERS.map(([k, label]) => {
         const cur = st.rec[k];
@@ -192,13 +192,13 @@
             (cur === s ? ' aria-pressed="true"' : '') + '>' + nm + '</button>').join("") +
           '</span></div>';
       }).join("") + '</div>' +
-      '<p class="h-note" style="margin-top:10px">Қуёш чиқиши: ' + (t.quyosh == null ? "—" : H.hm(t.quyosh)) +
-      ' — бомдод вақти шунда тугайди.</p></div>';
+      '<p class="h-note" style="margin-top:10px">Quyosh chiqishi: ' + (t.quyosh == null ? "—" : H.hm(t.quyosh)) +
+      ' — bomdod vaqti shunda tugaydi.</p></div>';
 
-    /* ой календари */
-    h += '<div class="h-sec"><div class="h-sec-h"><span>Ойлик дафтар</span>' +
-      '<span><button class="h-link" data-mon="-1">‹ олдинги</button> ' + mk +
-      ' <button class="h-link" data-mon="1">кейинги ›</button></span></div>' +
+    /* oy kalendari */
+    h += '<div class="h-sec"><div class="h-sec-h"><span>Oylik daftar</span>' +
+      '<span><button class="h-link" data-mon="-1">‹ oldingi</button> ' + mk +
+      ' <button class="h-link" data-mon="1">keyingi ›</button></span></div>' +
       '<div class="n-cal">' + H.monthDays(mk).map(iso => {
         const future = iso > today;
         const s = H.namozDayStat(iso);
@@ -209,52 +209,52 @@
           '</span></button>';
       }).join("") + '</div>' +
       '<div class="h-stats" style="margin-top:14px">' +
-      '<div class="h-stat"><b>' + (ms.total ? Math.round(ms.done / ms.total * 100) : 0) + '%</b><span>ўқилган</span></div>' +
-      '<div class="h-stat"><b>' + ms.jamoat + '</b><span>жамоат билан</span></div>' +
-      '<div class="h-stat"><b>' + ms.full + '</b><span>тўлиқ кун</span></div>' +
-      '<div class="h-stat"><b>' + streak() + '</b><span>кетма-кет кун</span></div>' +
+      '<div class="h-stat"><b>' + (ms.total ? Math.round(ms.done / ms.total * 100) : 0) + '%</b><span>oʻqilgan</span></div>' +
+      '<div class="h-stat"><b>' + ms.jamoat + '</b><span>jamoat bilan</span></div>' +
+      '<div class="h-stat"><b>' + ms.full + '</b><span>toʻliq kun</span></div>' +
+      '<div class="h-stat"><b>' + streak() + '</b><span>ketma-ket kun</span></div>' +
       '</div></div>';
 
-    /* қазо дафтари */
-    h += '<div class="h-card" data-m="namoz"><div class="h-card-h"><h3>Қазо дафтари</h3>' +
-      '<span class="h-pill' + (qazoTotal ? " warn" : " ok") + '">' + qazoTotal + ' та</span></div>' +
-      '<p class="h-note" style="margin:-4px 0 10px">Ўқилмай қолган намозлар ҳисоби. Қазосини ўқиганингизда «−» ни босинг.</p>' +
+    /* qazo daftari */
+    h += '<div class="h-card" data-m="namoz"><div class="h-card-h"><h3>Qazo daftari</h3>' +
+      '<span class="h-pill' + (qazoTotal ? " warn" : " ok") + '">' + qazoTotal + ' ta</span></div>' +
+      '<p class="h-note" style="margin:-4px 0 10px">Oʻqilmay qolgan namozlar hisobi. Qazosini oʻqiganingizda «−» ni bosing.</p>' +
       '<div class="h-list">' + PRAYERS.map(([k, label]) =>
         '<div class="h-item"><span class="ttl">' + label + '</span>' +
         '<span class="num">' + (d.qazo[k] || 0) + '</span>' +
         '<span class="h-row" style="gap:4px;flex-wrap:nowrap">' +
-        '<button class="h-btn sm" data-qazo="' + k + '" data-n="-1" aria-label="камайтириш">−</button>' +
-        '<button class="h-btn sm" data-qazo="' + k + '" data-n="1" aria-label="кўпайтириш">+</button>' +
+        '<button class="h-btn sm" data-qazo="' + k + '" data-n="-1" aria-label="kamaytirish">−</button>' +
+        '<button class="h-btn sm" data-qazo="' + k + '" data-n="1" aria-label="koʻpaytirish">+</button>' +
         '<button class="h-btn sm" data-qazo="' + k + '" data-n="10">+10</button></span></div>').join("") +
       '</div></div>';
 
-    /* созламалар */
+    /* sozlamalar */
     const cfg = d.cfg;
     h += '<details class="h-card" data-m="namoz"' + (cfg._opened ? " open" : "") + '>' +
-      '<summary style="cursor:pointer;font-weight:700">Вақт созламалари</summary>' +
-      '<div class="h-warn" style="margin-top:12px">Вақтлар астрономик ҳисоб билан чиқарилади. ' +
-      'Маҳаллий тақвим билан солиштиринг — фарқ бўлса, қуйида ҳар намозга ± дақиқа тузатиш киритинг.</div>' +
+      '<summary style="cursor:pointer;font-weight:700">Vaqt sozlamalari</summary>' +
+      '<div class="h-warn" style="margin-top:12px">Vaqtlar astronomik hisob bilan chiqariladi. ' +
+      'Mahalliy taqvim bilan solishtiring — farq boʻlsa, quyida har namozga ± daqiqa tuzatish kiriting.</div>' +
       '<div class="h-form">' +
-      '<div class="h-field wide"><label>Шаҳар</label><select class="h-in" data-cfg="city">' +
+      '<div class="h-field wide"><label>Shahar</label><select class="h-in" data-cfg="city">' +
         CITIES.map(c => '<option' + (c[0] === cfg.city ? " selected" : "") + '>' + c[0] + '</option>').join("") +
-        '<option' + (CITIES.every(c => c[0] !== cfg.city) ? " selected" : "") + ' value="__">Бошқа (координата)</option>' +
+        '<option' + (CITIES.every(c => c[0] !== cfg.city) ? " selected" : "") + ' value="__">Boshqa (koordinata)</option>' +
       '</select></div>' +
-      '<div class="h-field"><label>Кенглик</label><input class="h-in" type="number" step="0.0001" data-cfg="lat" value="' + cfg.lat + '"></div>' +
-      '<div class="h-field"><label>Узунлик</label><input class="h-in" type="number" step="0.0001" data-cfg="lon" value="' + cfg.lon + '"></div>' +
-      '<div class="h-field wide"><label>Ҳисоб усули</label><select class="h-in" data-cfg="method">' +
+      '<div class="h-field"><label>Kenglik</label><input class="h-in" type="number" step="0.0001" data-cfg="lat" value="' + cfg.lat + '"></div>' +
+      '<div class="h-field"><label>Uzunlik</label><input class="h-in" type="number" step="0.0001" data-cfg="lon" value="' + cfg.lon + '"></div>' +
+      '<div class="h-field wide"><label>Hisob usuli</label><select class="h-in" data-cfg="method">' +
         Object.keys(METHODS).map(k => '<option value="' + k + '"' + (k === cfg.method ? " selected" : "") + '>' +
           METHODS[k].name + '</option>').join("") + '</select></div>' +
-      '<div class="h-field wide"><label>Аср ҳисоби</label><select class="h-in" data-cfg="asr">' +
-        '<option value="hanafiy"' + (cfg.asr === "hanafiy" ? " selected" : "") + '>Ҳанафий (соя 2 баравар)</option>' +
-        '<option value="shofeiy"' + (cfg.asr === "shofeiy" ? " selected" : "") + '>Шофеий (соя 1 баравар)</option>' +
+      '<div class="h-field wide"><label>Asr hisobi</label><select class="h-in" data-cfg="asr">' +
+        '<option value="hanafiy"' + (cfg.asr === "hanafiy" ? " selected" : "") + '>Hanafiy (soya 2 baravar)</option>' +
+        '<option value="shofeiy"' + (cfg.asr === "shofeiy" ? " selected" : "") + '>Shofeiy (soya 1 baravar)</option>' +
       '</select></div>' +
       '</div>' +
-      '<p class="h-note" style="margin:14px 0 6px">Тузатиш (дақиқа):</p><div class="h-form">' +
-      [["bomdod", "Бомдод"], ["quyosh", "Қуёш"], ["peshin", "Пешин"], ["asr", "Аср"], ["shom", "Шом"], ["xufton", "Хуфтон"]]
+      '<p class="h-note" style="margin:14px 0 6px">Tuzatish (daqiqa):</p><div class="h-form">' +
+      [["bomdod", "Bomdod"], ["quyosh", "Quyosh"], ["peshin", "Peshin"], ["asr", "Asr"], ["shom", "Shom"], ["xufton", "Xufton"]]
         .map(([k, nm]) => '<div class="h-field"><label>' + nm + '</label>' +
           '<input class="h-in" type="number" step="1" data-adj="' + k + '" value="' + (cfg.adj[k] || 0) + '"></div>').join("") +
       '</div>' +
-      '<div class="h-row" style="margin-top:12px"><button class="h-btn sm" data-act="geo">Жойлашувни аниқлаш</button></div>' +
+      '<div class="h-row" style="margin-top:12px"><button class="h-btn sm" data-act="geo">Joylashuvni aniqlash</button></div>' +
       '</details>';
 
     el.innerHTML = h;
@@ -282,15 +282,15 @@
     if (dy) { openDay(el, dy.dataset.day); return; }
     const a = e.target.closest("[data-act]");
     if (a && a.dataset.act === "geo") {
-      if (!navigator.geolocation) { alert("Бу браузер жойлашувни аниқлай олмайди."); return; }
+      if (!navigator.geolocation) { alert("Bu brauzer joylashuvni aniqlay olmaydi."); return; }
       navigator.geolocation.getCurrentPosition(pos => {
         const d = H.store.get(NS, DEF);
         d.cfg.lat = +pos.coords.latitude.toFixed(4);
         d.cfg.lon = +pos.coords.longitude.toFixed(4);
-        d.cfg.city = "Жорий жойлашув";
+        d.cfg.city = "Joriy joylashuv";
         d.cfg._opened = true;
         H.store.save(NS); render(el);
-      }, () => alert("Жойлашувни аниқлаб бўлмади — рухсат берилмаган бўлиши мумкин."));
+      }, () => alert("Joylashuvni aniqlab boʻlmadi — ruxsat berilmagan boʻlishi mumkin."));
     }
   }
 
@@ -303,7 +303,7 @@
       if (k === "city") {
         const city = CITIES.filter(x => x[0] === c.value)[0];
         if (city) { d.cfg.city = city[0]; d.cfg.lat = city[1]; d.cfg.lon = city[2]; }
-        else d.cfg.city = "Бошқа";
+        else d.cfg.city = "Boshqa";
       } else if (k === "lat" || k === "lon") d.cfg[k] = +c.value || 0;
       else d.cfg[k] = c.value;
       d.cfg._opened = true;
@@ -317,14 +317,14 @@
     }
   }
 
-  /* ўтган кунни тўлдириш */
+  /* oʻtgan kunni toʻldirish */
   function openDay(el, iso) {
     const d = H.store.get(NS, DEF);
     const rec = d.log[iso] || {};
     const box = document.createElement("div");
     box.className = "n-sheet";
     box.innerHTML = '<div class="n-sheet-in"><div class="h-card-h"><h3>' + H.fmtLong(iso) + '</h3>' +
-      '<button class="h-link" data-close="1">ёпиш</button></div><div class="h-list">' +
+      '<button class="h-link" data-close="1">yopish</button></div><div class="h-list">' +
       PRAYERS.map(([k, label]) => '<div class="h-item"><span class="ttl">' + label + '</span>' +
         '<span class="h-row" style="gap:4px;flex-wrap:nowrap">' +
         STATES.map(([s, nm, cls]) => '<button class="h-btn sm' +

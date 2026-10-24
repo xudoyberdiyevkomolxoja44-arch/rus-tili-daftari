@@ -1,15 +1,15 @@
-/* ============ Шажара ============
-   Аждодлар дарахти: ҳар бир киши отаси/онаси орқали боғланади.
-   Дарахт энг юқоридаги аждоддан пастга қараб чизилади. */
+/* ============ Shajara ============
+   Ajdodlar daraxti: har bir kishi otasi/onasi orqali bogʻlanadi.
+   Daraxt eng yuqoridagi ajdoddan pastga qarab chiziladi. */
 (function (H) {
   const NS = "shajara";
   const DEF = { people: [], selfId: "", rootId: "" };
 
-  H.store.get(NS, DEF);          /* бошланғич қийматни дарҳол рўйхатдан ўтказамиз */
+  H.store.get(NS, DEF);          /* boshlangʻich qiymatni darhol roʻyxatdan oʻtkazamiz */
   const data = () => H.store.get(NS, DEF);
   const person = id => data().people.filter(p => p.id === id)[0];
   const childrenOf = id => data().people.filter(p => p.fatherId === id || p.motherId === id);
-  /* энг юқоридаги аждодни топиш */
+  /* eng yuqoridagi ajdodni topish */
   function topAncestor(id) {
     const seen = new Set();
     let cur = person(id);
@@ -34,9 +34,9 @@
   };
 
 
-  /* ============ Қариндошлик атамаси ============
-     «мен» деб белгиланган кишига нисбатан ҳисобланади.
-     Ака/ука ва опа/сингил туғилган йилига қараб ажратилади. */
+  /* ============ Qarindoshlik atamasi ============
+     «men» deb belgilangan kishiga nisbatan hisoblanadi.
+     Aka/uka va opa/singil tugʻilgan yiliga qarab ajratiladi. */
   function relTo(x) {
     const d = data();
     const me = d.selfId ? person(d.selfId) : null;
@@ -44,15 +44,15 @@
     const isF = p => p.gender === "f";
     const sib = (a, b) => !!a && !!b && a.id !== b.id &&
       ((a.fatherId && a.fatherId === b.fatherId) || (a.motherId && a.motherId === b.motherId));
-    const older = (a, b) => {                 // a, b дан каттами?
+    const older = (a, b) => {                 // a, b dan kattami?
       const ab = String(a.birth || ""), bb = String(b.birth || "");
       if (!ab || !bb || ab === bb) return null;
       return ab < bb;
     };
 
-    if (me.spouseId === x.id) return isF(x) ? "хотиним" : "эрим";
+    if (me.spouseId === x.id) return isF(x) ? "xotinim" : "erim";
 
-    /* юқорига: ота-она, бобо-буви */
+    /* yuqoriga: ota-ona, bobo-buvi */
     const up = new Map();
     (function climb(p, lvl) {
       if (!p || lvl > 4) return;
@@ -65,12 +65,12 @@
     })(me, 1);
     if (up.has(x.id)) {
       const l = up.get(x.id);
-      if (l === 1) return isF(x) ? "онам" : "отам";
-      if (l === 2) return isF(x) ? "бувим" : "бобом";
-      return isF(x) ? "катта бувим" : "катта бобом";
+      if (l === 1) return isF(x) ? "onam" : "otam";
+      if (l === 2) return isF(x) ? "buvim" : "bobom";
+      return isF(x) ? "katta buvim" : "katta bobom";
     }
 
-    /* пастга: фарзанд, набира */
+    /* pastga: farzand, nabira */
     const down = new Map();
     (function dive(p, lvl) {
       if (!p || lvl > 4) return;
@@ -82,40 +82,40 @@
     })(me, 1);
     if (down.has(x.id)) {
       const l = down.get(x.id);
-      if (l === 1) return isF(x) ? "қизим" : "ўғлим";
-      if (l === 2) return "набирам";
-      return "эварам";
+      if (l === 1) return isF(x) ? "qizim" : "oʻgʻlim";
+      if (l === 2) return "nabiram";
+      return "evaram";
     }
 
-    /* ака-ука, опа-сингил */
+    /* aka-uka, opa-singil */
     if (sib(me, x)) {
       const o = older(x, me);
-      if (o === null) return isF(x) ? "опа-синглим" : "ака-укам";
-      if (isF(x)) return o ? "опам" : "синглим";
-      return o ? "акам" : "укам";
+      if (o === null) return isF(x) ? "opa-singlim" : "aka-ukam";
+      if (isF(x)) return o ? "opam" : "singlim";
+      return o ? "akam" : "ukam";
     }
 
     const f = me.fatherId ? person(me.fatherId) : null;
     const m = me.motherId ? person(me.motherId) : null;
-    if (sib(f, x)) return isF(x) ? "аммам" : "амаким";
-    if (sib(m, x)) return isF(x) ? "холам" : "тоғам";
+    if (sib(f, x)) return isF(x) ? "ammam" : "amakim";
+    if (sib(m, x)) return isF(x) ? "xolam" : "togʻam";
 
     const mySibs = data().people.filter(p => sib(me, p));
-    if (mySibs.some(sb => x.fatherId === sb.id || x.motherId === sb.id)) return "жияним";
+    if (mySibs.some(sb => x.fatherId === sb.id || x.motherId === sb.id)) return "jiyanim";
     const spouseOfSib = mySibs.filter(sb => sb.spouseId === x.id)[0];
-    if (spouseOfSib) return isF(spouseOfSib) ? "поччам" : "янгам";
+    if (spouseOfSib) return isF(spouseOfSib) ? "pochcham" : "yangam";
 
     const sp = me.spouseId ? person(me.spouseId) : null;
     if (sp) {
-      if (sp.fatherId === x.id) return "қайнотам";
-      if (sp.motherId === x.id) return "қайнонам";
-      if (sib(sp, x)) return isF(x) ? "қайинсинглим" : "қайним";
+      if (sp.fatherId === x.id) return "qaynotam";
+      if (sp.motherId === x.id) return "qaynonam";
+      if (sib(sp, x)) return isF(x) ? "qayinsinglim" : "qaynim";
     }
-    if (childrenOf(me.id).some(k => k.spouseId === x.id)) return isF(x) ? "келиним" : "куёвим";
+    if (childrenOf(me.id).some(k => k.spouseId === x.id)) return isF(x) ? "kelinim" : "kuyovim";
     return "";
   }
 
-  /* ҳозирги ёш: «35 ёш 6 ой» */
+  /* hozirgi yosh: «35 yosh 6 oy» */
   function ageText(p) {
     if (p.death) return "";
     const b = dparts(p.birth);
@@ -127,10 +127,10 @@
     if (now.getDate() < bd) m--;
     if (m < 0) { y--; m += 12; }
     if (y < 0 || y > 140) return "";
-    return y + " ёш" + (m ? " " + m + " ой" : "");
+    return y + " yosh" + (m ? " " + m + " oy" : "");
   }
 
-  /* сана: "1991", "1991-04" ёки "1991-04-10" кўринишида сақланади */
+  /* sana: "1991", "1991-04" yoki "1991-04-10" koʻrinishida saqlanadi */
   const dparts = v => { const p = String(v || "").split("-"); return { y: p[0] || "", m: p[1] || "", d: p[2] || "" }; };
   function dmake(y, m, d) {
     y = String(y || "").trim().replace(/[^0-9]/g, "");
@@ -148,17 +148,17 @@
     return (p.d ? (+p.d) + "-" : "") + mn + " " + p.y;
   }
   H.shajaraDates = function () {
-    /* тўлиқ санаси маълум одамлар — Оила бўлимидаги «яқин саналар» учун */
+    /* toʻliq sanasi maʼlum odamlar — Oila boʻlimidagi «yaqin sanalar» uchun */
     return data().people.filter(p => { const x = dparts(p.birth); return x.y && x.m && x.d && !p.death; })
       .map(p => ({ name: p.name, date: p.birth }));
   };
 
   let tab = "tree", editing = null, preset = null;
-  let parentFor = null;  // {childId, role} — янги одам кимнинг ота-онаси бўлиши
-  let photoBuf = null;   // null — ўзгармаган, "" — ўчирилган, "data:…" — янги сурат
+  let parentFor = null;  // {childId, role} — yangi odam kimning ota-onasi boʻlishi
+  let photoBuf = null;   // null — oʻzgarmagan, "" — oʻchirilgan, "data:…" — yangi surat
 
-  /* Суратни квадрат қилиб, аниқлигини сақлаган ҳолда кичрайтирамиз.
-     320×320 — телефон экранида катталаштирилганда ҳам тиниқ кўринади. */
+  /* Suratni kvadrat qilib, aniqligini saqlagan holda kichraytiramiz.
+     320×320 — telefon ekranida kattalashtirilganda ham tiniq koʻrinadi. */
   const PHOTO = 320, PHOTO_Q = 0.86;
 
   function photoCanvas(src) {
@@ -167,8 +167,8 @@
     const side = Math.min(w, h);
     const sx = (w - side) / 2, sy = (h - side) / 2;
 
-    /* катта суратни бирданига кичрайтирсак доналанади —
-       шунинг учун икки баробардан босқичма-босқич кичрайтирамиз */
+    /* katta suratni birdaniga kichraytirsak donalanadi —
+       shuning uchun ikki barobardan bosqichma-bosqich kichraytiramiz */
     let cur = document.createElement("canvas");
     let size = side;
     cur.width = size; cur.height = size;
@@ -236,19 +236,19 @@
   H.shajaraCount = () => data().people.length;
 
   H.mod({
-    id: NS, title: "Шажара",
+    id: NS, title: "Shajara",
     init(el) { el.addEventListener("click", onClick); el.addEventListener("submit", onSubmit); el.addEventListener("change", onChange); },
     show(el) { render(el); }
   });
 
-  /* Сурат ёки бош ҳарф — барча жойда бир хил кўринади */
+  /* Surat yoki bosh harf — barcha joyda bir xil koʻrinadi */
   function avatar(x, cls) {
     const letter = (String(x.name || "?").trim()[0] || "?").toUpperCase();
     return '<span class="s-ava ' + (cls || "") + (x.gender === "f" ? " f" : "") + '">' +
       (x.photo ? '<img src="' + x.photo + '" alt="">' : '<i>' + H.esc(letter) + '</i>') + '</span>';
   }
 
-  /* Битта карточка: 1/3 сурат, 2/3 ФИШ. Ўлчами ҳамма жойда бир хил. */
+  /* Bitta kartochka: 1/3 surat, 2/3 FISH. Oʻlchami hamma joyda bir xil. */
   function card(x, left, top) {
     const d = data();
     const isSelf = d.selfId === x.id;
@@ -259,23 +259,23 @@
         '<b class="' + (x.gender === "f" ? "f" : "m") + '">' + H.esc(x.name) + '</b>' +
         (years(x) ? '<span class="s-yr">' + years(x) +
           (ageText(x) ? ' · ' + ageText(x) : '') + '</span>' : '') +
-        (isSelf ? '<span class="s-me">мен</span>'
+        (isSelf ? '<span class="s-me">men</span>'
                 : (relTo(x) ? '<span class="s-rel">' + relTo(x) + '</span>' : '')) +
       '</span></div>';
   }
 
-  /* ============ Чизма: авлодлар бўйича жойлаштириш ============
-     Ҳар бир жуфтлик (ёки ёлғиз одам) — битта «блок». Блоклар авлод
-     қаторларига терилади, чизиқлар эса SVG билан чизилади. Шунинг учун
-     ҳар кимнинг ота-онаси айнан ўзининг катагига уланади: эрнинг
-     ота-онаси эрга, хотинники хотинга. */
+  /* ============ Chizma: avlodlar boʻyicha joylashtirish ============
+     Har bir juftlik (yoki yolgʻiz odam) — bitta «blok». Bloklar avlod
+     qatorlariga teriladi, chiziqlar esa SVG bilan chiziladi. Shuning uchun
+     har kimning ota-onasi aynan oʻzining katagiga ulanadi: erning
+     ota-onasi erga, xotinniki xotinga. */
   let CW = 174, CH = 74, AV = 58, LINES = 3;
-  let autoLines = 0;   // ўлчаб аниқланган қатор сони
-  let fitPass = 0;     // ўлчаш уринишлари сони
+  let autoLines = 0;   // oʻlchab aniqlangan qator soni
+  let fitPass = 0;     // oʻlchash urinishlari soni
   const MG = 16, GX = 24, GY = 52;
 
-  /* Энг узун ФИШ сиғадиган қилиб катак ўлчамини танлаймиз.
-     Сурат доим катакнинг учдан бирини эгаллайди (AV * 3 = CW). */
+  /* Eng uzun FISH sigʻadigan qilib katak oʻlchamini tanlaymiz.
+     Surat doim katakning uchdan birini egallaydi (AV * 3 = CW). */
   function setLines(lines) {
     LINES = Math.max(2, Math.min(8, lines));
     CH = LINES * 16 + 41; AV = CH - 16; CW = AV * 3;
@@ -297,7 +297,7 @@
     if (!start) return null;
     fitCard(d.people);
 
-    /* 1. Авлод рақамлари — марказдаги одамдан тарқаб */
+    /* 1. Avlod raqamlari — markazdagi odamdan tarqab */
     const gen = new Map([[start.id, 0]]);
     const kidsOf = new Map();
     d.people.forEach(p => {
@@ -320,7 +320,7 @@
       (kidsOf.get(p.id) || []).forEach(k => step(k.id, g + 1));
     }
 
-    /* 2. Блоклар */
+    /* 2. Bloklar */
     const unitOf = new Map(), units = [];
     d.people.forEach(p => {
       if (!gen.has(p.id) || unitOf.has(p.id)) return;
@@ -341,7 +341,7 @@
     });
     if (!units.length) return null;
 
-    /* 3. Ота-она боғлари: қайси блокдан қайси катакка */
+    /* 3. Ota-ona bogʻlari: qaysi blokdan qaysi katakka */
     const links = [];
     units.forEach(u => {
       u.members.forEach(m => {
@@ -359,16 +359,16 @@
       });
     });
 
-    /* 4. Қаторлар */
+    /* 4. Qatorlar */
     let minG = Infinity, maxG = -Infinity;
     units.forEach(u => { minG = Math.min(minG, u.gen); maxG = Math.max(maxG, u.gen); });
     units.forEach(u => { u.row = u.gen - minG; });
     const rows = [];
     for (let r = 0; r <= maxG - minG; r++) rows.push(units.filter(u => u.row === r));
 
-    /* 5. Чап-ўнг тартиб: қариндошлар ёнма-ён, қудалар четга.
-       Турмуш қурган фарзанд ака-укаларнинг четида турсин — шунда
-       хотин томоннинг ота-онаси кесишмасдан ёнига жойлашади. */
+    /* 5. Chap-oʻng tartib: qarindoshlar yonma-yon, qudalar chetga.
+       Turmush qurgan farzand aka-ukalarning chetida tursin — shunda
+       xotin tomonning ota-onasi kesishmasdan yoniga joylashadi. */
     const key = u => u.members.map(m => m.birth || "9999").sort()[0];
     const anchorUnit = unitOf.get(start.id) || units[0];
     (function order() {
@@ -410,7 +410,7 @@
       row.forEach(u => { u.x = x + u.w / 2; x += u.w + GX; });
     });
 
-    /* тартибни бузмасдан фақат устма-уст тушганини суриб қўямиз */
+    /* tartibni buzmasdan faqat ustma-ust tushganini surib qoʻyamiz */
     const pack = row => {
       for (let i = 1; i < row.length; i++) {
         const need = row[i - 1].x + row[i - 1].w / 2 + GX + row[i].w / 2;
@@ -419,7 +419,7 @@
     };
     const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
 
-    /* 6. Болалар ота-она остига, ота-она болалар устига */
+    /* 6. Bolalar ota-ona ostiga, ota-ona bolalar ustiga */
     for (let it = 0; it < 24; it++) {
       for (let r = 1; r < rows.length; r++) {
         rows[r].forEach(u => { if (u.up.length) u.x = avg(u.up.map(l => anchorX(l.pu))); });
@@ -431,7 +431,7 @@
       }
     }
 
-    /* чапга сурамиз */
+    /* chapga suramiz */
     let minX = Infinity, maxX = -Infinity;
     units.forEach(u => { minX = Math.min(minX, u.x - u.w / 2); maxX = Math.max(maxX, u.x + u.w / 2); });
     units.forEach(u => { u.x -= minX - 8; });
@@ -444,13 +444,13 @@
     };
   }
 
-  /* катакнинг марказидаги x */
+  /* katakning markazidagi x */
   function memberX(u, id) {
     if (u.members.length === 1) return u.x;
     return u.members[0].id === id ? u.x - (CW + MG) / 2 : u.x + (CW + MG) / 2;
   }
-  /* чизиқ ота-она блокининг қаеридан чиқади */
-  /* Чизиқ жуфтликнинг ўртасидан чиқади — фарзанд иккаласиники */
+  /* chiziq ota-ona blokining qayeridan chiqadi */
+  /* Chiziq juftlikning oʻrtasidan chiqadi — farzand ikkalasiniki */
   function anchorX(u) {
     return u.x;
   }
@@ -487,12 +487,12 @@
   function render(el) {
     const d = data();
     let h = '<div class="h-seg" style="margin-bottom:16px">' +
-      [["tree", "Дарахт"], ["list", "Рўйхат"], ["add", "Одам қўшиш"]]
+      [["tree", "Daraxt"], ["list", "Roʻyxat"], ["add", "Odam qoʻshish"]]
         .map(([k, nm]) => '<button data-tab="' + k + '" aria-pressed="' + (tab === k) + '">' + nm + '</button>').join("") +
       '</div>';
 
     if (!d.people.length) {
-      h += '<div class="h-empty">Шажара бўш. Энг катта аждодингиздан бошланг: «Одам қўшиш» → исм, ота-онасини кейин улайсиз.</div>';
+      h += '<div class="h-empty">Shajara boʻsh. Eng katta ajdodingizdan boshlang: «Odam qoʻshish» → ism, ota-onasini keyin ulaysiz.</div>';
       if (tab !== "add") { el.innerHTML = h; return; }
     }
 
@@ -503,11 +503,11 @@
       if (ch) {
         h += '<div class="s-tree">' + drawChart(ch) + '</div>' +
           (ch.unconnected ? '<p class="h-note" style="margin-top:10px"><b>' + ch.unconnected +
-            ' киши</b> ҳали ҳеч кимга уланмаган — «Рўйхат» бўлимидан таҳрирлаб улаб қўйинг.</p>' : '');
+            ' kishi</b> hali hech kimga ulanmagan — «Roʻyxat» boʻlimidan tahrirlab ulab qoʻying.</p>' : '');
         h += '<div class="h-stats" style="margin-top:16px">' +
-          '<div class="h-stat"><b>' + d.people.length + '</b><span>жами одам</span></div>' +
-          '<div class="h-stat"><b>' + ch.rows.length + '</b><span>авлод</span></div>' +
-          '<div class="h-stat"><b>' + ch.units.filter(u => u.members.length > 1).length + '</b><span>оила</span></div></div>';
+          '<div class="h-stat"><b>' + d.people.length + '</b><span>jami odam</span></div>' +
+          '<div class="h-stat"><b>' + ch.rows.length + '</b><span>avlod</span></div>' +
+          '<div class="h-stat"><b>' + ch.units.filter(u => u.members.length > 1).length + '</b><span>oila</span></div></div>';
       }
     }
 
@@ -517,21 +517,21 @@
           const f = p.fatherId ? person(p.fatherId) : null, m = p.motherId ? person(p.motherId) : null;
           const sp = p.spouseId ? person(p.spouseId) : null;
           return '<div class="h-item">' + avatar(p, "sm") + '<span class="ttl">' + H.esc(p.name) +
-            '<span class="sub">' + (relTo(p) ? relTo(p) + " · " : "") + (fmtFull(p.birth) || "сана йўқ") +
+            '<span class="sub">' + (relTo(p) ? relTo(p) + " · " : "") + (fmtFull(p.birth) || "sana yoʻq") +
             (fmtFull(p.death) ? " – " + fmtFull(p.death) : "") +
-            (f ? " · отаси: " + H.esc(f.name) : "") + (m ? " · онаси: " + H.esc(m.name) : "") +
+            (f ? " · otasi: " + H.esc(f.name) : "") + (m ? " · onasi: " + H.esc(m.name) : "") +
             (sp ? " · ⚭ " + H.esc(sp.name) : "") + '</span></span>' +
-            '<button class="h-link" data-edit="' + p.id + '">таҳрир</button>' +
-            '<button class="h-link" data-del="' + p.id + '">ўчириш</button></div>';
+            '<button class="h-link" data-edit="' + p.id + '">tahrir</button>' +
+            '<button class="h-link" data-del="' + p.id + '">oʻchirish</button></div>';
         }).join("") + '</div></div>';
     }
 
     if (tab === "add") h += '<div class="h-card" data-m="shajara"><div class="h-card-h"><h3>' +
-      (editing ? "Маълумотни таҳрирлаш" : "Янги одам") + '</h3></div>' + form() + '</div>';
+      (editing ? "Maʼlumotni tahrirlash" : "Yangi odam") + '</h3></div>' + form() + '</div>';
 
     el.innerHTML = h;
 
-    /* Масштаб: аввал экранга сиғдирилади, кейин бармоқ билан ўзгартирилади */
+    /* Masshtab: avval ekranga sigʻdiriladi, keyin barmoq bilan oʻzgartiriladi */
     const box = el.querySelector(".s-tree");
     if (box) {
       const chart = box.querySelector(".s-chart");
@@ -549,9 +549,9 @@
         };
         apply(k);
 
-        /* ФИШ сиғмаса — катакни баландроқ қилиб қайта чизамиз */
-        /* ФИШ тўлиқ сиғдими? Шрифт юклангандан кейин ўлчаймиз —
-           акс ҳолда захира шрифт билан нотўғри чиқади. */
+        /* FISH sigʻmasa — katakni balandroq qilib qayta chizamiz */
+        /* FISH toʻliq sigʻdimi? Shrift yuklangandan keyin oʻlchaymiz —
+           aks holda zaxira shrift bilan notoʻgʻri chiqadi. */
         const measure = () => {
           if (!el.isConnected || !chart.isConnected) return false;
           const names = [].slice.call(chart.querySelectorAll(".s-info b"));
@@ -575,21 +575,21 @@
           return;
         }
 
-        /* «мен» катаги кўринадиган жойга суриб қўямиз */
+        /* «men» katagi koʻrinadigan joyga surib qoʻyamiz */
         const me = chart.querySelector(".s-node.self") || chart.querySelector(".s-node");
         if (me && box.scrollWidth > box.clientWidth) {
           const r1 = box.getBoundingClientRect(), r2 = me.getBoundingClientRect();
           box.scrollLeft += (r2.left - r1.left) - box.clientWidth / 2 + r2.width / 2;
         }
 
-        /* фокус нуқтасини жойида ушлаб туриб масштабни ўзгартириш */
-        /* Масштаб ўзгарганда экран марказидаги жой жойида қолади —
-           шунда дарахт четга қочиб кетмайди. */
+        /* fokus nuqtasini joyida ushlab turib masshtabni oʻzgartirish */
+        /* Masshtab oʻzgarganda ekran markazidagi joy joyida qoladi —
+           shunda daraxt chetga qochib ketmaydi. */
         const zoomAt = ratio => {
           const cx = (box.scrollLeft + box.clientWidth / 2) / k;
           const cy = (box.scrollTop + box.clientHeight / 2) / k;
           const nk = apply(k * ratio);
-          void box.scrollWidth;                      // янги ўлчам ҳисобга олинсин
+          void box.scrollWidth;                      // yangi oʻlcham hisobga olinsin
           box.scrollLeft = Math.max(0, cx * nk - box.clientWidth / 2);
           box.scrollTop = Math.max(0, cy * nk - box.clientHeight / 2);
           d.zoom = nk;
@@ -618,7 +618,7 @@
           H.store.save(NS);
         });
 
-        /* компьютерда: Ctrl + ғилдирак ёки чертиб суриш */
+        /* kompyuterda: Ctrl + gʻildirak yoki chertib surish */
         box.addEventListener("wheel", ev => {
           if (!ev.ctrlKey && !ev.metaKey) return;
           ev.preventDefault();
@@ -626,7 +626,7 @@
           H.store.save(NS);
         }, { passive: false });
 
-        /* икки марта босилса — экранга сиғдириш */
+        /* ikki marta bosilsa — ekranga sigʻdirish */
         box.addEventListener("dblclick", () => { d.zoom = 0; H.store.save(NS); render(el); });
       }
     }
@@ -649,44 +649,44 @@
   function dateField(label, name, val) {
     const v = dparts(val);
     return '<div class="h-field s-datefield"><label>' + label + '</label><div class="s-date">' +
-      '<input class="h-in" name="' + name + 'Y" inputmode="numeric" maxlength="4" placeholder="йил" value="' + H.esc(v.y) + '">' +
-      '<select class="h-in" name="' + name + 'M"><option value="">ой</option>' +
+      '<input class="h-in" name="' + name + 'Y" inputmode="numeric" maxlength="4" placeholder="yil" value="' + H.esc(v.y) + '">' +
+      '<select class="h-in" name="' + name + 'M"><option value="">oy</option>' +
       H.MONTHS.map((nm, i) => '<option value="' + (i + 1) + '"' + ((+v.m) === i + 1 ? " selected" : "") + '>' + nm + '</option>').join("") +
       '</select>' +
-      '<input class="h-in" name="' + name + 'D" inputmode="numeric" maxlength="2" placeholder="кун" value="' + H.esc(v.d ? String(+v.d) : "") + '">' +
+      '<input class="h-in" name="' + name + 'D" inputmode="numeric" maxlength="2" placeholder="kun" value="' + H.esc(v.d ? String(+v.d) : "") + '">' +
       '</div></div>';
   }
 
   function form() {
     const d = data();
     const p = editing || preset || {};
-    const opts = (sel, gender) => '<option value="">— йўқ —</option>' + d.people
+    const opts = (sel, gender) => '<option value="">— yoʻq —</option>' + d.people
       .filter(x => x.id !== p.id && (!gender || x.gender === gender))
       .map(x => '<option value="' + x.id + '"' + (x.id === sel ? " selected" : "") + '>' + H.esc(x.name) + '</option>').join("");
     const shot = (photoBuf !== null) ? photoBuf : (p.photo || "");
     return '<form data-form="p" class="h-form">' +
       '<input type="hidden" name="id" value="' + (p.id || "") + '">' +
-      '<div class="h-field wide"><label>Сурат</label><div class="s-photo">' +
+      '<div class="h-field wide"><label>Surat</label><div class="s-photo">' +
         avatar({ name: p.name || "?", gender: p.gender, photo: shot }, "big") +
         '<div class="h-row">' +
-          '<button type="button" class="h-btn sm" data-photo="pick">' + (shot ? "Бошқа сурат" : "Сурат танлаш") + '</button>' +
-          (shot ? '<button type="button" class="h-btn sm" data-photo="clear">Ўчириш</button>' : '') +
+          '<button type="button" class="h-btn sm" data-photo="pick">' + (shot ? "Boshqa surat" : "Surat tanlash") + '</button>' +
+          (shot ? '<button type="button" class="h-btn sm" data-photo="clear">Oʻchirish</button>' : '') +
           '<input type="file" accept="image/*" id="s-file" hidden>' +
         '</div>' +
-        '<p class="h-note" style="flex-basis:100%;margin:0">Сурат 320×320 қилиб кичрайтирилади — катталаштирганда ҳам тиниқ кўринади.</p>' +
+        '<p class="h-note" style="flex-basis:100%;margin:0">Surat 320×320 qilib kichraytiriladi — kattalashtirganda ham tiniq koʻrinadi.</p>' +
       '</div></div>' +
-      '<div class="h-field wide"><label>Исми, фамилияси, отасининг исми</label><input class="h-in" name="name" required value="' + H.esc(p.name || "") + '"></div>' +
-      '<div class="h-field"><label>Жинси</label><select class="h-in" name="gender">' +
-      '<option value="m"' + (p.gender !== "f" ? " selected" : "") + '>Эркак</option>' +
-      '<option value="f"' + (p.gender === "f" ? " selected" : "") + '>Аёл</option></select></div>' +
-      dateField("Туғилган санаси", "birth", p.birth) +
-      dateField("Вафот этган санаси", "death", p.death) +
-      '<div class="h-field"><label>Отаси</label><select class="h-in" name="fatherId">' + opts(p.fatherId, "m") + '</select></div>' +
-      '<div class="h-field"><label>Онаси</label><select class="h-in" name="motherId">' + opts(p.motherId, "f") + '</select></div>' +
-      '<div class="h-field"><label>Турмуш ўртоғи</label><select class="h-in" name="spouseId">' + opts(p.spouseId) + '</select></div>' +
-      '<div class="h-field wide"><label>Эслатма</label><input class="h-in" name="note" value="' + H.esc(p.note || "") + '" placeholder="Касби, туғилган жойи, эсда қолган гапи…"></div>' +
-      '<div class="h-field wide h-row"><button class="h-btn pri">' + (editing ? "Сақлаш" : "Қўшиш") + '</button>' +
-      ((editing || preset) ? '<button type="button" class="h-btn sm" data-cancel="1">Бекор</button>' : '') + '</div></form>';
+      '<div class="h-field wide"><label>Ismi, familiyasi, otasining ismi</label><input class="h-in" name="name" required value="' + H.esc(p.name || "") + '"></div>' +
+      '<div class="h-field"><label>Jinsi</label><select class="h-in" name="gender">' +
+      '<option value="m"' + (p.gender !== "f" ? " selected" : "") + '>Erkak</option>' +
+      '<option value="f"' + (p.gender === "f" ? " selected" : "") + '>Ayol</option></select></div>' +
+      dateField("Tugʻilgan sanasi", "birth", p.birth) +
+      dateField("Vafot etgan sanasi", "death", p.death) +
+      '<div class="h-field"><label>Otasi</label><select class="h-in" name="fatherId">' + opts(p.fatherId, "m") + '</select></div>' +
+      '<div class="h-field"><label>Onasi</label><select class="h-in" name="motherId">' + opts(p.motherId, "f") + '</select></div>' +
+      '<div class="h-field"><label>Turmush oʻrtogʻi</label><select class="h-in" name="spouseId">' + opts(p.spouseId) + '</select></div>' +
+      '<div class="h-field wide"><label>Eslatma</label><input class="h-in" name="note" value="' + H.esc(p.note || "") + '" placeholder="Kasbi, tugʻilgan joyi, esda qolgan gapi…"></div>' +
+      '<div class="h-field wide h-row"><button class="h-btn pri">' + (editing ? "Saqlash" : "Qoʻshish") + '</button>' +
+      ((editing || preset) ? '<button type="button" class="h-btn sm" data-cancel="1">Bekor</button>' : '') + '</div></form>';
   }
 
   function onChange(e) {
@@ -697,9 +697,9 @@
     if (f && f.files && f.files[0]) {
       readPhoto(f.files[0], src => {
         if (!src) {
-          alert("Суратни ўқиб бўлмади. Телефон уни HEIC форматида сақлаган бўлиши мумкин — " +
-                "камера созламасидан «JPEG / мос келувчи» форматни танланг, ёки суратни " +
-                "галереяда таҳрирлаб (масалан кесиб) сақлагач қайта уриниб кўринг.");
+          alert("Suratni oʻqib boʻlmadi. Telefon uni HEIC formatida saqlagan boʻlishi mumkin — " +
+                "kamera sozlamasidan «JPEG / mos keluvchi» formatni tanlang, yoki suratni " +
+                "galereyada tahrirlab (masalan kesib) saqlagach qayta urinib koʻring.");
           return;
         }
         photoBuf = src;
@@ -723,7 +723,7 @@
     const dl = e.target.closest("[data-del]");
     if (dl) {
       const p = person(dl.dataset.del);
-      if (!confirm(p.name + " шажарадан ўчирилсинми?")) return;
+      if (!confirm(p.name + " shajaradan oʻchirilsinmi?")) return;
       d.people = d.people.filter(x => x.id !== p.id);
       d.people.forEach(x => {
         if (x.fatherId === p.id) x.fatherId = "";
@@ -754,24 +754,24 @@
     box.innerHTML = '<div class="n-sheet-in"><div class="h-card-h" style="align-items:flex-start">' +
       '<span class="h-row" style="gap:10px;flex-wrap:nowrap;align-items:center">' + avatar(p, "big") +
       '<h3 style="margin:0">' + H.esc(p.name) + '</h3></span>' +
-      '<button class="h-link" data-close="1">ёпиш</button></div>' +
+      '<button class="h-link" data-close="1">yopish</button></div>' +
       '<p class="h-note">' +
         (relTo(p) ? "<b>" + relTo(p) + "</b> · " : "") +
-        (fmtFull(p.birth) ? "Туғилган: " + fmtFull(p.birth) +
-          (ageText(p) ? " (" + ageText(p) + ")" : "") : "сана кўрсатилмаган") +
-        (fmtFull(p.death) ? " · вафоти: " + fmtFull(p.death) : "") +
-        (p.spouseId && person(p.spouseId) ? " · турмуш ўртоғи: " + H.esc(person(p.spouseId).name) : "") +
+        (fmtFull(p.birth) ? "Tugʻilgan: " + fmtFull(p.birth) +
+          (ageText(p) ? " (" + ageText(p) + ")" : "") : "sana koʻrsatilmagan") +
+        (fmtFull(p.death) ? " · vafoti: " + fmtFull(p.death) : "") +
+        (p.spouseId && person(p.spouseId) ? " · turmush oʻrtogʻi: " + H.esc(person(p.spouseId).name) : "") +
         (p.note ? " · " + H.esc(p.note) : "") + '</p>' +
       '<div class="h-row" style="margin-top:12px">' +
-      (p.fatherId && person(p.fatherId) ? "" : '<button class="h-btn sm" data-x="father">Отасини қўшиш</button>') +
-      (p.motherId && person(p.motherId) ? "" : '<button class="h-btn sm" data-x="mother">Онасини қўшиш</button>') +
+      (p.fatherId && person(p.fatherId) ? "" : '<button class="h-btn sm" data-x="father">Otasini qoʻshish</button>') +
+      (p.motherId && person(p.motherId) ? "" : '<button class="h-btn sm" data-x="mother">Onasini qoʻshish</button>') +
       ((p.fatherId && person(p.fatherId)) || (p.motherId && person(p.motherId))
-        ? '<button class="h-btn sm" data-x="sib">Ака-ука, опа-сингил</button>' : '') +
-      '<button class="h-btn sm" data-x="child">Фарзанд қўшиш</button>' +
-      (p.spouseId && person(p.spouseId) ? "" : '<button class="h-btn sm" data-x="spouse">Турмуш ўртоғи қўшиш</button>') +
-      '<button class="h-btn sm" data-x="edit">Таҳрирлаш</button>' +
-      '<button class="h-btn sm" data-x="self">' + (d.selfId === id ? "«мен» белгисини олиш" : "«мен» деб белгилаш") + '</button>' +
-      '<button class="h-btn sm" data-x="root">Шу ердан кўрсатиш</button>' +
+        ? '<button class="h-btn sm" data-x="sib">Aka-uka, opa-singil</button>' : '') +
+      '<button class="h-btn sm" data-x="child">Farzand qoʻshish</button>' +
+      (p.spouseId && person(p.spouseId) ? "" : '<button class="h-btn sm" data-x="spouse">Turmush oʻrtogʻi qoʻshish</button>') +
+      '<button class="h-btn sm" data-x="edit">Tahrirlash</button>' +
+      '<button class="h-btn sm" data-x="self">' + (d.selfId === id ? "«men» belgisini olish" : "«men» deb belgilash") + '</button>' +
+      '<button class="h-btn sm" data-x="root">Shu yerdan koʻrsatish</button>' +
       '</div></div>';
     box.addEventListener("click", ev => {
       if (ev.target === box || ev.target.closest("[data-close]")) { box.remove(); return; }
@@ -794,11 +794,11 @@
         editing = null; photoBuf = null; tab = "add"; render(el);
       }
       if (x === "father" || x === "mother") {
-        /* янги одам шу кишининг отаси/онаси бўлиб қўшилади */
+        /* yangi odam shu kishining otasi/onasi boʻlib qoʻshiladi */
         parentFor = { childId: id, role: x };
         preset = { gender: x === "father" ? "m" : "f" };
         const other = x === "father" ? (p.motherId && person(p.motherId)) : (p.fatherId && person(p.fatherId));
-        if (other) preset.spouseId = other.id;      // иккинчи ота-она бўлса — дарҳол эр-хотин қилиб улаймиз
+        if (other) preset.spouseId = other.id;      // ikkinchi ota-ona boʻlsa — darhol er-xotin qilib ulaymiz
         editing = null; photoBuf = null; tab = "add"; render(el);
       }
       if (x === "edit") { editing = p; preset = null; photoBuf = null; tab = "add"; render(el); }
@@ -829,7 +829,7 @@
     const me = id || rec.id;
     const self = person(me);
 
-    /* «Отасини/онасини қўшиш» орқали келинган бўлса — фарзандга улаймиз */
+    /* «Otasini/onasini qoʻshish» orqali kelingan boʻlsa — farzandga ulaymiz */
     let movedUp = false;
     if (parentFor && !id) {
       const kid = person(parentFor.childId);
@@ -845,12 +845,12 @@
     }
     parentFor = null;
 
-    /* турмуш ўртоғи икки томонлама боғланади */
+    /* turmush oʻrtogʻi ikki tomonlama bogʻlanadi */
     const spId = self.spouseId;
     if (spId) { const sp = person(spId); if (sp && sp.spouseId !== me) sp.spouseId = me; }
     d.people.forEach(x => { if (x.id !== me && x.spouseId === me && spId !== x.id) x.spouseId = ""; });
 
-    /* ота-она ўзгарган бўлса, дарахтни энг юқори аждоддан кўрсатамиз */
+    /* ota-ona oʻzgargan boʻlsa, daraxtni eng yuqori ajdoddan koʻrsatamiz */
     if (movedUp || (id && (self.fatherId !== wasFather || self.motherId !== wasMother))) {
       d.rootId = topAncestor(me);
     }

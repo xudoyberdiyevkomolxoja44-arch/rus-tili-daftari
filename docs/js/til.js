@@ -1,7 +1,7 @@
-/* ============ Тил ўрганиш ============
-   Саккиз тил учун битта тизим: ёзув, луғат, иборалар, грамматика,
-   90 кунлик режа ва Лейтнер усулидаги такрорлаш.
-   Ҳар бир тилнинг контенти js/langs/*.js да. */
+/* ============ Til oʻrganish ============
+   Sakkiz til uchun bitta tizim: yozuv, lugʻat, iboralar, grammatika,
+   90 kunlik reja va Leytner usulidagi takrorlash.
+   Har bir tilning kontenti js/langs/*.js da. */
 (function (H) {
   const NS = "til";
   const DEF = { cur: "", langs: {}, _m: 0 };
@@ -18,8 +18,8 @@
   H.lang = def => { H.langs.push(def); return def; };
   const langDef = id => H.langs.filter(l => l.id === id)[0];
 
-  /* Қўшимча мавзуларни асосий контентга улаш (js/langs/more.js).
-     Мавжуд сўзларнинг id си ўзгармайди — натижа йўқолмайди. */
+  /* Qoʻshimcha mavzularni asosiy kontentga ulash (js/langs/more.js).
+     Mavjud soʻzlarning id si oʻzgarmaydi — natija yoʻqolmaydi. */
   H.langMore = (id, extra) => {
     const def = langDef(id);
     if (!def) return;
@@ -52,7 +52,7 @@
   }
   const save = () => H.store.save(NS);
 
-  /* эски «Рус тили дафтари» натижасини кўчириб олиш */
+  /* eski «Rus tili daftari» natijasini koʻchirib olish */
   (function migrate() {
     const d = data();
     if (d._m) return;
@@ -77,7 +77,7 @@
     save();
   })();
 
-  /* ---------- контентдан тузилган тил объекти ---------- */
+  /* ---------- kontentdan tuzilgan til obʼyekti ---------- */
   const built = {};
   function L(id) {
     if (built[id]) return built[id];
@@ -102,13 +102,13 @@
       (mo.phrases || []).forEach(g => items.filter(w => w.group === g).forEach(w => pool.push(w.id)));
       const learnDays = [];
       for (let d = 1; d <= DPM; d++) if (d !== EXAM_DAY && !REVIEW_DAYS.has(d)) learnDays.push(d);
-      /* Аввал ёзув: биринчи кунлар фақат ҳарфларга ажратилади,
-         сўзлар алифбо тугагандан кейин бошланади. */
+      /* Avval yozuv: birinchi kunlar faqat harflarga ajratiladi,
+         soʻzlar alifbo tugagandan keyin boshlanadi. */
       const chars = (mo.script && def.script && def.script.items) ? def.script.items.length : 0;
       const nScript = chars ? Math.min(12, Math.max(6, Math.ceil(chars / 5))) : 0;
       const scriptDays = chars ? learnDays.slice(0, nScript) : [];
       const itemDays = chars ? learnDays.slice(nScript) : learnDays;
-      /* сўзларни барча кунларга текис тарқатамиз — охирги кунлар бўш қолмасин */
+      /* soʻzlarni barcha kunlarga tekis tarqatamiz — oxirgi kunlar boʻsh qolmasin */
       const nd = Math.max(1, itemDays.length);
       const base = Math.floor(pool.length / nd), rem = pool.length % nd;
       const sizes = itemDays.map((_, i) => base + (i < rem ? 1 : 0));
@@ -117,7 +117,7 @@
       for (let d = 1; d <= DPM; d++) {
         const n = mi * DPM + d;
         if (d === EXAM_DAY) {
-          days.push({ n, mi, d, kind: "exam", examId: "m" + (mi + 1), count: MONTH_EXAM.count, pass: MONTH_EXAM.pass, items: pool.slice(), title: "Ой имтиҳони" });
+          days.push({ n, mi, d, kind: "exam", examId: "m" + (mi + 1), count: MONTH_EXAM.count, pass: MONTH_EXAM.pass, items: pool.slice(), title: "Oy imtihoni" });
           continue;
         }
         const day = { n, mi, d, kind: REVIEW_DAYS.has(d) ? "review" : "learn", items: [], chars: [], gram: [] };
@@ -138,7 +138,7 @@
     return days;
   }
 
-  /* ---------- кичик ёрдамчилар ---------- */
+  /* ---------- kichik yordamchilar ---------- */
   const esc = H.esc;
   function markStress(s) {
     let out = "";
@@ -169,7 +169,7 @@
     } catch (e) {}
   }
   const SPK = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 4 8 8.5H4v7h4L13 20V4z"/><path d="M16.5 8.8a4.5 4.5 0 0 1 0 6.4" stroke="currentColor" stroke-width="1.9" fill="none" stroke-linecap="round"/></svg>';
-  const sayBtn = t => '<button class="t-say" data-say="' + esc(plain(t)) + '" title="Эшитиш" aria-label="Эшитиш">' + SPK + "</button>";
+  const sayBtn = t => '<button class="t-say" data-say="' + esc(plain(t)) + '" title="Eshitish" aria-label="Eshitish">' + SPK + "</button>";
 
   /* ---------- SRS ---------- */
   const card = (s, id) => s.cards[id] || null;
@@ -197,7 +197,7 @@
     return lang.items.filter(w => { const c = card(s, w.id); return c && c.box >= 4; }).length;
   }
 
-  /* бош саҳифа учун */
+  /* bosh sahifa uchun */
   H.tilSummary = function () {
     const d = data();
     const id = d.cur || (Object.keys(d.langs)[0] || "");
@@ -210,14 +210,14 @@
     };
   };
 
-  /* ---------- ҳолат ---------- */
+  /* ---------- holat ---------- */
   let cur = "", view = "pick", tab = "plan", el = null;
   let queue = [], item = null, shown = false, answered = false, session = null;
   let planView = { type: "overview", month: null, sel: null }, exam = null, cq = null;
   let search = "";
 
   H.mod({
-    id: NS, title: "Тил ўрганиш",
+    id: NS, title: "Til oʻrganish",
     init(node) {
       el = node;
       node.addEventListener("click", onClick);
@@ -247,18 +247,18 @@
     }
   });
 
-  /* ================= чизиш ================= */
+  /* ================= chizish ================= */
   function render() {
     if (!el) return;
     if (view === "pick" || !cur || !langDef(cur)) return renderPick();
     const lang = L(cur);
     let h = '<div class="t-bar">' +
-      '<button class="h-btn sm" data-act="pick">← Тиллар</button>' +
+      '<button class="h-btn sm" data-act="pick">← Tillar</button>' +
       '<b class="t-cur">' + esc(lang.name) + '</b>' +
       '<span class="t-prog">' + knownCount(cur) + "/" + lang.items.length + "</span></div>";
     h += '<nav class="t-tabs">' + [
-      ["plan", "Режа"], ["drill", "Машқ"], ["vocab", "Луғат"], ["phrase", "Иборалар"],
-      ["script", lang.script ? lang.script.title : "Ёзув"], ["gram", "Грамматика"]
+      ["plan", "Reja"], ["drill", "Mashq"], ["vocab", "Lugʻat"], ["phrase", "Iboralar"],
+      ["script", lang.script ? lang.script.title : "Yozuv"], ["gram", "Grammatika"]
     ].map(([k, nm]) => '<button class="t-tab" data-tab="' + k + '" aria-selected="' + (tab === k) + '">' + nm + "</button>").join("") + "</nav>";
     h += '<div class="t-body">' +
       (tab === "plan" ? renderPlan() : tab === "drill" ? renderDrill() : tab === "vocab" ? renderVocab()
@@ -273,9 +273,9 @@
 
   function renderPick() {
     const d = data();
-    let h = '<h2 class="h-h2">Қайси тилни ўрганамиз?</h2>' +
-      '<p class="h-lede">Ҳар бир тил учун алоҳида 90 кунлик режа, луғат, иборалар, ёзув ва грамматика. ' +
-      'Бир нечтасини баравар олиб бориш мумкин — натижалар аралашмайди.</p><div class="t-pick">';
+    let h = '<h2 class="h-h2">Qaysi tilni oʻrganamiz?</h2>' +
+      '<p class="h-lede">Har bir til uchun alohida 90 kunlik reja, lugʻat, iboralar, yozuv va grammatika. ' +
+      'Bir nechtasini baravar olib borish mumkin — natijalar aralashmaydi.</p><div class="t-pick">';
     H.langs.forEach(lg => {
       const has = !!d.langs[lg.id];
       const s = has ? S(lg.id) : null;
@@ -287,18 +287,18 @@
         "<b>" + esc(lg.name) + "</b>" +
         '<span class="t-native">' + esc(lg.native) + "</span>" +
         (has
-          ? '<span class="t-meta">' + s.plan.day + "-кун · " + known + "/" + lang.items.length + " сўз" +
-            (due ? ' · <i class="t-due">' + due + " такрор</i>" : "") + "</span>" +
+          ? '<span class="t-meta">' + s.plan.day + "-kun · " + known + "/" + lang.items.length + " soʻz" +
+            (due ? ' · <i class="t-due">' + due + " takror</i>" : "") + "</span>" +
             H.bar(known, lang.items.length, known >= lang.items.length * .8)
-          : '<span class="t-meta">' + lang.items.length + " сўз · " + (lang.script ? lang.script.items.length + " белги · " : "") +
-            lang.grammar.length + " қоида</span><span class=\"t-start\">бошлаш →</span>") +
+          : '<span class="t-meta">' + lang.items.length + " soʻz · " + (lang.script ? lang.script.items.length + " belgi · " : "") +
+            lang.grammar.length + " qoida</span><span class=\"t-start\">boshlash →</span>") +
         "</button>";
     });
     h += "</div>";
     el.innerHTML = h;
   }
 
-  /* ---------- режа ---------- */
+  /* ---------- reja ---------- */
   const dayOf = n => L(cur).plan[n - 1];
   const curN = () => S(cur).plan.day;
   const LAST = () => L(cur).plan.length;
@@ -309,49 +309,49 @@
     if (day.kind === "exam") {
       const ex = s.plan.exams[day.examId];
       t.push({ key: "exam", act: "exam", done: !!(ex && ex.passed), nopg: true,
-        label: "Имтиҳон: " + day.count + " савол · ўтиш чегараси " + Math.round(day.pass * 100) + "%",
-        btn: (ex && ex.passed) ? "Қайта топшириш" : "Имтиҳонни бошлаш",
-        note: ex ? (ex.tries + " уриниш · энг яхши " + Math.round(ex.best * 100) + "%") : "" });
+        label: "Imtihon: " + day.count + " savol · oʻtish chegarasi " + Math.round(day.pass * 100) + "%",
+        btn: (ex && ex.passed) ? "Qayta topshirish" : "Imtihonni boshlash",
+        note: ex ? (ex.tries + " urinish · eng yaxshi " + Math.round(ex.best * 100) + "%") : "" });
       return t;
     }
     if (day.chars.length) {
       const dn = day.chars.filter(i => s.plan.script[i]).length;
       t.push({ key: "sc", act: "chars", a: dn, b: day.chars.length, done: dn === day.chars.length,
-        label: day.chars.length + " та " + (lang.script.unit || "ҳарф") + "ни ёдлаш", btn: "Текшириш" });
+        label: day.chars.length + " ta " + (lang.script.unit || "harf") + "ni yodlash", btn: "Tekshirish" });
     }
     if (day.items.length) {
       const dn = day.items.filter(id => learned(s, id)).length;
       t.push({ key: "learn", act: "drill", a: dn, b: day.items.length, done: dn === day.items.length,
-        label: day.items.length + " та янги сўз ва ибора", btn: "Машқни бошлаш" });
+        label: day.items.length + " ta yangi soʻz va ibora", btn: "Mashqni boshlash" });
     }
     if (day.kind === "review") {
       const dn = Math.min(REV_TARGET, s.plan.rev[day.n] || 0);
       t.push({ key: "rev", act: "drill", a: dn, b: REV_TARGET, done: dn >= REV_TARGET,
-        label: REV_TARGET + " та сўзни қайта машқ қилиш", btn: "Такрорлашни бошлаш" });
+        label: REV_TARGET + " ta soʻzni qayta mashq qilish", btn: "Takrorlashni boshlash" });
     }
     const due = dueCount(cur);
     t.push({ key: "due", act: "drill", done: due === 0, nopg: true,
-      label: due ? ("Муддати келган " + due + " та сўзни такрорлаш") : "Муддати келган такрор йўқ",
-      btn: due ? "Такрорлаш" : null });
+      label: due ? ("Muddati kelgan " + due + " ta soʻzni takrorlash") : "Muddati kelgan takror yoʻq",
+      btn: due ? "Takrorlash" : null });
     day.gram.forEach(gi => t.push({ key: "g" + gi, act: "gram:" + gi, done: !!s.plan.gram[gi], nopg: true,
-      label: "Грамматика: " + lang.grammar[gi].t, btn: "Қоидани ўқиш" }));
+      label: "Grammatika: " + lang.grammar[gi].t, btn: "Qoidani oʻqish" }));
     return t;
   }
   const dayComplete = day => dayTasks(day).every(x => x.done);
 
   function dayTitle(day) {
     const lang = L(cur);
-    if (day.kind === "review") return "Мустаҳкамлаш куни";
-    if (day.kind === "exam") return "Ой имтиҳони";
+    if (day.kind === "review") return "Mustahkamlash kuni";
+    if (day.kind === "exam") return "Oy imtihoni";
     const names = [];
     day.items.forEach(id => {
       const it = lang.byId.get(id);
       if (!it) return;
-      const nm = it.kind === "phrase" ? "Иборалар" : (lang.topics.filter(x => x[0] === it.topic)[0] || ["", ""])[1];
+      const nm = it.kind === "phrase" ? "Iboralar" : (lang.topics.filter(x => x[0] === it.topic)[0] || ["", ""])[1];
       if (nm && names.indexOf(nm) < 0) names.push(nm);
     });
     const all = (day.chars.length ? [lang.script.title] : []).concat(names);
-    return all.length ? all.slice(0, 2).join(" · ") : "Такрорлаш";
+    return all.length ? all.slice(0, 2).join(" · ") : "Takrorlash";
   }
 
   function renderPlan() {
@@ -365,14 +365,14 @@
     const sel = planView.sel && planView.sel <= cn ? planView.sel : Math.min(cn, last);
 
     let h = '<div class="t-qhead"><h2>' + esc(lang.quarter.title) + "</h2><p>" + esc(lang.quarter.goal) + "</p>" +
-      '<div class="t-qbar">' + H.bar(done, last) + "<span>" + done + " / " + last + " кун</span></div></div>";
+      '<div class="t-qbar">' + H.bar(done, last) + "<span>" + done + " / " + last + " kun</span></div></div>";
     h += '<div class="t-months">' + lang.months.map((mo, i) => {
       const st = i < cmi ? "done" : (i === cmi ? "now" : "lock");
       const dIn = lang.plan.filter(x => x.mi === i && x.n < cn).length;
       const ex = s.plan.exams["m" + (i + 1)];
       return '<button class="t-mcard" data-month="' + i + '" data-state="' + st + '"' + (st === "lock" ? " disabled" : "") + ">" +
         "<b>" + esc(mo.title) + "</b><span>" + esc(mo.goal) + "</span><span class=\"t-mmeta\">" +
-        (st === "lock" ? "олдинги ой тугагач очилади" : dIn + "/" + DPM + " кун" + (ex && ex.passed ? " · имтиҳон ✓" : "")) +
+        (st === "lock" ? "oldingi oy tugagach ochiladi" : dIn + "/" + DPM + " kun" + (ex && ex.passed ? " · imtihon ✓" : "")) +
         "</span></button>";
     }).join("") + "</div>";
 
@@ -384,7 +384,7 @@
       else if (x.n === cn) st = "now";
       else st = x.kind === "exam" ? "exam" : "lock";
       return '<button class="t-dcell' + (x.n === sel ? " sel" : "") + '" data-s="' + st + '" data-day="' + x.n + '"' +
-        (x.n > cn ? " disabled" : "") + ' title="Кун ' + x.n + ' — ' + esc(dayTitle(x)) + '">' +
+        (x.n > cn ? " disabled" : "") + ' title="Kun ' + x.n + ' — ' + esc(dayTitle(x)) + '">' +
         (x.kind === "exam" ? "★" : x.d) + "</button>";
     }).join("") + "</div>";
 
@@ -396,12 +396,12 @@
     const s = S(cur), lang = L(cur);
     const tasks = dayTasks(day);
     const fin = s.plan.finished[day.n];
-    let h = '<div class="t-today"><div class="t-tline"><span class="t-tday">Кун ' + day.n + " · " +
-      (day.kind === "exam" ? "имтиҳон" : day.kind === "review" ? "мустаҳкамлаш" : "янги мавзу") + "</span>" +
-      (fin ? '<span class="t-tday">' + esc(fin) + " да тугалланди</span>" : "") + "</div>" +
+    let h = '<div class="t-today"><div class="t-tline"><span class="t-tday">Kun ' + day.n + " · " +
+      (day.kind === "exam" ? "imtihon" : day.kind === "review" ? "mustahkamlash" : "yangi mavzu") + "</span>" +
+      (fin ? '<span class="t-tday">' + esc(fin) + " da tugallandi</span>" : "") + "</div>" +
       "<h3>" + esc(dayTitle(day)) + "</h3>";
     if (!isCur) {
-      h += '<div class="t-doneflag">Бу кун тугалланган.</div>';
+      h += '<div class="t-doneflag">Bu kun tugallangan.</div>';
       if (day.items.length) h += '<p class="h-note">' + day.items.slice(0, 12).map(id => {
         const it = lang.byId.get(id); return it ? '<span class="t-nat">' + markStress(it.native) + "</span>" : "";
       }).join(", ") + "</p>";
@@ -418,28 +418,28 @@
     }).join(", ") + "</p>";
     const ready = tasks.every(t => t.done);
     h += '<div class="h-row">' + (ready
-      ? '<button class="h-btn pri" data-act="next">Кейинги кунга ўтиш →</button>'
-      : '<button class="h-btn pri" data-act="drill" data-day="' + day.n + '">Бугунги машқни бошлаш</button>') + "</div>";
-    if (!ready) h += '<p class="h-note" style="margin:12px 0 0">🔒 Кейинги кун барча топшириқ бажарилгач очилади.</p>';
+      ? '<button class="h-btn pri" data-act="next">Keyingi kunga oʻtish →</button>'
+      : '<button class="h-btn pri" data-act="drill" data-day="' + day.n + '">Bugungi mashqni boshlash</button>') + "</div>";
+    if (!ready) h += '<p class="h-note" style="margin:12px 0 0">🔒 Keyingi kun barcha topshiriq bajarilgach ochiladi.</p>';
     return h + "</div>";
   }
 
   function quarterCard() {
     const s = S(cur);
     const ex = s.plan.exams.q1;
-    let h = '<div class="t-today"><div class="t-tline"><span class="t-tday">Якуний босқич</span></div><h3>Чорак имтиҳони</h3>';
+    let h = '<div class="t-today"><div class="t-tline"><span class="t-tday">Yakuniy bosqich</span></div><h3>Chorak imtihoni</h3>';
     if (ex && ex.passed) {
-      h += '<div class="t-doneflag">Чорак тугалланди — ' + Math.round(ex.best * 100) + "% натижа билан.</div>" +
-        '<p class="h-note">Энди «Машқ» бўлимида эркин такрорлашни давом эттиринг: тизим ҳар сўзни муддати келганда ўзи қайтаради.</p>';
+      h += '<div class="t-doneflag">Chorak tugallandi — ' + Math.round(ex.best * 100) + "% natija bilan.</div>" +
+        '<p class="h-note">Endi «Mashq» boʻlimida erkin takrorlashni davom ettiring: tizim har soʻzni muddati kelganda oʻzi qaytaradi.</p>';
     } else {
-      h += '<p class="h-note">Уч ойлик материалдан ' + QUARTER_EXAM.count + " та савол. Ўтиш чегараси " +
-        Math.round(QUARTER_EXAM.pass * 100) + "%." + (ex ? " Энг яхши натижа: " + Math.round(ex.best * 100) + "%." : "") + "</p>" +
-        '<div class="h-row" style="margin-top:10px"><button class="h-btn pri" data-act="qexam">Имтиҳонни бошлаш</button></div>';
+      h += '<p class="h-note">Uch oylik materialdan ' + QUARTER_EXAM.count + " ta savol. Oʻtish chegarasi " +
+        Math.round(QUARTER_EXAM.pass * 100) + "%." + (ex ? " Eng yaxshi natija: " + Math.round(ex.best * 100) + "%." : "") + "</p>" +
+        '<div class="h-row" style="margin-top:10px"><button class="h-btn pri" data-act="qexam">Imtihonni boshlash</button></div>';
     }
     return h + "</div>";
   }
 
-  /* ---------- имтиҳон ---------- */
+  /* ---------- imtihon ---------- */
   function startExam(day) {
     const lang = L(cur), s = S(cur);
     const isQ = day === "quarter";
@@ -448,7 +448,7 @@
       .slice(0, isQ ? QUARTER_EXAM.count : day.count);
     exam = {
       id: isQ ? "q1" : day.examId, pass: isQ ? QUARTER_EXAM.pass : day.pass,
-      title: isQ ? "Чорак имтиҳони" : (lang.months[day.mi].title.split("—")[0].trim() + " имтиҳони"),
+      title: isQ ? "Chorak imtihoni" : (lang.months[day.mi].title.split("—")[0].trim() + " imtihoni"),
       qs: src.map(id => {
         const it = lang.byId.get(id);
         const near = lang.items.filter(w => w.id !== id && w.kind === it.kind);
@@ -463,22 +463,22 @@
       const ok = exam.score >= exam.pass;
       return '<div class="t-today" style="text-align:center"><span class="t-tday">' + esc(exam.title) + "</span>" +
         '<div class="t-score ' + (ok ? "pass" : "fail") + '">' + Math.round(exam.score * 100) + "%</div>" +
-        '<p class="h-note">' + exam.right + " / " + exam.qs.length + " тўғри — " +
-        (ok ? "имтиҳон топширилди, кейинги босқич очилди." : "ўтиш учун " + Math.round(exam.pass * 100) + "% керак.") + "</p>" +
+        '<p class="h-note">' + exam.right + " / " + exam.qs.length + " toʻgʻri — " +
+        (ok ? "imtihon topshirildi, keyingi bosqich ochildi." : "oʻtish uchun " + Math.round(exam.pass * 100) + "% kerak.") + "</p>" +
         '<div class="h-row" style="justify-content:center;margin-top:12px">' +
-        (ok ? "" : '<button class="h-btn" data-act="retry">Қайта топшириш</button>') +
-        '<button class="h-btn pri" data-act="back">Режага қайтиш</button></div></div>';
+        (ok ? "" : '<button class="h-btn" data-act="retry">Qayta topshirish</button>') +
+        '<button class="h-btn pri" data-act="back">Rejaga qaytish</button></div></div>';
     }
     const q = exam.qs[exam.i];
-    return '<div class="t-meta"><span>' + esc(exam.title) + "</span><span>Савол " + (exam.i + 1) + " / " + exam.qs.length + "</span></div>" +
-      '<div class="t-card"><div class="t-ask">Тўғри таржимани танланг</div>' + natBlock(q.it) + "</div>" +
+    return '<div class="t-meta"><span>' + esc(exam.title) + "</span><span>Savol " + (exam.i + 1) + " / " + exam.qs.length + "</span></div>" +
+      '<div class="t-card"><div class="t-ask">Toʻgʻri tarjimani tanlang</div>' + natBlock(q.it) + "</div>" +
       '<div class="t-opts">' + q.opts.map((o, i) => {
         let cls = "t-opt";
         if (exam.answered) { if (o.id === q.it.id) cls += " right"; else if (o.id === exam.picked) cls += " wrong"; }
         return '<button class="' + cls + '" data-exam="' + o.id + '"' + (exam.answered ? " disabled" : "") + ">" +
           '<span class="t-n">' + (i + 1) + "</span><span>" + esc(o.uz) + "</span></button>";
       }).join("") + "</div>" +
-      '<div class="h-row" style="justify-content:center;margin-top:12px"><button class="h-link" data-act="back">Чиқиш</button></div>';
+      '<div class="h-row" style="justify-content:center;margin-top:12px"><button class="h-link" data-act="back">Chiqish</button></div>';
   }
   function answerExam(id) {
     if (exam.answered) return;
@@ -488,7 +488,7 @@
     if (ok) exam.right++;
     render();
     setTimeout(() => {
-      if (!exam) return;                     // имтиҳондан чиқиб кетилган
+      if (!exam) return;                     // imtihondan chiqib ketilgan
       exam.i++; exam.answered = false;
       if (exam.i >= exam.qs.length) {
         const s = S(cur);
@@ -503,7 +503,7 @@
     }, ok ? 550 : 1300);
   }
 
-  /* ---------- ёзув белгилари машқи ---------- */
+  /* ---------- yozuv belgilari mashqi ---------- */
   function startChars(day) {
     const s = S(cur), lang = L(cur);
     let q = day.chars.filter(i => !s.plan.script[i]);
@@ -524,8 +524,8 @@
   }
   function renderCharQuiz() {
     const lang = L(cur), it = lang.script.items[cq.cur];
-    return '<div class="t-meta"><span>' + esc(lang.script.title) + '</span><span>қолди: ' + (cq.queue.length + 1) + "</span></div>" +
-      '<div class="t-card"><div class="t-ask">Бу белги қандай ўқилади?</div>' +
+    return '<div class="t-meta"><span>' + esc(lang.script.title) + '</span><span>qoldi: ' + (cq.queue.length + 1) + "</span></div>" +
+      '<div class="t-card"><div class="t-ask">Bu belgi qanday oʻqiladi?</div>' +
       '<div class="t-word ' + lang.id + '">' + esc(it[0]) + "</div></div>" +
       '<div class="t-opts">' + cq.opts.map((i, k) => {
         let cls = "t-opt";
@@ -533,9 +533,9 @@
         return '<button class="' + cls + '" data-char="' + i + '"' + (cq.answered ? " disabled" : "") + ">" +
           '<span class="t-n">' + (k + 1) + "</span><span>" + esc(lang.script.items[i][2]) + "</span></button>";
       }).join("") + "</div>" +
-      (cq.answered && !cq.ok ? '<p class="h-note" style="color:var(--red);text-align:center">Тўғри жавоб: ' +
-        esc(it[2]) + " · мисол: " + esc(it[3]) + "</p>" : "") +
-      '<div class="h-row" style="justify-content:center;margin-top:12px"><button class="h-link" data-act="back">Тўхтатиш</button></div>';
+      (cq.answered && !cq.ok ? '<p class="h-note" style="color:var(--red);text-align:center">Toʻgʻri javob: ' +
+        esc(it[2]) + " · misol: " + esc(it[3]) + "</p>" : "") +
+      '<div class="h-row" style="justify-content:center;margin-top:12px"><button class="h-link" data-act="back">Toʻxtatish</button></div>';
   }
   function answerChar(i) {
     if (cq.answered) return;
@@ -546,14 +546,14 @@
     const wasOk = cq.ok;
     render();
     setTimeout(() => {
-      if (!cq) return;                       // фойдаланувчи аллақачон чиқиб кетган
+      if (!cq) return;                       // foydalanuvchi allaqachon chiqib ketgan
       nextChar();
       if (!cq) planView = { type: "overview", month: planView.month, sel: planView.sel };
       render();
     }, wasOk ? 600 : 1400);
   }
 
-  /* ---------- машқ ---------- */
+  /* ---------- mashq ---------- */
   function pool() {
     const s = S(cur), lang = L(cur), t = todayIdx();
     if (session) {
@@ -600,34 +600,34 @@
   function renderDrill() {
     const s = S(cur), lang = L(cur);
     if (!item) newQueue();
-    if (!item) return '<div class="h-empty">Сўз топилмади.</div>';
+    if (!item) return '<div class="h-empty">Soʻz topilmadi.</div>';
     const n2u = s.dir === "n2u";
     let h = "";
     if (session) {
       const day = dayOf(session.n), tasks = dayTasks(day);
       const lt = tasks.filter(t => t.key === "learn" || t.key === "rev")[0];
       const all = tasks.every(t => t.done);
-      h += '<div class="t-planbar"><span>' + (all ? "✓ Кун " + day.n + " топшириқлари бажарилди"
-        : "Кун " + day.n + " машқи" + (lt ? " · " + lt.a + "/" + lt.b : "")) + "</span>" +
-        '<button class="h-btn sm' + (all ? " pri" : "") + '" data-act="toplan">Режага қайтиш</button></div>';
+      h += '<div class="t-planbar"><span>' + (all ? "✓ Kun " + day.n + " topshiriqlari bajarildi"
+        : "Kun " + day.n + " mashqi" + (lt ? " · " + lt.a + "/" + lt.b : "")) + "</span>" +
+        '<button class="h-btn sm' + (all ? " pri" : "") + '" data-act="toplan">Rejaga qaytish</button></div>';
     } else {
       h += '<div class="t-chips">' +
-        '<button class="t-chip" data-topic="*" aria-pressed="' + (!s.topics.length) + '">Ҳаммаси</button>' +
-        lang.topics.concat([["ph", "Иборалар"]]).map(([id, nm]) =>
+        '<button class="t-chip" data-topic="*" aria-pressed="' + (!s.topics.length) + '">Hammasi</button>' +
+        lang.topics.concat([["ph", "Iboralar"]]).map(([id, nm]) =>
           '<button class="t-chip" data-topic="' + id + '" aria-pressed="' + (s.topics.indexOf(id) >= 0) + '">' + nm + "</button>").join("") +
         "</div>";
     }
     h += '<div class="t-tools"><div class="t-seg">' +
-      [["flip", "Карточка"], ["choice", "Танлов"], ["write", "Ёзиш"], ["listen", "Эшитиш"]].map(([k, nm]) =>
+      [["flip", "Kartochka"], ["choice", "Tanlov"], ["write", "Yozish"], ["listen", "Eshitish"]].map(([k, nm]) =>
         '<button data-mode="' + k + '" aria-pressed="' + (s.mode === k) + '">' + nm + "</button>").join("") + "</div>";
     if (s.mode === "flip" || s.mode === "choice") h += '<div class="t-seg">' +
-      [["n2u", lang.code + " → ўзб"], ["u2n", "ўзб → " + lang.code]].map(([k, nm]) =>
+      [["n2u", lang.code + " → oʻzb"], ["u2n", "oʻzb → " + lang.code]].map(([k, nm]) =>
         '<button data-dir="' + k + '" aria-pressed="' + (s.dir === k) + '">' + nm + "</button>").join("") + "</div>";
     h += "</div>";
 
     if (s.mode === "flip") {
       h += '<div class="t-card">' +
-        '<div class="t-ask">' + (n2u ? "Бу нима дегани?" : "Бу тилда қандай айтилади?") + "</div>" +
+        '<div class="t-ask">' + (n2u ? "Bu nima degani?" : "Bu tilda qanday aytiladi?") + "</div>" +
         (n2u ? natBlock(item) + '<div class="t-say-row">' + sayBtn(item.native) + '<span class="t-pron">' + esc(item.pron) + "</span></div>"
              : '<div class="t-word uz' + (item.kind === "phrase" ? " sm" : "") + '">' + esc(item.uz) + "</div>") +
         (shown ? '<div class="t-answer">' +
@@ -636,8 +636,8 @@
           '<div class="h-note">' + topicName(item) + "</div></div>" : "") +
         "</div>" +
         '<div class="h-row" style="justify-content:center;margin-top:16px">' + (shown
-          ? '<button class="h-btn bad" data-g="0">Билмадим</button><button class="h-btn ok" data-g="1">Билдим</button>'
-          : '<button class="h-btn pri" data-flip="1">Жавобни кўрсатиш</button>') + "</div>";
+          ? '<button class="h-btn bad" data-g="0">Bilmadim</button><button class="h-btn ok" data-g="1">Bildim</button>'
+          : '<button class="h-btn pri" data-flip="1">Javobni koʻrsatish</button>') + "</div>";
     }
 
     if (s.mode === "choice") {
@@ -646,7 +646,7 @@
         const same = kin.filter(w => w.topic === item.topic);
         item.opts = shuffle([item].concat(shuffle((same.length >= 3 ? same : kin).slice()).slice(0, 3)));
       }
-      h += '<div class="t-card"><div class="t-ask">Тўғри жавобни танланг</div>' +
+      h += '<div class="t-card"><div class="t-ask">Toʻgʻri javobni tanlang</div>' +
         (n2u ? natBlock(item) + '<div class="t-say-row">' + sayBtn(item.native) + "</div>"
              : '<div class="t-word uz' + (item.kind === "phrase" ? " sm" : "") + '">' + esc(item.uz) + "</div>") + "</div>" +
         '<div class="t-opts">' + item.opts.map((o, i) => {
@@ -661,20 +661,20 @@
     if (s.mode === "write") {
       const field = lang.typeField === "pron" ? "pron" : "native";
       h += '<div class="t-card"><div class="t-ask">' +
-        (field === "pron" ? "Талаффузини лотин/кирилл ҳарфлари билан ёзинг" : esc(lang.name) + "да ёзинг") + "</div>" +
+        (field === "pron" ? "Talaffuzini lotin/kirill harflari bilan yozing" : esc(lang.name) + "da yozing") + "</div>" +
         '<div class="t-word uz' + (item.kind === "phrase" ? " sm" : "") + '">' + esc(item.uz) + "</div>" +
         '<div class="h-note">' + topicName(item) + "</div>" +
         '<input class="t-in" id="t-in" autocomplete="off" autocapitalize="off" spellcheck="false"' +
-        (H.TOUCH && lang.keys ? ' inputmode="none"' : "") + ' aria-label="Жавоб">' +
+        (H.TOUCH && lang.keys ? ' inputmode="none"' : "") + ' aria-label="Javob">' +
         '<div class="t-verdict" id="t-verdict"></div></div>';
       if (lang.keys) h += '<div class="t-keys">' + lang.keys.map(row =>
         '<div class="t-krow">' + row.split("").map(k => '<button class="t-key" data-k="' + esc(k) + '">' + esc(k) + "</button>").join("") + "</div>").join("") +
-        '<div class="t-krow"><button class="t-key wide" data-k=" ">бўшлиқ</button>' +
-        '<button class="t-key wide" data-k="⌫">ўчириш</button>' +
-        '<button class="t-key wide" data-k="↵">текшириш</button></div></div>';
+        '<div class="t-krow"><button class="t-key wide" data-k=" ">boʻshliq</button>' +
+        '<button class="t-key wide" data-k="⌫">oʻchirish</button>' +
+        '<button class="t-key wide" data-k="↵">tekshirish</button></div></div>';
       h += '<div class="h-row" style="justify-content:center;margin-top:14px">' +
-        '<button class="h-btn pri" data-act="check">' + (answered ? "Кейинги сўз" : "Текшириш") + "</button>" +
-        '<button class="h-btn" data-act="skip">Кўрсатиб бер</button></div>';
+        '<button class="h-btn pri" data-act="check">' + (answered ? "Keyingi soʻz" : "Tekshirish") + "</button>" +
+        '<button class="h-btn" data-act="skip">Koʻrsatib ber</button></div>';
     }
 
     if (s.mode === "listen") {
@@ -683,10 +683,10 @@
         const kin = lang.items.filter(w => w.kind === item.kind && w.id !== item.id);
         item.opts = shuffle([item].concat(shuffle(kin.slice()).slice(0, 3)));
       }
-      h += '<div class="t-card"><div class="t-ask">Эшитинг ва тўғрисини танланг</div>' +
+      h += '<div class="t-card"><div class="t-ask">Eshiting va toʻgʻrisini tanlang</div>' +
         '<button class="t-bigsay" data-say="' + esc(plain(item.native)) + '">' + SPK + "</button>" +
-        (v ? "" : '<p class="h-note" style="color:var(--red)">Бу қурилмада ' + esc(lang.name) +
-          ' учун овоз ўрнатилмаган — тизим созламаларидан овоз пакетини қўшиш керак.</p>') + "</div>" +
+        (v ? "" : '<p class="h-note" style="color:var(--red)">Bu qurilmada ' + esc(lang.name) +
+          ' uchun ovoz oʻrnatilmagan — tizim sozlamalaridan ovoz paketini qoʻshish kerak.</p>') + "</div>" +
         '<div class="t-opts">' + item.opts.map((o, i) => {
           let cls = "t-opt";
           if (answered) { if (o.id === item.id) cls += " right"; else if (o.id === item.picked) cls += " wrong"; }
@@ -699,14 +699,17 @@
   }
   function topicName(it) {
     const lang = L(cur);
-    return it.kind === "phrase" ? "Иборалар · " + it.group
+    return it.kind === "phrase" ? "Iboralar · " + it.group
       : (lang.topics.filter(x => x[0] === it.topic)[0] || ["", ""])[1];
   }
 
   function norm(s, lang) {
     let v = plain(String(s)).toLowerCase().trim();
     v = v.normalize ? v.normalize("NFD").replace(/[̀-ͯ]/g, "") : v;
-    v = v.replace(/[0-9]/g, "").replace(/[.,!?;:'"«»¿¡]/g, "").replace(/ё/g, "е").replace(/\s+/g, " ");
+    v = v.replace(/[0-9]/g, "")
+         .replace(/[.,!?;:'"«»¿¡ʻʼ‘’`]/g, "")   // apostroflar: oʻ = o' = o
+         .replace(/ё/g, "е")                              // rus yo -> ye
+         .replace(/\s+/g, " ");
     return v.trim();
   }
   function checkWrite() {
@@ -720,14 +723,14 @@
     grade(item.id, ok);
     const v = el.querySelector("#t-verdict");
     v.className = "t-verdict " + (ok ? "ok" : "no");
-    v.innerHTML = ok ? "Тўғри! " + '<span class="t-nat ' + lang.id + '">' + markStress(item.native) + "</span>"
-      : "Тўғриси: " + '<span class="t-nat ' + lang.id + '">' + markStress(item.native) + "</span> " +
+    v.innerHTML = ok ? "Toʻgʻri! " + '<span class="t-nat ' + lang.id + '">' + markStress(item.native) + "</span>"
+      : "Toʻgʻrisi: " + '<span class="t-nat ' + lang.id + '">' + markStress(item.native) + "</span> " +
         '<span class="t-pron">(' + esc(item.pron) + ")</span>";
     const b = el.querySelector('[data-act="check"]');
-    if (b) b.textContent = "Кейинги сўз";
+    if (b) b.textContent = "Keyingi soʻz";
   }
 
-  /* ---------- луғат / иборалар / ёзув / грамматика ---------- */
+  /* ---------- lugʻat / iboralar / yozuv / grammatika ---------- */
   function dots(id) {
     const s = S(cur), c = card(s, id), lvl = c ? c.box : 0;
     let h = "";
@@ -737,7 +740,7 @@
   function renderVocab() {
     const lang = L(cur);
     const q = norm(search, lang);
-    let h = '<input class="t-search" id="t-search" type="search" placeholder="Сўз излаш…" aria-label="Излаш" value="' + esc(search) + '">';
+    let h = '<input class="t-search" id="t-search" type="search" placeholder="Soʻz izlash…" aria-label="Izlash" value="' + esc(search) + '">';
     let found = 0;
     lang.topics.forEach(([tid, nm]) => {
       const list = lang.items.filter(w => w.topic === tid &&
@@ -752,7 +755,7 @@
           '<div class="t-r-uz">' + esc(w.uz) + "</div>" +
           '<div class="t-lvl">' + dots(w.id) + "</div></div>").join("") + "</div>";
     });
-    if (!found) h += '<div class="h-empty">Бундай сўз топилмади.</div>';
+    if (!found) h += '<div class="h-empty">Bunday soʻz topilmadi.</div>';
     return h;
   }
   function renderPhrase() {
@@ -760,7 +763,7 @@
     const groups = {};
     lang.items.filter(w => w.kind === "phrase").forEach(p => { (groups[p.group] = groups[p.group] || []).push(p); });
     const keys = Object.keys(groups);
-    if (!keys.length) return '<div class="h-empty">Иборалар киритилмаган.</div>';
+    if (!keys.length) return '<div class="h-empty">Iboralar kiritilmagan.</div>';
     return keys.map(g => '<div class="t-group"><h4>' + esc(g) + " <em>" + groups[g].length + "</em></h4>" +
       groups[g].map(p => '<div class="t-phrase"><div class="t-p-nat">' + sayBtn(p.native) +
         '<span class="t-nat ' + lang.id + '"' + (lang.dir === "rtl" ? ' dir="rtl"' : "") + ">" + markStress(p.native) + "</span>" +
@@ -770,11 +773,11 @@
   }
   function renderScript() {
     const lang = L(cur), s = S(cur);
-    if (!lang.script) return '<div class="h-empty">Бу тил лотин ёзувидан фойдаланади.</div>';
+    if (!lang.script) return '<div class="h-empty">Bu til lotin yozuvidan foydalanadi.</div>';
     const done = Object.keys(s.plan.script).length;
     return '<h3 class="t-mtitle">' + esc(lang.script.title) + "</h3>" +
       '<p class="h-note" style="margin:-2px 0 12px">' + esc(lang.script.note || "") +
-      " · " + done + "/" + lang.script.items.length + " белги ёдланган</p>" +
+      " · " + done + "/" + lang.script.items.length + " belgi yodlangan</p>" +
       '<div class="t-scripts">' + lang.script.items.map((it, i) =>
         '<div class="t-sc' + (s.plan.script[i] ? " ok" : "") + '">' +
         '<b class="' + lang.id + '">' + esc(it[0]) + "</b>" +
@@ -787,11 +790,11 @@
     const lang = L(cur), s = S(cur);
     return lang.grammar.map((g, i) => '<div class="t-gcard" id="tg' + i + '"><h4>' + esc(g.t) + "</h4>" + g.h +
       '<div class="t-gdone"><button class="h-btn sm' + (s.plan.gram[i] ? " ok" : "") + '" data-gram="' + i + '">' +
-      (s.plan.gram[i] ? "✓ Тушундим" : "Тушундим") + "</button>" +
-      '<span class="h-note">' + (s.plan.gram[i] ? "режада белгиланди" : "ўқиб бўлгач белгиланг") + "</span></div></div>").join("");
+      (s.plan.gram[i] ? "✓ Tushundim" : "Tushundim") + "</button>" +
+      '<span class="h-note">' + (s.plan.gram[i] ? "rejada belgilandi" : "oʻqib boʻlgach belgilang") + "</span></div></div>").join("");
   }
 
-  /* ================= ҳодисалар ================= */
+  /* ================= hodisalar ================= */
   function onInput(e) {
     const s = e.target.closest("#t-search");
     if (s) {
@@ -844,7 +847,7 @@
       grade(item.id, ok);
       render();
       setTimeout(() => {
-        if (H.active() !== NS || tab !== "drill") return;   // бошқа жойга ўтиб кетилган
+        if (H.active() !== NS || tab !== "drill") return;   // boshqa joyga oʻtib ketilgan
         next(); render();
       }, ok ? 600 : 1400);
       return;
@@ -883,8 +886,8 @@
       if (!answered) {
         answered = true; grade(item.id, false);
         const v = el.querySelector("#t-verdict");
-        if (v) { v.className = "t-verdict no"; v.innerHTML = "Тўғриси: <span class='t-nat " + cur + "'>" + markStress(item.native) + "</span> <span class='t-pron'>(" + esc(item.pron) + ")</span>"; }
-        const b = el.querySelector('[data-act="check"]'); if (b) b.textContent = "Кейинги сўз";
+        if (v) { v.className = "t-verdict no"; v.innerHTML = "Toʻgʻrisi: <span class='t-nat " + cur + "'>" + markStress(item.native) + "</span> <span class='t-pron'>(" + esc(item.pron) + ")</span>"; }
+        const b = el.querySelector('[data-act="check"]'); if (b) b.textContent = "Keyingi soʻz";
       } else { next(); render(); }
       return;
     }

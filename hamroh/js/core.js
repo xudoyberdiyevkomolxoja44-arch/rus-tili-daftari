@@ -1,11 +1,11 @@
-/* ============ Ҳамроҳ — ўзак ============
-   Модуллар шу ердаги H объектига уланади. Ҳар бир модул ўз маълумотини
-   H.store орқали сақлайди: аввал қурилма хотирасига, кейин (агар мавжуд бўлса)
-   Claude ҳисобига — шунда телефон ва компьютер бир хил маълумотни кўради. */
+/* ============ Hamroh — oʻzak ============
+   Modullar shu yerdagi H obʼyektiga ulanadi. Har bir modul oʻz maʼlumotini
+   H.store orqali saqlaydi: avval qurilma xotirasiga, keyin (agar mavjud boʻlsa)
+   Claude hisobiga — shunda telefon va kompyuter bir xil maʼlumotni koʻradi. */
 window.H = (function () {
   const H = {};
 
-  /* ---------- кичик ёрдамчилар ---------- */
+  /* ---------- kichik yordamchilar ---------- */
   H.esc = s => String(s == null ? "" : s)
     .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
@@ -13,10 +13,10 @@ window.H = (function () {
   H.clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   H.pad = n => String(n).padStart(2, "0");
 
-  const DAYS = ["Якшанба", "Душанба", "Сешанба", "Чоршанба", "Пайшанба", "Жума", "Шанба"];
-  const DAYS_S = ["Як", "Ду", "Се", "Чо", "Па", "Жу", "Ша"];
-  const MONTHS = ["январ", "феврал", "март", "апрел", "май", "июн",
-                  "июл", "август", "сентябр", "октябр", "ноябр", "декабр"];
+  const DAYS = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+  const DAYS_S = ["Yak", "Du", "Se", "Cho", "Pa", "Ju", "Sha"];
+  const MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun",
+                  "iyul", "avgust", "sentyabr", "oktyabr", "noyabr", "dekabr"];
   H.DAYS = DAYS; H.DAYS_S = DAYS_S; H.MONTHS = MONTHS;
 
   H.date = d => (d instanceof Date ? d : (d ? new Date(d + "T00:00:00") : new Date()));
@@ -40,7 +40,7 @@ window.H = (function () {
     for (let i = 1; i <= n; i++) out.push(key + "-" + H.pad(i));
     return out;
   };
-  H.weekKey = iso => {                         // душанбадан бошланадиган ҳафта
+  H.weekKey = iso => {                         // dushanbadan boshlanadigan hafta
     const d = H.date(iso);
     const off = (d.getDay() + 6) % 7;
     d.setDate(d.getDate() - off);
@@ -52,13 +52,32 @@ window.H = (function () {
   H.plural = (n, w) => n + " " + w;
   H.TOUCH = !!(window.matchMedia && window.matchMedia("(hover:none)").matches);
 
-  /* ---------- сақлаш ---------- */
+  /* eski kirill qiymatlarni lotinga oʻtkazish uchun */
+  const CYR2LAT = { "а":"a","б":"b","в":"v","г":"g","ғ":"gʻ","д":"d","е":"e","ё":"yo","ж":"j",
+    "з":"z","и":"i","й":"y","к":"k","қ":"q","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r",
+    "с":"s","т":"t","у":"u","ў":"oʻ","ф":"f","х":"x","ҳ":"h","ц":"ts","ч":"ch","ш":"sh",
+    "щ":"shch","ъ":"ʼ","ы":"i","ь":"","э":"e","ю":"yu","я":"ya" };
+  H.toLatin = function (text) {
+    if (!text) return text;
+    let out = "";
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i], low = ch.toLowerCase(), rep = CYR2LAT[low];
+      if (rep === undefined) { out += ch; continue; }
+      if (ch === low) { out += rep; continue; }
+      const nx = text[i + 1] || "";
+      const caps = nx && nx === nx.toUpperCase() && nx !== nx.toLowerCase();
+      out += caps ? rep.toUpperCase() : (rep.charAt(0).toUpperCase() + rep.slice(1));
+    }
+    return out;
+  };
+
+  /* ---------- saqlash ---------- */
   const PREFIX = "hamroh:";
   const cache = {}, defs = {}, timers = {};
   let cloudDb = null;
 
   H.store = {
-    /* ns — модул номи, def — бошланғич қиймат */
+    /* ns — modul nomi, def — boshlangʻich qiymat */
     get(ns, def) {
       if (def) defs[ns] = def;
       const base = () => JSON.parse(JSON.stringify(defs[ns] || {}));
@@ -67,7 +86,7 @@ window.H = (function () {
         try { const raw = localStorage.getItem(PREFIX + ns); if (raw) v = JSON.parse(raw); } catch (e) {}
         cache[ns] = (v && typeof v === "object") ? Object.assign(base(), v) : base();
       } else if (def) {
-        /* кейинроқ келган бошланғич қийматлар — етишмаган калитларни тўлдирамиз */
+        /* keyinroq kelgan boshlangʻich qiymatlar — yetishmagan kalitlarni toʻldiramiz */
         Object.keys(def).forEach(k => {
           if (!(k in cache[ns])) cache[ns][k] = JSON.parse(JSON.stringify(def[k]));
         });
@@ -82,13 +101,13 @@ window.H = (function () {
       try {
         localStorage.setItem(PREFIX + ns, JSON.stringify(v));
       } catch (e) {
-        /* хотира тўлса — жим қолмаймиз, акс ҳолда маълумот йўқолади */
+        /* xotira toʻlsa — jim qolmaymiz, aks holda maʼlumot yoʻqoladi */
         if (!H._quotaWarned) {
           H._quotaWarned = true;
           setTimeout(() => alert(
-            "Қурилма хотираси тўлди — сўнгги ўзгариш сақланмади.\n\n" +
-            "Созлама → «Файлга нусха олиш» орқали заҳира олинг, сўнг " +
-            "шажарадаги айрим суратларни ўчириб хотирани бўшатинг."), 0);
+            "Qurilma xotirasi toʻldi — soʻnggi oʻzgarish saqlanmadi.\n\n" +
+            "Sozlama → «Faylga nusxa olish» orqali zahira oling, soʻng " +
+            "shajaradagi ayrim suratlarni oʻchirib xotirani boʻshating."), 0);
         }
       }
       if (cloudDb) {
@@ -127,7 +146,7 @@ window.H = (function () {
     }
   };
 
-  /* Claude ҳисоби билан синхронлаш — бўлмаса илова барибир ишлайверади */
+  /* Claude hisobi bilan sinxronlash — boʻlmasa ilova baribir ishlayveradi */
   H.cloud = {
     on: false,
     async init() {
@@ -153,12 +172,12 @@ window.H = (function () {
     }
   };
 
-  /* ---------- оддий ҳодиса шинаси ---------- */
+  /* ---------- oddiy hodisa shinasi ---------- */
   const subs = {};
   H.on = (ev, fn) => { (subs[ev] = subs[ev] || []).push(fn); };
   H.emit = (ev, a) => { (subs[ev] || []).forEach(f => { try { f(a); } catch (e) {} }); };
 
-  /* ---------- модуллар ва навигация ---------- */
+  /* ---------- modullar va navigatsiya ---------- */
   H.mods = [];
   H.mod = def => { H.mods.push(def); return def; };
   H.byId = id => H.mods.filter(m => m.id === id)[0];
@@ -189,7 +208,7 @@ window.H = (function () {
     if (m.show) m.show(el); else if (m.render) m.render(el);
   };
 
-  /* ---------- кичик UI ёрдамчилари ---------- */
+  /* ---------- kichik UI yordamchilari ---------- */
   H.bar = (a, b, ok) =>
     '<div class="h-bar' + (ok ? " ok" : "") + '"><i style="width:' +
     H.clamp(b ? Math.round(a / b * 100) : 0, 0, 100) + '%"></i></div>';
@@ -204,10 +223,10 @@ window.H = (function () {
       ' transform="rotate(-90 ' + size / 2 + ' ' + size / 2 + ')"/></svg>';
   };
 
-  /* кичик чизиқли график (вазн, соат ва ш.к.) */
+  /* kichik chiziqli grafik (vazn, soat va sh.k.) */
   H.spark = (vals, w, h) => {
     w = w || 260; h = h || 48;
-    if (!vals || vals.length < 2) return '<p class="h-note">График учун камида иккита ёзув керак.</p>';
+    if (!vals || vals.length < 2) return '<p class="h-note">Grafik uchun kamida ikkita yozuv kerak.</p>';
     const min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
     const span = (max - min) || 1;
     const pts = vals.map((v, i) => {
@@ -221,7 +240,7 @@ window.H = (function () {
       '" r="3" fill="var(--accent)"/></svg>';
   };
 
-  /* ---------- файлга сақлаш / файлдан тиклаш ---------- */
+  /* ---------- faylga saqlash / fayldan tiklash ---------- */
   H.download = async (filename, text) => {
     const c = window.claude;
     if (c && typeof c.use === "function") {

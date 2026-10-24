@@ -1,5 +1,5 @@
-/* ============ Бугун ============
-   Барча бўлимларнинг бугунги ҳолати бир саҳифада. */
+/* ============ Bugun ============
+   Barcha boʻlimlarning bugungi holati bir sahifada. */
 (function (H) {
   H.dayScore = function () {
     const parts = [];
@@ -19,7 +19,7 @@
   };
 
   H.mod({
-    id: "bugun", title: "Бугун",
+    id: "bugun", title: "Bugun",
     init(el) { el.addEventListener("click", onClick); },
     show(el) { render(el); }
   });
@@ -35,73 +35,73 @@
 
     let h = '<div class="b-hero">' +
       '<div><h2 class="h-h2">' + H.fmtLong(today) + '</h2>' +
-      '<p class="h-note">Кун натижаси: ' + Math.round(sc.pct * 100) + '%' +
-      ' · кейинги намоз: <b>' + nx.name + '</b> ' + H.hm(nx.at) + '</p></div>' +
+      '<p class="h-note">Kun natijasi: ' + Math.round(sc.pct * 100) + '%' +
+      ' · keyingi namoz: <b>' + nx.name + '</b> ' + H.hm(nx.at) + '</p></div>' +
       '<div class="b-ring">' + H.ring(sc.pct, 56) + '<span>' + Math.round(sc.pct * 100) + '%</span></div></div>';
 
-    /* Намоз */
-    h += '<div class="h-card" data-m="namoz"><div class="h-card-h"><h3>Намоз</h3>' +
-      '<button class="h-link" data-go="namoz">батафсил →</button></div>' +
-      '<div class="b-pray">' + [["bomdod", "Бомдод"], ["peshin", "Пешин"], ["asr", "Аср"], ["shom", "Шом"], ["xufton", "Хуфтон"]]
+    /* Namoz */
+    h += '<div class="h-card" data-m="namoz"><div class="h-card-h"><h3>Namoz</h3>' +
+      '<button class="h-link" data-go="namoz">batafsil →</button></div>' +
+      '<div class="b-pray">' + [["bomdod", "Bomdod"], ["peshin", "Peshin"], ["asr", "Asr"], ["shom", "Shom"], ["xufton", "Xufton"]]
         .map(([k, nm]) => {
           const v = n.rec[k];
           return '<div class="b-pr' + (v ? " s-" + v : "") + '"><b>' + nm + '</b>' +
-            '<span>' + (v === "jamoat" ? "жамоат" : v === "yakka" ? "якка" : v === "qazo" ? "қазо" : "—") + '</span></div>';
+            '<span>' + (v === "jamoat" ? "jamoat" : v === "yakka" ? "yakka" : v === "qazo" ? "qazo" : "—") + '</span></div>';
         }).join("") + '</div>' +
-      '<p class="h-note" style="margin-top:10px">' + n.done + '/5 ўқилди' +
-      (n.jamoat ? ' · ' + n.jamoat + ' таси жамоат билан' : '') + '</p></div>';
+      '<p class="h-note" style="margin-top:10px">' + n.done + '/5 oʻqildi' +
+      (n.jamoat ? ' · ' + n.jamoat + ' tasi jamoat bilan' : '') + '</p></div>';
 
-    /* Иш */
-    h += '<div class="h-card" data-m="ish"><div class="h-card-h"><h3>Иш</h3>' +
-      '<button class="h-link" data-go="ish">батафсил →</button></div>' +
+    /* Ish */
+    h += '<div class="h-card" data-m="ish"><div class="h-card-h"><h3>Ish</h3>' +
+      '<button class="h-link" data-go="ish">batafsil →</button></div>' +
       '<div class="h-row" style="justify-content:space-between">' +
       '<div class="h-stats">' +
-      '<div class="h-stat"><b>' + (i.rec.in != null ? H.hm(i.rec.in) : "—") + '</b><span>келдим</span></div>' +
-      '<div class="h-stat"><b>' + (i.rec.out != null ? H.hm(i.rec.out) : "—") + '</b><span>кетдим</span></div>' +
-      '<div class="h-stat"><b>' + H.hm(i.mins) + '</b><span>иш вақти</span></div></div>' +
-      (i.rec.in == null ? '<button class="h-btn pri" data-act="in">Ишга келдим</button>'
-        : (i.rec.out == null ? '<button class="h-btn" data-act="out">Ишдан кетдим</button>' : '')) +
+      '<div class="h-stat"><b>' + (i.rec.in != null ? H.hm(i.rec.in) : "—") + '</b><span>keldim</span></div>' +
+      '<div class="h-stat"><b>' + (i.rec.out != null ? H.hm(i.rec.out) : "—") + '</b><span>ketdim</span></div>' +
+      '<div class="h-stat"><b>' + H.hm(i.mins) + '</b><span>ish vaqti</span></div></div>' +
+      (i.rec.in == null ? '<button class="h-btn pri" data-act="in">Ishga keldim</button>'
+        : (i.rec.out == null ? '<button class="h-btn" data-act="out">Ishdan ketdim</button>' : '')) +
       '</div>' +
-      (tk.open.length ? '<p class="h-note" style="margin-top:10px">Бажарилмаган вазифа: ' + tk.open.length +
-        (tk.late.length ? ' · <b style="color:var(--red)">муддати ўтган: ' + tk.late.length + '</b>' : '') + '</p>' : '') +
+      (tk.open.length ? '<p class="h-note" style="margin-top:10px">Bajarilmagan vazifa: ' + tk.open.length +
+        (tk.late.length ? ' · <b style="color:var(--red)">muddati oʻtgan: ' + tk.late.length + '</b>' : '') + '</p>' : '') +
       '</div>';
 
-    /* Оила */
+    /* Oila */
     if (o.total) {
-      h += '<div class="h-card" data-m="oila"><div class="h-card-h"><h3>Оила</h3>' +
-        '<button class="h-link" data-go="oila">батафсил →</button></div><div class="h-list">' +
+      h += '<div class="h-card" data-m="oila"><div class="h-card-h"><h3>Oila</h3>' +
+        '<button class="h-link" data-go="oila">batafsil →</button></div><div class="h-list">' +
         o.list.slice(0, 5).map(a => {
           const done = (H.store.get("oila").log[a.freq === "kun" ? H.today() : (a.freq === "hafta" ? H.weekKey(H.today()) : H.monthKey(H.today()))] || {})[a.id];
           return '<div class="h-item"><button class="h-check" data-oila="' + a.id + '" aria-pressed="' + !!done + '">' +
             (done ? "✓" : "") + '</button><span class="ttl">' + H.esc(a.title) + '</span></div>';
         }).join("") + '</div></div>';
     } else {
-      h += '<div class="h-card" data-m="oila"><div class="h-card-h"><h3>Оила</h3>' +
-        '<button class="h-link" data-go="oila">очиш →</button></div>' +
-        '<p class="h-note">Оила аъзоларини ва кунлик аҳдларни киритсангиз, шу ерда чиқади.</p></div>';
+      h += '<div class="h-card" data-m="oila"><div class="h-card-h"><h3>Oila</h3>' +
+        '<button class="h-link" data-go="oila">ochish →</button></div>' +
+        '<p class="h-note">Oila aʼzolarini va kunlik ahdlarni kiritsangiz, shu yerda chiqadi.</p></div>';
     }
 
-    /* Спорт */
-    h += '<div class="h-card" data-m="sport"><div class="h-card-h"><h3>Спорт</h3>' +
-      '<button class="h-link" data-go="sport">батафсил →</button></div>' +
+    /* Sport */
+    h += '<div class="h-card" data-m="sport"><div class="h-card-h"><h3>Sport</h3>' +
+      '<button class="h-link" data-go="sport">batafsil →</button></div>' +
       H.bar(s.count, s.goal, s.count >= s.goal) +
-      '<p class="h-note" style="margin-top:8px">Шу ҳафта ' + s.count + '/' + s.goal + ' машғулот · ' + s.minutes + ' дақиқа' +
-      (st.length ? ' · бугун: ' + H.esc(st.map(x => x.type).join(", ")) : ' · бугун ҳали йўқ') + '</p></div>';
+      '<p class="h-note" style="margin-top:8px">Shu hafta ' + s.count + '/' + s.goal + ' mashgʻulot · ' + s.minutes + ' daqiqa' +
+      (st.length ? ' · bugun: ' + H.esc(st.map(x => x.type).join(", ")) : ' · bugun hali yoʻq') + '</p></div>';
 
-    /* Тил ўрганиш */
-    h += '<div class="h-card" data-m="til"><div class="h-card-h"><h3>Тил ўрганиш</h3>' +
-      '<button class="h-link" data-go="til">бўлимга →</button></div>' +
+    /* Til oʻrganish */
+    h += '<div class="h-card" data-m="til"><div class="h-card-h"><h3>Til oʻrganish</h3>' +
+      '<button class="h-link" data-go="til">boʻlimga →</button></div>' +
       (r.started
-        ? '<p class="h-note">' + H.esc(r.name) + ' · режа бўйича <b>' + r.day + '-кун</b>' +
-          (r.due ? ' · такрорга тайёр: <b>' + r.due + '</b> сўз' : ' · такрор қарздорлиги йўқ') +
-          ' · бугун ' + r.done + '/' + r.goal + ' машқ · ўрганилган ' + r.known + '/' + r.total + '</p>'
-        : '<p class="h-note">Саккизта тил: рус, инглиз, қозоқ, немис, япон, хитой, корейс, араб. Бирини танлаб бошланг.</p>') +
+        ? '<p class="h-note">' + H.esc(r.name) + ' · reja boʻyicha <b>' + r.day + '-kun</b>' +
+          (r.due ? ' · takrorga tayyor: <b>' + r.due + '</b> soʻz' : ' · takror qarzdorligi yoʻq') +
+          ' · bugun ' + r.done + '/' + r.goal + ' mashq · oʻrganilgan ' + r.known + '/' + r.total + '</p>'
+        : '<p class="h-note">Sakkizta til: rus, ingliz, qozoq, nemis, yapon, xitoy, koreys, arab. Birini tanlab boshlang.</p>') +
       '</div>';
 
-    /* Яқин саналар */
-    if (up.length) h += '<div class="h-card" data-m="oila"><div class="h-card-h"><h3>Яқин саналар</h3></div><div class="h-list">' +
+    /* Yaqin sanalar */
+    if (up.length) h += '<div class="h-card" data-m="oila"><div class="h-card-h"><h3>Yaqin sanalar</h3></div><div class="h-list">' +
       up.map(u => '<div class="h-item"><span class="ttl">' + H.esc(u.title) + '</span><span class="num">' +
-        (u.days === 0 ? "бугун!" : u.days + " кун") + '</span></div>').join("") + '</div></div>';
+        (u.days === 0 ? "bugun!" : u.days + " kun") + '</span></div>').join("") + '</div></div>';
 
     el.innerHTML = h;
   }

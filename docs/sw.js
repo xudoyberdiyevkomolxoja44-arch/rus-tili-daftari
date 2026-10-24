@@ -1,7 +1,7 @@
-/* Қадам — оффлайн ишлаши учун service worker.
-   CACHE номини build.mjs ҳар йиғишда янгилайди. */
-const CACHE = "qadam-202610231523";
-const CORE = ["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png","./css/app.css?v=202610231523","./css/mod.css?v=202610231523","./css/til.css?v=202610231523","./js/boot.js?v=202610231523","./js/bugun.js?v=202610231523","./js/core.js?v=202610231523","./js/ish.js?v=202610231523","./js/langs/ar.js?v=202610231523","./js/langs/de.js?v=202610231523","./js/langs/en.js?v=202610231523","./js/langs/ja.js?v=202610231523","./js/langs/kk.js?v=202610231523","./js/langs/ko.js?v=202610231523","./js/langs/more.js?v=202610231523","./js/langs/ru.js?v=202610231523","./js/langs/zh.js?v=202610231523","./js/namoz.js?v=202610231523","./js/oila.js?v=202610231523","./js/shajara.js?v=202610231523","./js/sozlama.js?v=202610231523","./js/sport.js?v=202610231523","./js/til.js?v=202610231523"];
+/* Qadam — offlayn ishlashi uchun service worker.
+   CACHE nomini build.mjs har yigʻishda yangilaydi. */
+const CACHE = "qadam-202610240424";
+const CORE = ["./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png","./css/app.css?v=202610240424","./css/mod.css?v=202610240424","./css/til.css?v=202610240424","./js/boot.js?v=202610240424","./js/bugun.js?v=202610240424","./js/core.js?v=202610240424","./js/ish.js?v=202610240424","./js/langs/ar.js?v=202610240424","./js/langs/de.js?v=202610240424","./js/langs/en.js?v=202610240424","./js/langs/ja.js?v=202610240424","./js/langs/kk.js?v=202610240424","./js/langs/ko.js?v=202610240424","./js/langs/more.js?v=202610240424","./js/langs/ru.js?v=202610240424","./js/langs/zh.js?v=202610240424","./js/namoz.js?v=202610240424","./js/oila.js?v=202610240424","./js/shajara.js?v=202610240424","./js/sozlama.js?v=202610240424","./js/sport.js?v=202610240424","./js/til.js?v=202610240424"];
 
 self.addEventListener("install", e => {
   e.waitUntil(
@@ -21,7 +21,7 @@ self.addEventListener("fetch", e => {
   const req = e.request;
   if (req.method !== "GET") return;
 
-  // Саҳифанинг ўзи: аввал тармоқ, узилса — кэш (янгиланиш дарҳол етиб борсин)
+  // Sahifaning oʻzi: avval tarmoq, uzilsa — kesh (yangilanish darhol yetib borsin)
   if (req.mode === "navigate") {
     e.respondWith(
       fetch(req)
@@ -44,8 +44,8 @@ self.addEventListener("fetch", e => {
     return;
   }
 
-  // Ўз js/css файлларимиз: аввал тармоқ, узилса — кэш.
-  // Шундай қилинмаса, янгиланишдан кейин эски код илиб қолади.
+  // Oʻz js/css fayllarimiz: avval tarmoq, uzilsa — kesh.
+  // Shunday qilinmasa, yangilanishdan keyin eski kod ilib qoladi.
   if (sameOrigin && /\.(js|css|webmanifest)$/.test(url.pathname)) {
     e.respondWith(
       fetch(req)
@@ -61,7 +61,7 @@ self.addEventListener("fetch", e => {
     return;
   }
 
-  // Шрифтлар, расмлар: аввал кэш, бўлмаса тармоқдан олиб кэшга ёзамиз
+  // Shriftlar, rasmlar: avval kesh, boʻlmasa tarmoqdan olib keshga yozamiz
   e.respondWith(
     caches.match(req).then(hit => hit || fetch(req).then(res => {
       if (res && (res.status === 200 || res.type === "opaque")) {
@@ -69,6 +69,6 @@ self.addEventListener("fetch", e => {
         caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
       }
       return res;
-    }).catch(() => new Response("", { status: 504, statusText: "Оффлайн" })))
+    }).catch(() => new Response("", { status: 504, statusText: "Offlayn" })))
   );
 });

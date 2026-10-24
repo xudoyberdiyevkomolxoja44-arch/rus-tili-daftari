@@ -1,9 +1,9 @@
 /**
- * hamroh/ манбасидан мустақил PWA сайтини (docs/) йиғади.
- * Ишлатиш:  node build.mjs
+ * hamroh/ manbasidan mustaqil PWA saytini (docs/) yigʻadi.
+ * Ishlatish:  node build.mjs
  *
- * hamroh/index.html — Artifact учун ҳам ишлатиладиган асосий саҳифа:
- * унда <html>/<head> йўқ, шунинг учун сайт нусхаси учун шу ерда ўралади.
+ * hamroh/index.html — Artifact uchun ham ishlatiladigan asosiy sahifa:
+ * unda <html>/<head> yoʻq, shuning uchun sayt nusxasi uchun shu yerda oʻraladi.
  */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, copyFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -16,7 +16,7 @@ const SPLIT = '<header class="h-top">';
 
 const src = readFileSync(join(SRC, "index.html"), "utf8");
 const at = src.indexOf(SPLIT);
-if (at < 0) throw new Error("hamroh/index.html да '" + SPLIT + "' топилмади.");
+if (at < 0) throw new Error("hamroh/index.html da '" + SPLIT + "' topilmadi.");
 
 const VER = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
 const stamp = t => t.replace(/(href|src)="((?:css|js)\/[^"]+)"/g, (m, a, u) => a + '="' + u + "?v=" + VER + '"');
@@ -29,13 +29,13 @@ const page = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Қадам — намоз, оила, шажара, иш, спорт ва саккиз тилни ўрганишни бир жойда юритадиган шахсий ёрдамчи.">
+<meta name="description" content="Qadam — namoz, oila, shajara, ish, sport va sakkiz tilni oʻrganishni bir joyda yuritadigan shaxsiy yordamchi.">
 <meta name="theme-color" content="#F4F0E6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#13191B" media="(prefers-color-scheme: dark)">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Қадам">
+<meta name="apple-mobile-web-app-title" content="Qadam">
 <meta name="app-version" content="${VER}">
 <link rel="manifest" href="manifest.webmanifest?v=${VER}">
 <link rel="icon" href="icon-192.png?v=${VER}" sizes="192x192">
@@ -52,7 +52,7 @@ ${bodyBits}
 mkdirSync(OUT, { recursive: true });
 writeFileSync(join(OUT, "index.html"), page, "utf8");
 
-/* css ва js файлларини (ички папкалар билан) кўчирамиз */
+/* css va js fayllarini (ichki papkalar bilan) koʻchiramiz */
 const assets = [];
 function copyDir(rel) {
   mkdirSync(join(OUT, rel), { recursive: true });
@@ -64,7 +64,7 @@ function copyDir(rel) {
 }
 ["css", "js"].forEach(copyDir);
 
-/* service worker: кэш версияси ва рўйхати */
+/* service worker: kesh versiyasi va roʻyxati */
 const swPath = join(OUT, "sw.js");
 if (existsSync(swPath)) {
   let sw = readFileSync(swPath, "utf8");
@@ -88,5 +88,5 @@ if (existsSync(manPath)) {
   writeFileSync(manPath, man, "utf8");
 }
 
-console.log("docs/ тайёр — саҳифа " + (page.length / 1024).toFixed(0) + " KB, " +
-  assets.length + " та файл, кэш версияси " + VERSION);
+console.log("docs/ tayyor — sahifa " + (page.length / 1024).toFixed(0) + " KB, " +
+  assets.length + " ta fayl, kesh versiyasi " + VERSION);

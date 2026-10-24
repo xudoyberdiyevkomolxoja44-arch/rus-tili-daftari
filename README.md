@@ -1,89 +1,89 @@
-# Қадам
+# Qadam
 
-Кундалик ҳаётни бир жойда юритиш учун шахсий ёрдамчи: намоз, оила, шажара, иш, спорт
-ва саккиз тилни ўрганиш. Телефонга ўрнатилади, интернетсиз ҳам ишлайди, маълумот
-қурилмада сақланади.
+Kundalik hayotni bir joyda yuritish uchun shaxsiy yordamchi: namoz, oila, shajara, ish, sport
+va sakkiz tilni oʻrganish. Telefonga oʻrnatiladi, internetsiz ham ishlaydi, maʼlumot
+qurilmada saqlanadi.
 
-**Сайт:** https://xudoyberdiyevkomolxoja44-arch.github.io/rus-tili-daftari/
+**Sayt:** https://xudoyberdiyevkomolxoja44-arch.github.io/rus-tili-daftari/
 
-> Манзилдаги `rus-tili-daftari` — иловани бошлаганимиздаги эски ном. Манзил атайин
-> ўзгартирилмади: браузер маълумотни манзилга боғлаб сақлайди, ном алмашса рус тили
-> бўйича тўпланган натижа йўқолар эди.
+> Manzildagi `rus-tili-daftari` — ilovani boshlaganimizdagi eski nom. Manzil atayin
+> oʻzgartirilmadi: brauzer maʼlumotni manzilga bogʻlab saqlaydi, nom almashsa rus tili
+> boʻyicha toʻplangan natija yoʻqolar edi.
 
-## Бўлимлар
+## Boʻlimlar
 
-| Бўлим | Нима қилади |
+| Boʻlim | Nima qiladi |
 | --- | --- |
-| **Бугун** | Барча бўлимнинг бугунги ҳолати бир саҳифада, кун натижаси фоизда |
-| **Намоз** | Вақтлар (ҳисоблаб чиқарилади), кунлик белгилаш — жамоат/якка/қазо, ойлик дафтар, қазо ҳисоби |
-| **Оила** | Аъзолар, кунлик-ҳафталик аҳдлар, сўнгги алоқа санаси, туғилган кунлар, ҳафталик ўз-ўзини баҳолаш |
-| **Шажара** | Аждодлар дарахти: ота-она орқали боғланиш, «мен» белгиси, авлодлар сони |
-| **Иш** | Келиш-кетиш вақти, ойлик ҳисобот (соат, кечикиш), вазифалар рўйхати |
-| **Спорт** | Машғулотлар кундалиги, ҳафталик мақсад, вазн журнали ва графиги |
-| **Тил ўрганиш** | Саккиз тил: рус, инглиз, қозоқ, немис, япон, хитой, корейс, араб. Ҳар бирида 180–238 сўз (15 мавзу), 24–36 ибора, ёзув, грамматика ва ўз 90 кунлик режаси |
-| **Созлама** | Профил, кўриниш, маълумотни файлга нусха олиш ва тиклаш |
+| **Bugun** | Barcha boʻlimning bugungi holati bir sahifada, kun natijasi foizda |
+| **Namoz** | Vaqtlar (hisoblab chiqariladi), kunlik belgilash — jamoat/yakka/qazo, oylik daftar, qazo hisobi |
+| **Oila** | Aʼzolar, kunlik-haftalik ahdlar, soʻnggi aloqa sanasi, tugʻilgan kunlar, haftalik oʻz-oʻzini baholash |
+| **Shajara** | Ajdodlar daraxti: ota-ona orqali bogʻlanish, «men» belgisi, avlodlar soni |
+| **Ish** | Kelish-ketish vaqti, oylik hisobot (soat, kechikish), vazifalar roʻyxati |
+| **Sport** | Mashgʻulotlar kundaligi, haftalik maqsad, vazn jurnali va grafigi |
+| **Til oʻrganish** | Sakkiz til: rus, ingliz, qozoq, nemis, yapon, xitoy, koreys, arab. Har birida 180–238 soʻz (15 mavzu), 24–36 ibora, yozuv, grammatika va oʻz 90 kunlik rejasi |
+| **Sozlama** | Profil, koʻrinish, maʼlumotni faylga nusxa olish va tiklash |
 
-### Намоз вақтлари ҳақида
+### Namoz vaqtlari haqida
 
-Вақтлар қуёшнинг ҳолатидан астрономик йўл билан ҳисобланади (интернет керак эмас).
-Алгоритм Лондон ва Нью-Йорк бўйича текширилганда маълум қийматлардан 1–3 дақиқа фарқ қилди.
-Шунга қарамай **маҳаллий тақвим билан солиштириб кўриш керак**: созламаларда ҳар намозга
-± дақиқа тузатиш киритиш мумкин. Ҳисоб усули (18°/18° ва бошқалар) ва аср ҳисоби
-(ҳанафий/шофеий) ҳам танланади.
+Vaqtlar quyoshning holatidan astronomik yoʻl bilan hisoblanadi (internet kerak emas).
+Algoritm London va Nyu-York boʻyicha tekshirilganda maʼlum qiymatlardan 1–3 daqiqa farq qildi.
+Shunga qaramay **mahalliy taqvim bilan solishtirib koʻrish kerak**: sozlamalarda har namozga
+± daqiqa tuzatish kiritish mumkin. Hisob usuli (18°/18° va boshqalar) va asr hisobi
+(hanafiy/shofeiy) ham tanlanadi.
 
-## Файллар
+## Fayllar
 
-| Файл | Вазифаси |
+| Fayl | Vazifasi |
 | --- | --- |
-| `hamroh/index.html` | Қобиқ: сарлавҳа, навигация, модул жойлари |
-| `hamroh/css/app.css` | Умумий услублар ва ранг токенлари |
-| `hamroh/css/mod.css` | Бўлимларга хос услублар (календар, шажара дарахти) |
-| `hamroh/css/rus.css` | Рус тили бўлимининг услублари |
-| `hamroh/js/core.js` | Сақлаш, сана ҳисоби, навигация, умумий UI ёрдамчилари |
-| `hamroh/js/*.js` | Ҳар бир бўлим алоҳида файлда |
-| `hamroh/js/til.js` | Тил ўрганиш тизими — барча тилларга умумий |
-| `hamroh/js/langs/*.js` | Ҳар бир тилнинг контенти (ёзув, луғат, иборалар, грамматика, режа) |
-| `hamroh/js/langs/more.js` | Барча тилларга қўшимча 5 мавзу (тана, уй, табиат, ўқиш, боғловчилар) |
-| `build.mjs` | Манбадан мустақил сайт нусхасини (`docs/`) йиғади |
-| `docs/` | GitHub Pages шу папкадан тарқатади — қўлда таҳрирламанг |
+| `hamroh/index.html` | Qobiq: sarlavha, navigatsiya, modul joylari |
+| `hamroh/css/app.css` | Umumiy uslublar va rang tokenlari |
+| `hamroh/css/mod.css` | Boʻlimlarga xos uslublar (kalendar, shajara daraxti) |
+| `hamroh/css/rus.css` | Rus tili boʻlimining uslublari |
+| `hamroh/js/core.js` | Saqlash, sana hisobi, navigatsiya, umumiy UI yordamchilari |
+| `hamroh/js/*.js` | Har bir boʻlim alohida faylda |
+| `hamroh/js/til.js` | Til oʻrganish tizimi — barcha tillarga umumiy |
+| `hamroh/js/langs/*.js` | Har bir tilning kontenti (yozuv, lugʻat, iboralar, grammatika, reja) |
+| `hamroh/js/langs/more.js` | Barcha tillarga qoʻshimcha 5 mavzu (tana, uy, tabiat, oʻqish, bogʻlovchilar) |
+| `build.mjs` | Manbadan mustaqil sayt nusxasini (`docs/`) yigʻadi |
+| `docs/` | GitHub Pages shu papkadan tarqatadi — qoʻlda tahrirlamang |
 
-## Маълумот қаерда сақланади
+## Maʼlumot qayerda saqlanadi
 
-- Ҳар бир бўлим `localStorage` да ўз калити остида: `hamroh:namoz`, `hamroh:oila` ва ҳоказо.
-- Тил ўрганиш: `hamroh:til` (ҳар тилнинг натижаси алоҳида).
-- Эски «Рус тили дафтари» натижаси (`rus-daftar-v1`) биринчи очилишда автоматик кўчирилади.
-- Claude иловасидаги нусхада маълумот ҳисобга ҳам ёзилади — қурилмалар орасида синхрон бўлади.
-- **Созлама → Файлга нусха олиш** барчасини битта JSON файлга чиқаради. Вақти-вақти билан
-  нусха олиб қўйиш тавсия этилади.
+- Har bir boʻlim `localStorage` da oʻz kaliti ostida: `hamroh:namoz`, `hamroh:oila` va hokazo.
+- Til oʻrganish: `hamroh:til` (har tilning natijasi alohida).
+- Eski «Rus tili daftari» natijasi (`rus-daftar-v1`) birinchi ochilishda avtomatik koʻchiriladi.
+- Claude ilovasidagi nusxada maʼlumot hisobga ham yoziladi — qurilmalar orasida sinxron boʻladi.
+- **Sozlama → Faylga nusxa olish** barchasini bitta JSON faylga chiqaradi. Vaqti-vaqti bilan
+  nusxa olib qoʻyish tavsiya etiladi.
 
-## Ўзгартириш киритиш
+## Oʻzgartirish kiritish
 
 ```bash
 node build.mjs
-git add -A && git commit -m "янгиланиш" && git push
+git add -A && git commit -m "yangilanish" && git push
 ```
 
-Маҳаллий текшириш:
+Mahalliy tekshirish:
 
 ```bash
 python -m http.server 8787 --directory docs
 ```
 
-## Телефонга ўрнатиш
+## Telefonga oʻrnatish
 
-Сайтни телефон браузерида очиб, менюдан **«Bosh ekranga qo'shish» / «На экран "Домой"»**
-ни танланг. Шундан кейин илова алоҳида дастур сифатида очилади ва интернетсиз ишлайди.
+Saytni telefon brauzerida ochib, menyudan **«Bosh ekranga qo'shish» / «Na ekran "Domoy"»**
+ni tanlang. Shundan keyin ilova alohida dastur sifatida ochiladi va internetsiz ishlaydi.
 
-## Янги тил қўшиш
+## Yangi til qoʻshish
 
-`hamroh/js/langs/` га янги файл қўшиб, `H.lang({...})` чақирилади ва
-`hamroh/index.html` га `<script>` қатори ёзилади. Контент тузилиши:
+`hamroh/js/langs/` ga yangi fayl qoʻshib, `H.lang({...})` chaqiriladi va
+`hamroh/index.html` ga `<script>` qatori yoziladi. Kontent tuzilishi:
 
-- `script` — ёзув белгилари: `[белги, "", ўқилиши, мисол, таржима]`
-- Режа **ҳарфдан бошланади**: биринчи 6–12 кун фақат ёзувга ажратилади, сўзлар алифбо
-  тугагандан кейин бошланади
-- `topics` + `words` — 10 мавзу, ҳар бирида 12 сўз: `[асл, талаффуз, ўзбекча, (лотин ёзуви)]`
-- `phrases` — 6 вазият, ҳар бирида 4 ибора
-- `grammar` — 8 қоида (HTML)
-- `months` — учта ойнинг мавзу тақсимоти; режа шундан автоматик тузилади
-- `keys` — ёзиш машқи учун экран клавиатураси, `typeField` — «native» ёки «pron»
+- `script` — yozuv belgilari: `[belgi, "", oʻqilishi, misol, tarjima]`
+- Reja **harfdan boshlanadi**: birinchi 6–12 kun faqat yozuvga ajratiladi, soʻzlar alifbo
+  tugagandan keyin boshlanadi
+- `topics` + `words` — 10 mavzu, har birida 12 soʻz: `[asl, talaffuz, oʻzbekcha, (lotin yozuvi)]`
+- `phrases` — 6 vaziyat, har birida 4 ibora
+- `grammar` — 8 qoida (HTML)
+- `months` — uchta oyning mavzu taqsimoti; reja shundan avtomatik tuziladi
+- `keys` — yozish mashqi uchun ekran klaviaturasi, `typeField` — «native» yoki «pron»

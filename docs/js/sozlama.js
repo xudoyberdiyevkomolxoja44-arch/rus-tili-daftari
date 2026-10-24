@@ -1,12 +1,12 @@
-/* ============ Созламалар ============
-   Профил, маълумотни заҳиралаш (нусха олиш) ва тиклаш. */
+/* ============ Sozlamalar ============
+   Profil, maʼlumotni zahiralash (nusxa olish) va tiklash. */
 (function (H) {
   const NS = "profil";
   const DEF = { name: "", theme: "auto" };
   const RUS_KEY = "rus-daftar-v1";
   const VERSION = "1.0";
 
-  H.store.get(NS, DEF);          /* бошланғич қийматни дарҳол рўйхатдан ўтказамиз */
+  H.store.get(NS, DEF);          /* boshlangʻich qiymatni darhol roʻyxatdan oʻtkazamiz */
   const data = () => H.store.get(NS, DEF);
   function buildId() {
     const m = document.querySelector('meta[name="app-version"]');
@@ -31,63 +31,63 @@
     const n = H.store.get("namoz"), o = H.store.get("oila"), sh = H.store.get("shajara"),
           i = H.store.get("ish"), sp = H.store.get("sport");
     return [
-      ["Намоз ёзуви", Object.keys(n.log || {}).length + " кун"],
-      ["Оила аъзоси", (o.members || []).length + " та"],
-      ["Шажарада", (sh.people || []).length + " та одам"],
-      ["Иш куни", Object.keys(i.days || {}).length + " та"],
-      ["Вазифа", (i.tasks || []).length + " та"],
-      ["Машғулот", (sp.sessions || []).length + " та"],
-      ["Тил ўрганиш", (H.tilSummary().started ? H.tilSummary().name + " · " + H.tilSummary().day + "-кун" : "бошланмаган")]
+      ["Namoz yozuvi", Object.keys(n.log || {}).length + " kun"],
+      ["Oila aʼzosi", (o.members || []).length + " ta"],
+      ["Shajarada", (sh.people || []).length + " ta odam"],
+      ["Ish kuni", Object.keys(i.days || {}).length + " ta"],
+      ["Vazifa", (i.tasks || []).length + " ta"],
+      ["Mashgʻulot", (sp.sessions || []).length + " ta"],
+      ["Til oʻrganish", (H.tilSummary().started ? H.tilSummary().name + " · " + H.tilSummary().day + "-kun" : "boshlanmagan")]
     ];
   }
 
   H.mod({
-    id: "sozlama", title: "Созлама",
+    id: "sozlama", title: "Sozlama",
     init(el) { el.addEventListener("click", onClick); el.addEventListener("submit", onSubmit); el.addEventListener("change", onChange); },
     show(el) { render(el); }
   });
 
   function render(el) {
     const d = data();
-    let h = '<div class="h-card"><div class="h-card-h"><h3>Профил</h3></div>' +
+    let h = '<div class="h-card"><div class="h-card-h"><h3>Profil</h3></div>' +
       '<form data-form="profil" class="h-form">' +
-      '<div class="h-field wide"><label>Исмингиз</label>' +
-      '<input class="h-in" name="name" value="' + H.esc(d.name || "") + '" placeholder="Илова сизни шу ном билан чақиради"></div>' +
-      '<div class="h-field wide"><label>Кўриниш</label><select class="h-in" name="theme">' +
-      [["auto", "Тизимга қараб"], ["light", "Ёруғ"], ["dark", "Қоронғи"]].map(([k, nm]) =>
+      '<div class="h-field wide"><label>Ismingiz</label>' +
+      '<input class="h-in" name="name" value="' + H.esc(d.name || "") + '" placeholder="Ilova sizni shu nom bilan chaqiradi"></div>' +
+      '<div class="h-field wide"><label>Koʻrinish</label><select class="h-in" name="theme">' +
+      [["auto", "Tizimga qarab"], ["light", "Yorugʻ"], ["dark", "Qorongʻi"]].map(([k, nm]) =>
         '<option value="' + k + '"' + (d.theme === k ? " selected" : "") + '>' + nm + '</option>').join("") +
       '</select></div>' +
-      '<div class="h-field wide"><button class="h-btn pri">Сақлаш</button></div></form></div>';
+      '<div class="h-field wide"><button class="h-btn pri">Saqlash</button></div></form></div>';
 
-    h += '<div class="h-card"><div class="h-card-h"><h3>Маълумотларим</h3>' +
+    h += '<div class="h-card"><div class="h-card-h"><h3>Maʼlumotlarim</h3>' +
       '<span class="h-pill' + (H.cloud.on ? " ok" : "") + '">' +
-      (H.cloud.on ? "ҳисобга уланган" : "шу қурилмада") + '</span></div>' +
+      (H.cloud.on ? "hisobga ulangan" : "shu qurilmada") + '</span></div>' +
       '<div class="h-list">' + counts().map(([k, v]) =>
         '<div class="h-item"><span class="ttl">' + k + '</span><span class="num">' + v + '</span></div>').join("") +
       '</div>' +
-      '<p class="h-note" style="margin:12px 0">Маълумот телефон хотирасида сақланади. ' +
-      (H.cloud.on ? "Шунингдек Claude ҳисобингизга ҳам ёзилади — бошқа қурилмада давом эттиришингиз мумкин. "
-                  : "Браузер маълумотини тозаласангиз ўчиб кетади — вақти-вақти билан файлга нусха олиб қўйинг. ") +
+      '<p class="h-note" style="margin:12px 0">Maʼlumot telefon xotirasida saqlanadi. ' +
+      (H.cloud.on ? "Shuningdek Claude hisobingizga ham yoziladi — boshqa qurilmada davom ettirishingiz mumkin. "
+                  : "Brauzer maʼlumotini tozalasangiz oʻchib ketadi — vaqti-vaqti bilan faylga nusxa olib qoʻying. ") +
       '</p>' +
       '<div class="h-row">' +
-      '<button class="h-btn" data-act="export">Файлга нусха олиш</button>' +
-      '<button class="h-btn" data-act="import">Файлдан тиклаш</button>' +
+      '<button class="h-btn" data-act="export">Faylga nusxa olish</button>' +
+      '<button class="h-btn" data-act="import">Fayldan tiklash</button>' +
       '<input type="file" accept="application/json,.json" id="h-file" hidden>' +
       '</div></div>';
 
-    h += '<div class="h-card"><div class="h-card-h"><h3>Қадам ҳақида</h3></div>' +
-      '<p class="h-note">Версия ' + VERSION + ' · нусха ' + buildId() +
-      '. Бўлимлар: Бугун, Намоз, Оила, Шажара, Иш, Спорт, Тил ўрганиш (8 тил).</p>' +
-      '<p class="h-note" style="margin-top:8px">Илова интернетсиз ҳам ишлайди. Телефон браузерида менюдан ' +
-      '«Bosh ekranga qo\'shish» ни танласангиз, алоҳида дастурдек очилади.</p>' +
+    h += '<div class="h-card"><div class="h-card-h"><h3>Qadam haqida</h3></div>' +
+      '<p class="h-note">Versiya ' + VERSION + ' · nusxa ' + buildId() +
+      '. Boʻlimlar: Bugun, Namoz, Oila, Shajara, Ish, Sport, Til oʻrganish (8 til).</p>' +
+      '<p class="h-note" style="margin-top:8px">Ilova internetsiz ham ishlaydi. Telefon brauzerida menyudan ' +
+      '«Bosh ekranga qo\'shish» ni tanlasangiz, alohida dasturdek ochiladi.</p>' +
       '<div class="h-row" style="margin-top:12px">' +
-      '<button class="h-btn" data-act="refresh">Иловани янгилаш</button>' +
-      '<button class="h-btn bad" data-act="wipe">Барча маълумотни ўчириш</button></div>' +
-      '<p class="h-note" style="margin-top:8px">«Иловани янгилаш» — агар телефонда эски кўриниш қолиб кетса, ' +
-      'шу тугма кэшни тозалаб, энг сўнгги нусхани юклайди. Маълумотларингизга тегмайди.</p>' +
-      '<p class="h-note" style="margin-top:8px">Бош экрандаги <b>ном ва белги</b> илова ўрнатилганда ёзиб қолинади — ' +
-      'уни янгилаш учун эски белгини бош экрандан ўчириб, сайтни браузерда очиб, ' +
-      'менюдан «Bosh ekranga qo‘shish» ни қайта танланг.</p></div>';
+      '<button class="h-btn" data-act="refresh">Ilovani yangilash</button>' +
+      '<button class="h-btn bad" data-act="wipe">Barcha maʼlumotni oʻchirish</button></div>' +
+      '<p class="h-note" style="margin-top:8px">«Ilovani yangilash» — agar telefonda eski koʻrinish qolib ketsa, ' +
+      'shu tugma keshni tozalab, eng soʻnggi nusxani yuklaydi. Maʼlumotlaringizga tegmaydi.</p>' +
+      '<p class="h-note" style="margin-top:8px">Bosh ekrandagi <b>nom va belgi</b> ilova oʻrnatilganda yozib qolinadi — ' +
+      'uni yangilash uchun eski belgini bosh ekrandan oʻchirib, saytni brauzerda ochib, ' +
+      'menyudan «Bosh ekranga qo‘shish» ni qayta tanlang.</p></div>';
 
     el.innerHTML = h;
   }
@@ -100,11 +100,11 @@
     rd.onload = () => {
       let obj = null;
       try { obj = JSON.parse(rd.result); } catch (err) {}
-      if (!obj || obj.app !== "hamroh" && obj.app !== "qadam") { alert("Бу Қадам нусха файли эмас."); return; }
-      if (!confirm("Файлдаги маълумот ҳозиргисининг устига ёзилади. Давом этамизми?")) return;
+      if (!obj || obj.app !== "hamroh" && obj.app !== "qadam") { alert("Bu Qadam nusxa fayli emas."); return; }
+      if (!confirm("Fayldagi maʼlumot hozirgisining ustiga yoziladi. Davom etamizmi?")) return;
       H.store.restore(obj.data || {});
       if (obj.rus) { try { localStorage.setItem(RUS_KEY, JSON.stringify(obj.rus)); } catch (err) {} }
-      alert("Тикланди. Илова қайта юкланади.");
+      alert("Tiklandi. Ilova qayta yuklanadi.");
       location.reload();
     };
     rd.readAsText(f.files[0]);
@@ -117,7 +117,7 @@
     if (a.dataset.act === "export") {
       const name = "qadam-" + H.today() + ".json";
       H.download(name, JSON.stringify(snapshot(), null, 1)).then(ok => {
-        if (!ok) alert("Файлни сақлаб бўлмади.");
+        if (!ok) alert("Faylni saqlab boʻlmadi.");
       });
       return;
     }
@@ -128,8 +128,8 @@
       return;
     }
     if (a.dataset.act === "wipe") {
-      if (!confirm("Намоз, оила, шажара, иш, спорт ва тил бўйича БАРЧА ёзувлар ўчирилади. Аввал файлга нусха олганмисиз?")) return;
-      if (!confirm("Ростдан ўчирилсинми? Бу амални қайтариб бўлмайди.")) return;
+      if (!confirm("Namoz, oila, shajara, ish, sport va til boʻyicha BARCHA yozuvlar oʻchiriladi. Avval faylga nusxa olganmisiz?")) return;
+      if (!confirm("Rostdan oʻchirilsinmi? Bu amalni qaytarib boʻlmaydi.")) return;
       ["namoz", "oila", "shajara", "ish", "sport", "profil", "til"].forEach(ns => H.store.wipe(ns));
       try { localStorage.removeItem(RUS_KEY); } catch (err) {}
       location.reload();

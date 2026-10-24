@@ -1,6 +1,6 @@
-/* ============ Бўлимларга хос услублар ============ */
+/* ============ Boʻlimlarga xos uslublar ============ */
 
-/* ---- Бугун ---- */
+/* ---- Bugun ---- */
 .b-hero{
   display:flex;gap:16px;align-items:center;justify-content:space-between;
   background:var(--surface);border:1px solid var(--line);border-radius:10px;
@@ -28,7 +28,7 @@
 .b-pr.s-qazo span{color:var(--red)}
 @media(max-width:420px){.b-pr b{font-size:11px}.b-pr span{font-size:9.5px}}
 
-/* ---- Намоз ---- */
+/* ---- Namoz ---- */
 .n-cal{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
 @media(max-width:560px){.n-cal{grid-template-columns:repeat(6,1fr)}}
 .n-day{
@@ -44,7 +44,7 @@
 .n-dots i.yakka{background:var(--ink-3)}
 .n-dots i.qazo{background:var(--red)}
 
-/* қалқиб чиқадиган ойна (кун / шажара) */
+/* qalqib chiqadigan oyna (kun / shajara) */
 .n-sheet{
   position:fixed;inset:0;z-index:60;background:rgba(10,16,24,.45);
   display:flex;align-items:flex-end;justify-content:center;padding:0;
@@ -59,16 +59,16 @@
   .n-sheet-in{border-radius:12px;padding-bottom:20px}
 }
 
-/* ---- Шажара ---- */
-/* Чизма майдони доимий баландликда — пастдаги сонлар қимирламайди */
-/* Шажара бўлими экран бўйига чўзилади: чизма ўртада,
-   рақамлар эса энг пастда туради */
+/* ---- Shajara ---- */
+/* Chizma maydoni doimiy balandlikda — pastdagi sonlar qimirlamaydi */
+/* Shajara boʻlimi ekran boʻyiga choʻziladi: chizma oʻrtada,
+   raqamlar esa eng pastda turadi */
 #m-shajara{
   display:flex;flex-direction:column;
-  /* svh — браузер манзил сатри кўринган ҳолатдаги баландлик:
-     шунда рақамлар ҳеч қачон экрандан тушиб кетмайди */
-  min-height:calc(100vh - 210px);      /* эски браузерлар учун эҳтиёткор ўлчам */
-  min-height:calc(100svh - 130px);     /* svh — манзил сатри кўринган ҳолат */
+  /* svh — brauzer manzil satri koʻringan holatdagi balandlik:
+     shunda raqamlar hech qachon ekrandan tushib ketmaydi */
+  min-height:calc(100vh - 210px);      /* eski brauzerlar uchun ehtiyotkor oʻlcham */
+  min-height:calc(100svh - 130px);     /* svh — manzil satri koʻringan holat */
   margin-bottom:-74px;
 }
 #m-shajara .h-stats{margin-top:auto;padding-top:12px}
@@ -78,9 +78,9 @@
   flex:1 1 auto;height:auto;min-height:200px;
   overflow:auto;-webkit-overflow-scrolling:touch;
   touch-action:pan-x pan-y;overscroll-behavior:contain;
-  display:flex;                       /* ичидагини марказлаш учун */
+  display:flex;                       /* ichidagini markazlash uchun */
 }
-.s-zoom{margin:auto}                  /* ҳам кўндаланг, ҳам тик марказда */
+.s-zoom{margin:auto}                  /* ham koʻndalang, ham tik markazda */
 .s-zoom{position:relative;flex:0 0 auto}
 .s-chart{position:relative;transform-origin:top left}
 .s-chart .s-node{width:var(--cw);height:var(--ch)}
@@ -93,7 +93,7 @@
   position:absolute;width:14px;height:14px;display:grid;place-items:center;
   font-size:11px;color:var(--ink-3);background:var(--paper);border-radius:50%;line-height:1;
 }
-/* Карточка: ҳамма жойда бир хил ўлчам — 1/3 сурат, 2/3 ФИШ */
+/* Kartochka: hamma joyda bir xil oʻlcham — 1/3 surat, 2/3 FISH */
 .s-chart .s-node{position:absolute}
 .s-node{
   display:flex;align-items:center;gap:9px;white-space:normal;
@@ -130,14 +130,14 @@
   .s-yr{font-size:10px}
 }
 
-/* ---- Рус тили бўлими қобиқ ичида ---- */
+/* ---- Rus tili boʻlimi qobiq ichida ---- */
 #m-rus .r-head{margin-bottom:10px}
 #m-rus .stats{display:flex;gap:20px;flex-wrap:wrap}
 #m-rus nav.tabs{padding:0;margin:0 0 2px;border-bottom:1px solid var(--line)}
 #m-rus .panel{padding-top:20px}
 #m-rus .wrap{padding:0;max-width:none}
 
-/* шажара: сана киритиш (йил / ой / кун) */
+/* shajara: sana kiritish (yil / oy / kun) */
 .s-date{display:grid;grid-template-columns:1.05fr 1.6fr .85fr;gap:5px}
 .s-date .h-in{padding:9px 8px}
 .s-date select.h-in{padding-right:26px;background-position:calc(100% - 12px) 50%, calc(100% - 8px) 50%}
@@ -146,5 +146,5 @@
   .s-date{grid-template-columns:1fr 1.5fr .85fr}
 }
 
-/* формадаги сурат блоки */
+/* formadagi surat bloki */
 .s-photo{display:flex;align-items:center;gap:12px;flex-wrap:wrap}

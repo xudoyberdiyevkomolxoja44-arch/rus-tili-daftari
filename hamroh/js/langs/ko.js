@@ -1,201 +1,1249 @@
-/* Корейс тили */
+/* Koreys tili */
 H.lang({
-  id: "ko", code: "кор", name: "Корейс тили", native: "한국어", speech: "ko-KR", dir: "ltr",
-  typeField: "pron",
-  keys: ["йцукенгшщзхъ", "фывапролджэё", "ячсмитьбю", "ўқғҳ"],
-  note: "Хангул — дунёдаги энг тартибли ёзувлардан бири: 24 та белгидан бўғин блоклари ясалади. Бир неча кунда ўқишни ўрганиш мумкин.",
-  script: {
-    title: "Хангул", unit: "белги",
-    note: "14 ундош ва 10 унли. Улар квадрат блокка жойланади: ㅎ+ㅏ+ㄴ = 한.",
-    items: [
-      ["ㄱ", "", "г / к", "가방", "сумка"], ["ㄴ", "", "н", "나", "мен"],
-      ["ㄷ", "", "д / т", "다리", "оёқ; кўприк"], ["ㄹ", "", "р / л", "라디오", "радио"],
-      ["ㅁ", "", "м", "물", "сув"], ["ㅂ", "", "б / п", "밥", "овқат, гуруч"],
-      ["ㅅ", "", "с", "산", "тоғ"], ["ㅇ", "", "бўғин бошида жим, охирида «нг»", "아이", "бола"],
-      ["ㅈ", "", "ж / ч", "집", "уй"], ["ㅊ", "", "ч (пуфлаб)", "차", "чой; машина"],
-      ["ㅋ", "", "к (пуфлаб)", "코", "бурун"], ["ㅌ", "", "т (пуфлаб)", "토마토", "помидор"],
-      ["ㅍ", "", "п (пуфлаб)", "팔", "қўл"], ["ㅎ", "", "ҳ", "하늘", "осмон"],
-      ["ㅏ", "", "а", "아버지", "ота"], ["ㅑ", "", "я", "야구", "бейсбол"],
-      ["ㅓ", "", "о — ў ва о ораси", "어머니", "она"], ["ㅕ", "", "ё (ё-о)", "여자", "аёл"],
-      ["ㅗ", "", "о", "오늘", "бугун"], ["ㅛ", "", "ё", "요리", "таом"],
-      ["ㅜ", "", "у", "우유", "сут"], ["ㅠ", "", "ю", "유리", "ойна"],
-      ["ㅡ", "", "ы", "그", "ўша"], ["ㅣ", "", "и", "이름", "исм"]
-    ]
-  },
-  topics: [["greet", "Саломлашиш"], ["fam", "Оила ва одамлар"], ["num", "Сонлар"], ["time", "Вақт"],
-           ["food", "Овқат"], ["city", "Шаҳар ва йўл"], ["shop", "Харид"], ["verb", "Феъллар"],
-           ["adj", "Сифатлар"], ["color", "Ранглар"]],
-  words: {
-    greet: [
-      ["안녕하세요", "аннёнҳасэё", "салом (ҳурмат)", "annyeonghaseyo"],
-      ["안녕", "аннён", "салом (норасмий)", "annyeong"],
-      ["안녕히 가세요", "аннёнҳи касэё", "хайр (кетаётганга)", "annyeonghi gaseyo"],
-      ["감사합니다", "камсаҳамнида", "раҳмат (расмий)", "gamsahamnida"],
-      ["고맙습니다", "комапсымнида", "раҳмат", "gomapseumnida"],
-      ["죄송합니다", "чвесонҳамнида", "кечирасиз", "joesonghamnida"],
-      ["실례합니다", "силлеҳамнида", "узр (мурожаат)", "sillyehamnida"],
-      ["네 / 아니요", "нэ / анийо", "ҳа / йўқ", "ne / aniyo"],
-      ["잘 지내세요?", "чал чинэсэё", "Яхши юрибсизми?", "jal jinaeseyo"],
-      ["반갑습니다", "пангапсымнида", "Танишганимдан хурсандман", "bangapseumnida"],
-      ["괜찮아요", "квенчанайо", "Ҳечқиси йўқ", "gwaenchanayo"],
-      ["좋은 아침", "чоын ачим", "хайрли тонг", "joeun achim"]
-    ],
-    fam: [
-      ["가족", "кажок", "оила", "gajok"], ["어머니", "омони", "она", "eomeoni"],
-      ["아버지", "абоджи", "ота", "abeoji"], ["아들", "адыл", "ўғил", "adeul"],
-      ["딸", "ттал", "қиз (фарзанд)", "ttal"], ["형", "ҳён", "ака (эркак учун)", "hyeong"],
-      ["누나", "нуна", "опа (эркак учун)", "nuna"], ["동생", "тонсэн", "ука, сингил", "dongsaeng"],
-      ["아내", "анэ", "хотин", "anae"], ["남편", "нампён", "эр", "nampyeon"],
-      ["친구", "чингу", "дўст", "chingu"], ["사람", "сарам", "одам", "saram"]
-    ],
-    num: [
-      ["일", "иль", "бир (1)", "il"], ["이", "и", "икки (2)", "i"], ["삼", "сам", "уч (3)", "sam"],
-      ["사", "са", "тўрт (4)", "sa"], ["오", "о", "беш (5)", "o"], ["육", "юк", "олти (6)", "yuk"],
-      ["칠", "чиль", "етти (7)", "chil"], ["팔", "паль", "саккиз (8)", "pal"], ["구", "ку", "тўққиз (9)", "gu"],
-      ["십", "сип", "ўн (10)", "sip"], ["이십", "исип", "йигирма (20)", "isip"], ["백", "пэк", "юз (100)", "baek"]
-    ],
-    time: [
-      ["시간", "сиган", "вақт", "sigan"], ["날", "наль", "кун", "nal"], ["주", "чу", "ҳафта", "ju"],
-      ["달", "таль", "ой", "dal"], ["년", "нён", "йил", "nyeon"], ["오늘", "оныль", "бугун", "oneul"],
-      ["내일", "нэиль", "эртага", "naeil"], ["어제", "оджэ", "кеча", "eoje"],
-      ["지금", "чигым", "ҳозир", "jigeum"], ["아침", "ачим", "тонг", "achim"],
-      ["저녁", "чонёк", "оқшом", "jeonyeok"], ["시", "си", "соат", "si"]
-    ],
-    food: [
-      ["음식", "ымсик", "овқат", "eumsik"], ["빵", "ппан", "нон", "ppang"],
-      ["물", "муль", "сув", "mul"], ["차", "ча", "чой", "cha"], ["커피", "копи", "кофе", "keopi"],
-      ["우유", "ую", "сут", "uyu"], ["고기", "коги", "гўшт", "gogi"], ["생선", "сэнсон", "балиқ", "saengseon"],
-      ["밥", "бап", "гуруч; овқат", "bap"], ["소금", "согым", "туз", "sogeum"],
-      ["아침 식사", "ачим сикса", "нонушта", "achim siksa"], ["맛있다", "масситта", "мазали", "masitda"]
-    ],
-    city: [
-      ["도시", "тоси", "шаҳар", "dosi"], ["길", "киль", "йўл", "gil"], ["집", "чип", "уй", "jip"],
-      ["가게", "кагэ", "дўкон", "gage"], ["시장", "сичжан", "бозор", "sijang"],
-      ["병원", "пёнвон", "касалхона", "byeongwon"], ["학교", "ҳаккё", "мактаб", "hakgyo"],
-      ["일", "иль", "иш", "il"], ["버스", "бос", "автобус", "beoseu"],
-      ["자동차", "чадончха", "машина", "jadongcha"], ["역", "ёк", "бекат, вокзал", "yeok"],
-      ["어디", "оди", "қаерда", "eodi"]
-    ],
-    shop: [
-      ["가격", "кагёк", "нарх", "gagyeok"], ["돈", "тон", "пул", "don"],
-      ["싸다", "ссада", "арзон", "ssada"], ["비싸다", "писсада", "қиммат", "bissada"],
-      ["사다", "сада", "сотиб олмоқ", "sada"], ["내다", "нэда", "тўламоқ", "naeda"],
-      ["카드", "кады", "банк картаси", "kadeu"], ["현금", "ҳёнгым", "нақд пул", "hyeongeum"],
-      ["사이즈", "саиджы", "ўлчам", "saijeu"], ["열다", "ёльда", "очмоқ", "yeolda"],
-      ["닫다", "татта", "ёпмоқ", "datda"], ["영수증", "ёнсуджын", "чек", "yeongsujeung"]
-    ],
-    verb: [
-      ["이다", "ида", "…дир", "ida"], ["있다", "итта", "бор", "itda"], ["가다", "када", "бормоқ", "gada"],
-      ["오다", "ода", "келмоқ", "oda"], ["하다", "ҳада", "қилмоқ", "hada"],
-      ["원하다", "вонҳада", "хоҳламоқ", "wonhada"], ["알다", "альда", "билмоқ", "alda"],
-      ["보다", "пода", "кўрмоқ", "boda"], ["먹다", "мокта", "емоқ", "meokda"],
-      ["말하다", "мальҳада", "гапирмоқ", "malhada"], ["일하다", "ильҳада", "ишламоқ", "ilhada"],
-      ["돕다", "топта", "ёрдам бермоқ", "dopda"]
-    ],
-    adj: [
-      ["크다", "кыда", "катта", "keuda"], ["작다", "чакта", "кичик", "jakda"],
-      ["새롭다", "сэропта", "янги", "saeropda"], ["오래되다", "орэдвэда", "эски", "oraedoeda"],
-      ["좋다", "чота", "яхши", "jota"], ["나쁘다", "наппыда", "ёмон", "nappeuda"],
-      ["덥다", "топта", "иссиқ", "deopda"], ["춥다", "чупта", "совуқ", "chupda"],
-      ["쉽다", "свипта", "осон", "swipda"], ["어렵다", "орёпта", "қийин", "eoryeopda"],
-      ["빠르다", "ппарыда", "тез", "ppareuda"], ["예쁘다", "еппыда", "чиройли", "yeppeuda"]
-    ],
-    color: [
-      ["색", "сэк", "ранг", "saek"], ["빨간색", "ппальгансэк", "қизил", "ppalgansaek"],
-      ["파란색", "парансэк", "кўк", "paransaek"], ["초록색", "чороксэк", "яшил", "choroksaek"],
-      ["노란색", "норансэк", "сариқ", "noransaek"], ["하얀색", "ҳаянсэк", "оқ", "hayansaek"],
-      ["검은색", "комынсэк", "қора", "geomeunsaek"], ["회색", "ҳвесэк", "кулранг", "hoesaek"],
-      ["갈색", "кальсэк", "жигарранг", "galsaek"], ["주황색", "чуҳвансэк", "тўқ сариқ", "juhwangsaek"],
-      ["분홍색", "пунҳонсэк", "пушти", "bunhongsaek"], ["진한 / 연한", "чинҳан / ёнҳан", "тўқ / очиқ", "jinhan / yeonhan"]
-    ]
-  },
-  phrases: [
-    ["Танишув", [
-      ["이름이 뭐예요?", "ирыми мвоэё", "Исмингиз нима?", "ireumi mwoyeyo"],
-      ["저는 알리입니다.", "чонын аллиимнида", "Мен Алиман.", "jeoneun Alli-imnida"],
-      ["어디에서 왔어요?", "одиэсо вассоё", "Қаердан келдингиз?", "eodieseo wasseoyo"],
-      ["우즈베키스탄에서 왔어요.", "уджыбэкисытанэсо вассоё", "Ўзбекистондан келдим.", "Ujeubekiseutan-eseo wasseoyo"]
-    ]],
-    ["Тушунмаганда", [
-      ["이해하지 못했어요.", "иҳэҳаджи мотҳэссоё", "Тушунмадим.", "ihaehaji mothaesseoyo"],
-      ["다시 말해 주세요.", "таси мальҳэ чусэё", "Яна бир марта айтинг.", "dasi malhae juseyo"],
-      ["천천히 말해 주세요.", "чончонҳи мальҳэ чусэё", "Секинроқ гапиринг.", "cheoncheonhi malhae juseyo"],
-      ["한국어로 뭐라고 해요?", "ҳангугоро мвораго ҳэё", "Корейсча қандай айтилади?", "hangugeoro mworago haeyo"]
-    ]],
-    ["Кафеда", [
-      ["메뉴 주세요.", "мэню чусэё", "Менюни беринг.", "menyu juseyo"],
-      ["차 한 잔 주세요.", "ча ҳан чан чусэё", "Бир пиёла чой беринг.", "cha han jan juseyo"],
-      ["계산서 주세요.", "кесансо чусэё", "Ҳисобни беринг.", "gyesanseo juseyo"],
-      ["정말 맛있었어요.", "чонмаль массиссоссоё", "Жуда мазали эди.", "jeongmal masisseosseoyo"]
-    ]],
-    ["Йўлда", [
-      ["역이 어디예요?", "ёги одиеё", "Бекат қаерда?", "yeogi eodiyeyo"],
-      ["멀어요?", "мороё", "Узоқми?", "meoreoyo"],
-      ["쭉 가세요.", "ччук касэё", "Тўғрига юринг.", "jjuk gaseyo"],
-      ["여기서 세워 주세요.", "ёгисо сэво чусэё", "Шу ерда тўхтатинг.", "yeogiseo sewo juseyo"]
-    ]],
-    ["Дўконда", [
-      ["얼마예요?", "ольмаеё", "Қанча туради?", "eolmayeyo"],
-      ["카드로 계산할 수 있어요?", "кадыро кесанҳаль су иссоё", "Карта билан тўласа бўладими?", "kadeuro gyesanhal su isseoyo"],
-      ["이거 주세요.", "иго чусэё", "Шуни беринг.", "igeo juseyo"],
-      ["더 큰 사이즈 있어요?", "то кын саиджы иссоё", "Каттароқ ўлчами борми?", "deo keun saijeu isseoyo"]
-    ]],
-    ["Ёрдам", [
-      ["도와주세요!", "товаджусэё", "Ёрдам беринг!", "dowajuseyo"],
-      ["의사가 필요해요.", "ыйсага пхирёҳэё", "Менга шифокор керак.", "uisaga piryohaeyo"],
-      ["여권을 잃어버렸어요.", "ёгвоныль ироборёссоё", "Паспортимни йўқотдим.", "yeogwoneul ireobeoryeosseoyo"],
-      ["경찰을 불러 주세요.", "кёнчхарыль булло чусэё", "Полицияни чақиринг.", "gyeongchareul bulleo juseyo"]
-    ]]
-  ],
-  quarter: { title: "Чорак 1 — Корейс тили пойдевори", goal: "Уч ойда: хангулни эркин ўқиш, 144 сўз ва ибора, хушмуомала шаклда оддий суҳбат." },
-  months: [
-    { title: "Ой 1 — Хангул ва танишув", goal: "24 белги ва бўғин блоклари, саломлашиш, оила, сонлар.", script: true,
-      topics: ["greet", "fam", "num"], phrases: ["Танишув", "Тушунмаганда"], grammar: [0, 1] },
-    { title: "Ой 2 — Кундалик ҳаёт", goal: "Вақт, овқат, шаҳар, ранглар; келишиклар ва -요 шакли.", script: false,
-      topics: ["time", "food", "city", "color"], phrases: ["Кафеда", "Йўлда"], grammar: [2, 3, 4] },
-    { title: "Ой 3 — Мулоқот ва харид", goal: "Дўкон, феъл ва сифатлар; замонлар ва инкор.", script: false,
-      topics: ["shop", "verb", "adj"], phrases: ["Дўконда", "Ёрдам"], grammar: [5, 6, 7] }
-  ],
-  grammar: [
-    { t: "Хангул — бўғин блоклари", h:
-      '<p>Ҳарфлар ёнма-ён эмас, квадрат блокка жойланади. Ҳар блок — битта бўғин.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">ㅎ + ㅏ + ㄴ = 한</td><td>ҳан</td></tr>' +
-      '<tr><td class="n">ㄱ + ㅜ + ㄱ = 국</td><td>кук</td></tr>' +
-      '<tr><td class="n">한 + 국 = 한국</td><td>Корея</td></tr></table></div>' +
-      '<p>Унли «ㅇ» бўғин бошида ёзилади, лекин ўқилмайди: 아 = «а».</p>' },
-    { t: "Гап тузилиши: феъл охирда", h:
-      '<p>Ўзбекчадаги каби: эга — тўлдирувчи — феъл.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">저는 밥을 먹어요.</td><td>Мен овқат ейман.</td></tr>' +
-      '<tr><td class="n">чонын бабыль могоё</td><td>мен — овқатни — ейман</td></tr></table></div>' },
-    { t: "Келишик қўшимчалари", h:
-      '<div class="t-tw"><table><tr><td class="n">은 / 는</td><td>мавзу: 저는 — мен эса</td></tr>' +
-      '<tr><td class="n">이 / 가</td><td>эга: 친구가 — дўстим</td></tr>' +
-      '<tr><td class="n">을 / 를</td><td>тушум: 밥을 — овқатни</td></tr>' +
-      '<tr><td class="n">에 / 에서</td><td>жой: 학교에 — мактабга, 집에서 — уйда</td></tr>' +
-      '<tr><td class="n">의</td><td>қаратқич: 저의 — менинг</td></tr></table></div>' +
-      '<p>Ундош билан тугаса 은/이/을, унли билан тугаса 는/가/를.</p>' },
-    { t: "-요 — хушмуомала шакл", h:
-      '<p>Кундалик мулоқотда феъл -요 билан тугайди. Расмийроғи -ㅂ니다.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">먹다 → 먹어요</td><td>емоқ → ейман</td></tr>' +
-      '<tr><td class="n">가다 → 가요</td><td>бормоқ → бораман</td></tr>' +
-      '<tr><td class="n">하다 → 해요</td><td>қилмоқ → қиламан</td></tr></table></div>' },
-    { t: "Ҳурмат даражалари", h:
-      '<p>Кимга гапираётганингизга қараб шакл ўзгаради — бу корейс тилининг энг муҳим қоидаси.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">밥 먹어</td><td>яқин дўстга</td></tr>' +
-      '<tr><td class="n">밥 먹어요</td><td>оддий ҳурмат</td></tr>' +
-      '<tr><td class="n">식사하십니다</td><td>катта ёшли ёки раҳбарга</td></tr></table></div>' },
-    { t: "Ўтган замон", h:
-      '<div class="t-tw"><table><tr><td class="n">가요 → 갔어요</td><td>бораман → бордим</td></tr>' +
-      '<tr><td class="n">먹어요 → 먹었어요</td><td>ейман → едим</td></tr>' +
-      '<tr><td class="n">이에요 → 이었어요</td><td>…дир → …эди</td></tr></table></div>' },
-    { t: "Келаси замон ва ният", h:
-      '<div class="t-tw"><table><tr><td class="n">갈 거예요</td><td>бораман (режа)</td></tr>' +
-      '<tr><td class="n">하겠습니다</td><td>қиламан (қатъий ният)</td></tr>' +
-      '<tr><td class="n">먹고 싶어요</td><td>емоқчиман</td></tr></table></div>' },
-    { t: "Инкор: 안 ва 못", h:
-      '<div class="t-tw"><table><tr><td class="n">안 가요</td><td>бормайман (хоҳламайман)</td></tr>' +
-      '<tr><td class="n">못 가요</td><td>бора олмайман (имкон йўқ)</td></tr>' +
-      '<tr><td class="n">없어요</td><td>йўқ</td></tr>' +
-      '<tr><td class="n">아니에요</td><td>…эмас</td></tr></table></div>' }
+ "id": "ko",
+ "code": "kor",
+ "name": "Koreys tili",
+ "native": "한국어",
+ "speech": "ko-KR",
+ "dir": "ltr",
+ "typeField": "pron",
+ "keys": [
+  "qwertyuiop",
+  "asdfghjkl",
+  "zxcvbnm",
+  "oʻgʻʼ"
+ ],
+ "note": "Xangul — dunyodagi eng tartibli yozuvlardan biri: 24 ta belgidan boʻgʻin bloklari yasaladi. Bir necha kunda oʻqishni oʻrganish mumkin.",
+ "script": {
+  "title": "Xangul",
+  "unit": "belgi",
+  "note": "14 undosh va 10 unli. Ular kvadrat blokka joylanadi: ㅎ+ㅏ+ㄴ = 한.",
+  "items": [
+   [
+    "ㄱ",
+    "",
+    "g / k",
+    "가방",
+    "sumka"
+   ],
+   [
+    "ㄴ",
+    "",
+    "n",
+    "나",
+    "men"
+   ],
+   [
+    "ㄷ",
+    "",
+    "d / t",
+    "다리",
+    "oyoq; koʻprik"
+   ],
+   [
+    "ㄹ",
+    "",
+    "r / l",
+    "라디오",
+    "radio"
+   ],
+   [
+    "ㅁ",
+    "",
+    "m",
+    "물",
+    "suv"
+   ],
+   [
+    "ㅂ",
+    "",
+    "b / p",
+    "밥",
+    "ovqat, guruch"
+   ],
+   [
+    "ㅅ",
+    "",
+    "s",
+    "산",
+    "togʻ"
+   ],
+   [
+    "ㅇ",
+    "",
+    "boʻgʻin boshida jim, oxirida «ng»",
+    "아이",
+    "bola"
+   ],
+   [
+    "ㅈ",
+    "",
+    "j / ch",
+    "집",
+    "uy"
+   ],
+   [
+    "ㅊ",
+    "",
+    "ch (puflab)",
+    "차",
+    "choy; mashina"
+   ],
+   [
+    "ㅋ",
+    "",
+    "k (puflab)",
+    "코",
+    "burun"
+   ],
+   [
+    "ㅌ",
+    "",
+    "t (puflab)",
+    "토마토",
+    "pomidor"
+   ],
+   [
+    "ㅍ",
+    "",
+    "p (puflab)",
+    "팔",
+    "qoʻl"
+   ],
+   [
+    "ㅎ",
+    "",
+    "h",
+    "하늘",
+    "osmon"
+   ],
+   [
+    "ㅏ",
+    "",
+    "a",
+    "아버지",
+    "ota"
+   ],
+   [
+    "ㅑ",
+    "",
+    "ya",
+    "야구",
+    "beysbol"
+   ],
+   [
+    "ㅓ",
+    "",
+    "o — oʻ va o orasi",
+    "어머니",
+    "ona"
+   ],
+   [
+    "ㅕ",
+    "",
+    "yo (yo-o)",
+    "여자",
+    "ayol"
+   ],
+   [
+    "ㅗ",
+    "",
+    "o",
+    "오늘",
+    "bugun"
+   ],
+   [
+    "ㅛ",
+    "",
+    "yo",
+    "요리",
+    "taom"
+   ],
+   [
+    "ㅜ",
+    "",
+    "u",
+    "우유",
+    "sut"
+   ],
+   [
+    "ㅠ",
+    "",
+    "yu",
+    "유리",
+    "oyna"
+   ],
+   [
+    "ㅡ",
+    "",
+    "i",
+    "그",
+    "oʻsha"
+   ],
+   [
+    "ㅣ",
+    "",
+    "i",
+    "이름",
+    "ism"
+   ]
   ]
+ },
+ "topics": [
+  [
+   "greet",
+   "Salomlashish"
+  ],
+  [
+   "fam",
+   "Oila va odamlar"
+  ],
+  [
+   "num",
+   "Sonlar"
+  ],
+  [
+   "time",
+   "Vaqt"
+  ],
+  [
+   "food",
+   "Ovqat"
+  ],
+  [
+   "city",
+   "Shahar va yoʻl"
+  ],
+  [
+   "shop",
+   "Xarid"
+  ],
+  [
+   "verb",
+   "Feʼllar"
+  ],
+  [
+   "adj",
+   "Sifatlar"
+  ],
+  [
+   "color",
+   "Ranglar"
+  ]
+ ],
+ "words": {
+  "greet": [
+   [
+    "안녕하세요",
+    "annyonhaseyo",
+    "salom (hurmat)",
+    "annyeonghaseyo"
+   ],
+   [
+    "안녕",
+    "annyon",
+    "salom (norasmiy)",
+    "annyeong"
+   ],
+   [
+    "안녕히 가세요",
+    "annyonhi kaseyo",
+    "xayr (ketayotganga)",
+    "annyeonghi gaseyo"
+   ],
+   [
+    "감사합니다",
+    "kamsahamnida",
+    "rahmat (rasmiy)",
+    "gamsahamnida"
+   ],
+   [
+    "고맙습니다",
+    "komapsimnida",
+    "rahmat",
+    "gomapseumnida"
+   ],
+   [
+    "죄송합니다",
+    "chvesonhamnida",
+    "kechirasiz",
+    "joesonghamnida"
+   ],
+   [
+    "실례합니다",
+    "sillehamnida",
+    "uzr (murojaat)",
+    "sillyehamnida"
+   ],
+   [
+    "네 / 아니요",
+    "ne / aniyo",
+    "ha / yoʻq",
+    "ne / aniyo"
+   ],
+   [
+    "잘 지내세요?",
+    "chal chineseyo",
+    "Yaxshi yuribsizmi?",
+    "jal jinaeseyo"
+   ],
+   [
+    "반갑습니다",
+    "pangapsimnida",
+    "Tanishganimdan xursandman",
+    "bangapseumnida"
+   ],
+   [
+    "괜찮아요",
+    "kvenchanayo",
+    "Hechqisi yoʻq",
+    "gwaenchanayo"
+   ],
+   [
+    "좋은 아침",
+    "choin achim",
+    "xayrli tong",
+    "joeun achim"
+   ]
+  ],
+  "fam": [
+   [
+    "가족",
+    "kajok",
+    "oila",
+    "gajok"
+   ],
+   [
+    "어머니",
+    "omoni",
+    "ona",
+    "eomeoni"
+   ],
+   [
+    "아버지",
+    "abodji",
+    "ota",
+    "abeoji"
+   ],
+   [
+    "아들",
+    "adil",
+    "oʻgʻil",
+    "adeul"
+   ],
+   [
+    "딸",
+    "ttal",
+    "qiz (farzand)",
+    "ttal"
+   ],
+   [
+    "형",
+    "hyon",
+    "aka (erkak uchun)",
+    "hyeong"
+   ],
+   [
+    "누나",
+    "nuna",
+    "opa (erkak uchun)",
+    "nuna"
+   ],
+   [
+    "동생",
+    "tonsen",
+    "uka, singil",
+    "dongsaeng"
+   ],
+   [
+    "아내",
+    "ane",
+    "xotin",
+    "anae"
+   ],
+   [
+    "남편",
+    "nampyon",
+    "er",
+    "nampyeon"
+   ],
+   [
+    "친구",
+    "chingu",
+    "doʻst",
+    "chingu"
+   ],
+   [
+    "사람",
+    "saram",
+    "odam",
+    "saram"
+   ]
+  ],
+  "num": [
+   [
+    "일",
+    "il",
+    "bir (1)",
+    "il"
+   ],
+   [
+    "이",
+    "i",
+    "ikki (2)",
+    "i"
+   ],
+   [
+    "삼",
+    "sam",
+    "uch (3)",
+    "sam"
+   ],
+   [
+    "사",
+    "sa",
+    "toʻrt (4)",
+    "sa"
+   ],
+   [
+    "오",
+    "o",
+    "besh (5)",
+    "o"
+   ],
+   [
+    "육",
+    "yuk",
+    "olti (6)",
+    "yuk"
+   ],
+   [
+    "칠",
+    "chil",
+    "yetti (7)",
+    "chil"
+   ],
+   [
+    "팔",
+    "pal",
+    "sakkiz (8)",
+    "pal"
+   ],
+   [
+    "구",
+    "ku",
+    "toʻqqiz (9)",
+    "gu"
+   ],
+   [
+    "십",
+    "sip",
+    "oʻn (10)",
+    "sip"
+   ],
+   [
+    "이십",
+    "isip",
+    "yigirma (20)",
+    "isip"
+   ],
+   [
+    "백",
+    "pek",
+    "yuz (100)",
+    "baek"
+   ]
+  ],
+  "time": [
+   [
+    "시간",
+    "sigan",
+    "vaqt",
+    "sigan"
+   ],
+   [
+    "날",
+    "nal",
+    "kun",
+    "nal"
+   ],
+   [
+    "주",
+    "chu",
+    "hafta",
+    "ju"
+   ],
+   [
+    "달",
+    "tal",
+    "oy",
+    "dal"
+   ],
+   [
+    "년",
+    "nyon",
+    "yil",
+    "nyeon"
+   ],
+   [
+    "오늘",
+    "onil",
+    "bugun",
+    "oneul"
+   ],
+   [
+    "내일",
+    "neil",
+    "ertaga",
+    "naeil"
+   ],
+   [
+    "어제",
+    "odje",
+    "kecha",
+    "eoje"
+   ],
+   [
+    "지금",
+    "chigim",
+    "hozir",
+    "jigeum"
+   ],
+   [
+    "아침",
+    "achim",
+    "tong",
+    "achim"
+   ],
+   [
+    "저녁",
+    "chonyok",
+    "oqshom",
+    "jeonyeok"
+   ],
+   [
+    "시",
+    "si",
+    "soat",
+    "si"
+   ]
+  ],
+  "food": [
+   [
+    "음식",
+    "imsik",
+    "ovqat",
+    "eumsik"
+   ],
+   [
+    "빵",
+    "ppan",
+    "non",
+    "ppang"
+   ],
+   [
+    "물",
+    "mul",
+    "suv",
+    "mul"
+   ],
+   [
+    "차",
+    "cha",
+    "choy",
+    "cha"
+   ],
+   [
+    "커피",
+    "kopi",
+    "kofe",
+    "keopi"
+   ],
+   [
+    "우유",
+    "uyu",
+    "sut",
+    "uyu"
+   ],
+   [
+    "고기",
+    "kogi",
+    "goʻsht",
+    "gogi"
+   ],
+   [
+    "생선",
+    "senson",
+    "baliq",
+    "saengseon"
+   ],
+   [
+    "밥",
+    "bap",
+    "guruch; ovqat",
+    "bap"
+   ],
+   [
+    "소금",
+    "sogim",
+    "tuz",
+    "sogeum"
+   ],
+   [
+    "아침 식사",
+    "achim siksa",
+    "nonushta",
+    "achim siksa"
+   ],
+   [
+    "맛있다",
+    "massitta",
+    "mazali",
+    "masitda"
+   ]
+  ],
+  "city": [
+   [
+    "도시",
+    "tosi",
+    "shahar",
+    "dosi"
+   ],
+   [
+    "길",
+    "kil",
+    "yoʻl",
+    "gil"
+   ],
+   [
+    "집",
+    "chip",
+    "uy",
+    "jip"
+   ],
+   [
+    "가게",
+    "kage",
+    "doʻkon",
+    "gage"
+   ],
+   [
+    "시장",
+    "sichjan",
+    "bozor",
+    "sijang"
+   ],
+   [
+    "병원",
+    "pyonvon",
+    "kasalxona",
+    "byeongwon"
+   ],
+   [
+    "학교",
+    "hakkyo",
+    "maktab",
+    "hakgyo"
+   ],
+   [
+    "일",
+    "il",
+    "ish",
+    "il"
+   ],
+   [
+    "버스",
+    "bos",
+    "avtobus",
+    "beoseu"
+   ],
+   [
+    "자동차",
+    "chadonchxa",
+    "mashina",
+    "jadongcha"
+   ],
+   [
+    "역",
+    "yok",
+    "bekat, vokzal",
+    "yeok"
+   ],
+   [
+    "어디",
+    "odi",
+    "qayerda",
+    "eodi"
+   ]
+  ],
+  "shop": [
+   [
+    "가격",
+    "kagyok",
+    "narx",
+    "gagyeok"
+   ],
+   [
+    "돈",
+    "ton",
+    "pul",
+    "don"
+   ],
+   [
+    "싸다",
+    "ssada",
+    "arzon",
+    "ssada"
+   ],
+   [
+    "비싸다",
+    "pissada",
+    "qimmat",
+    "bissada"
+   ],
+   [
+    "사다",
+    "sada",
+    "sotib olmoq",
+    "sada"
+   ],
+   [
+    "내다",
+    "neda",
+    "toʻlamoq",
+    "naeda"
+   ],
+   [
+    "카드",
+    "kadi",
+    "bank kartasi",
+    "kadeu"
+   ],
+   [
+    "현금",
+    "hyongim",
+    "naqd pul",
+    "hyeongeum"
+   ],
+   [
+    "사이즈",
+    "saidji",
+    "oʻlcham",
+    "saijeu"
+   ],
+   [
+    "열다",
+    "yolda",
+    "ochmoq",
+    "yeolda"
+   ],
+   [
+    "닫다",
+    "tatta",
+    "yopmoq",
+    "datda"
+   ],
+   [
+    "영수증",
+    "yonsudjin",
+    "chek",
+    "yeongsujeung"
+   ]
+  ],
+  "verb": [
+   [
+    "이다",
+    "ida",
+    "…dir",
+    "ida"
+   ],
+   [
+    "있다",
+    "itta",
+    "bor",
+    "itda"
+   ],
+   [
+    "가다",
+    "kada",
+    "bormoq",
+    "gada"
+   ],
+   [
+    "오다",
+    "oda",
+    "kelmoq",
+    "oda"
+   ],
+   [
+    "하다",
+    "hada",
+    "qilmoq",
+    "hada"
+   ],
+   [
+    "원하다",
+    "vonhada",
+    "xohlamoq",
+    "wonhada"
+   ],
+   [
+    "알다",
+    "alda",
+    "bilmoq",
+    "alda"
+   ],
+   [
+    "보다",
+    "poda",
+    "koʻrmoq",
+    "boda"
+   ],
+   [
+    "먹다",
+    "mokta",
+    "yemoq",
+    "meokda"
+   ],
+   [
+    "말하다",
+    "malhada",
+    "gapirmoq",
+    "malhada"
+   ],
+   [
+    "일하다",
+    "ilhada",
+    "ishlamoq",
+    "ilhada"
+   ],
+   [
+    "돕다",
+    "topta",
+    "yordam bermoq",
+    "dopda"
+   ]
+  ],
+  "adj": [
+   [
+    "크다",
+    "kida",
+    "katta",
+    "keuda"
+   ],
+   [
+    "작다",
+    "chakta",
+    "kichik",
+    "jakda"
+   ],
+   [
+    "새롭다",
+    "seropta",
+    "yangi",
+    "saeropda"
+   ],
+   [
+    "오래되다",
+    "oredveda",
+    "eski",
+    "oraedoeda"
+   ],
+   [
+    "좋다",
+    "chota",
+    "yaxshi",
+    "jota"
+   ],
+   [
+    "나쁘다",
+    "nappida",
+    "yomon",
+    "nappeuda"
+   ],
+   [
+    "덥다",
+    "topta",
+    "issiq",
+    "deopda"
+   ],
+   [
+    "춥다",
+    "chupta",
+    "sovuq",
+    "chupda"
+   ],
+   [
+    "쉽다",
+    "svipta",
+    "oson",
+    "swipda"
+   ],
+   [
+    "어렵다",
+    "oryopta",
+    "qiyin",
+    "eoryeopda"
+   ],
+   [
+    "빠르다",
+    "pparida",
+    "tez",
+    "ppareuda"
+   ],
+   [
+    "예쁘다",
+    "yeppida",
+    "chiroyli",
+    "yeppeuda"
+   ]
+  ],
+  "color": [
+   [
+    "색",
+    "sek",
+    "rang",
+    "saek"
+   ],
+   [
+    "빨간색",
+    "ppalgansek",
+    "qizil",
+    "ppalgansaek"
+   ],
+   [
+    "파란색",
+    "paransek",
+    "koʻk",
+    "paransaek"
+   ],
+   [
+    "초록색",
+    "choroksek",
+    "yashil",
+    "choroksaek"
+   ],
+   [
+    "노란색",
+    "noransek",
+    "sariq",
+    "noransaek"
+   ],
+   [
+    "하얀색",
+    "hayansek",
+    "oq",
+    "hayansaek"
+   ],
+   [
+    "검은색",
+    "kominsek",
+    "qora",
+    "geomeunsaek"
+   ],
+   [
+    "회색",
+    "hvesek",
+    "kulrang",
+    "hoesaek"
+   ],
+   [
+    "갈색",
+    "kalsek",
+    "jigarrang",
+    "galsaek"
+   ],
+   [
+    "주황색",
+    "chuhvansek",
+    "toʻq sariq",
+    "juhwangsaek"
+   ],
+   [
+    "분홍색",
+    "punhonsek",
+    "pushti",
+    "bunhongsaek"
+   ],
+   [
+    "진한 / 연한",
+    "chinhan / yonhan",
+    "toʻq / ochiq",
+    "jinhan / yeonhan"
+   ]
+  ]
+ },
+ "phrases": [
+  [
+   "Tanishuv",
+   [
+    [
+     "이름이 뭐예요?",
+     "irimi mvoeyo",
+     "Ismingiz nima?",
+     "ireumi mwoyeyo"
+    ],
+    [
+     "저는 알리입니다.",
+     "chonin alliimnida",
+     "Men Aliman.",
+     "jeoneun Alli-imnida"
+    ],
+    [
+     "어디에서 왔어요?",
+     "odieso vassoyo",
+     "Qayerdan keldingiz?",
+     "eodieseo wasseoyo"
+    ],
+    [
+     "우즈베키스탄에서 왔어요.",
+     "udjibekisitaneso vassoyo",
+     "Oʻzbekistondan keldim.",
+     "Ujeubekiseutan-eseo wasseoyo"
+    ]
+   ]
+  ],
+  [
+   "Tushunmaganda",
+   [
+    [
+     "이해하지 못했어요.",
+     "ihehadji mothessoyo",
+     "Tushunmadim.",
+     "ihaehaji mothaesseoyo"
+    ],
+    [
+     "다시 말해 주세요.",
+     "tasi malhe chuseyo",
+     "Yana bir marta ayting.",
+     "dasi malhae juseyo"
+    ],
+    [
+     "천천히 말해 주세요.",
+     "chonchonhi malhe chuseyo",
+     "Sekinroq gapiring.",
+     "cheoncheonhi malhae juseyo"
+    ],
+    [
+     "한국어로 뭐라고 해요?",
+     "hangugoro mvorago heyo",
+     "Koreyscha qanday aytiladi?",
+     "hangugeoro mworago haeyo"
+    ]
+   ]
+  ],
+  [
+   "Kafeda",
+   [
+    [
+     "메뉴 주세요.",
+     "menyu chuseyo",
+     "Menyuni bering.",
+     "menyu juseyo"
+    ],
+    [
+     "차 한 잔 주세요.",
+     "cha han chan chuseyo",
+     "Bir piyola choy bering.",
+     "cha han jan juseyo"
+    ],
+    [
+     "계산서 주세요.",
+     "kesanso chuseyo",
+     "Hisobni bering.",
+     "gyesanseo juseyo"
+    ],
+    [
+     "정말 맛있었어요.",
+     "chonmal massissossoyo",
+     "Juda mazali edi.",
+     "jeongmal masisseosseoyo"
+    ]
+   ]
+  ],
+  [
+   "Yoʻlda",
+   [
+    [
+     "역이 어디예요?",
+     "yogi odiyeyo",
+     "Bekat qayerda?",
+     "yeogi eodiyeyo"
+    ],
+    [
+     "멀어요?",
+     "moroyo",
+     "Uzoqmi?",
+     "meoreoyo"
+    ],
+    [
+     "쭉 가세요.",
+     "chchuk kaseyo",
+     "Toʻgʻriga yuring.",
+     "jjuk gaseyo"
+    ],
+    [
+     "여기서 세워 주세요.",
+     "yogiso sevo chuseyo",
+     "Shu yerda toʻxtating.",
+     "yeogiseo sewo juseyo"
+    ]
+   ]
+  ],
+  [
+   "Doʻkonda",
+   [
+    [
+     "얼마예요?",
+     "olmayeyo",
+     "Qancha turadi?",
+     "eolmayeyo"
+    ],
+    [
+     "카드로 계산할 수 있어요?",
+     "kadiro kesanhal su issoyo",
+     "Karta bilan toʻlasa boʻladimi?",
+     "kadeuro gyesanhal su isseoyo"
+    ],
+    [
+     "이거 주세요.",
+     "igo chuseyo",
+     "Shuni bering.",
+     "igeo juseyo"
+    ],
+    [
+     "더 큰 사이즈 있어요?",
+     "to kin saidji issoyo",
+     "Kattaroq oʻlchami bormi?",
+     "deo keun saijeu isseoyo"
+    ]
+   ]
+  ],
+  [
+   "Yordam",
+   [
+    [
+     "도와주세요!",
+     "tovadjuseyo",
+     "Yordam bering!",
+     "dowajuseyo"
+    ],
+    [
+     "의사가 필요해요.",
+     "iysaga pxiryoheyo",
+     "Menga shifokor kerak.",
+     "uisaga piryohaeyo"
+    ],
+    [
+     "여권을 잃어버렸어요.",
+     "yogvonil iroboryossoyo",
+     "Pasportimni yoʻqotdim.",
+     "yeogwoneul ireobeoryeosseoyo"
+    ],
+    [
+     "경찰을 불러 주세요.",
+     "kyonchxaril bullo chuseyo",
+     "Politsiyani chaqiring.",
+     "gyeongchareul bulleo juseyo"
+    ]
+   ]
+  ]
+ ],
+ "quarter": {
+  "title": "Chorak 1 — Koreys tili poydevori",
+  "goal": "Uch oyda: xangulni erkin oʻqish, 144 soʻz va ibora, xushmuomala shaklda oddiy suhbat."
+ },
+ "months": [
+  {
+   "title": "Oy 1 — Xangul va tanishuv",
+   "goal": "24 belgi va boʻgʻin bloklari, salomlashish, oila, sonlar.",
+   "script": true,
+   "topics": [
+    "greet",
+    "fam",
+    "num"
+   ],
+   "phrases": [
+    "Tanishuv",
+    "Tushunmaganda"
+   ],
+   "grammar": [
+    0,
+    1
+   ]
+  },
+  {
+   "title": "Oy 2 — Kundalik hayot",
+   "goal": "Vaqt, ovqat, shahar, ranglar; kelishiklar va -요 shakli.",
+   "script": false,
+   "topics": [
+    "time",
+    "food",
+    "city",
+    "color"
+   ],
+   "phrases": [
+    "Kafeda",
+    "Yoʻlda"
+   ],
+   "grammar": [
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "title": "Oy 3 — Muloqot va xarid",
+   "goal": "Doʻkon, feʼl va sifatlar; zamonlar va inkor.",
+   "script": false,
+   "topics": [
+    "shop",
+    "verb",
+    "adj"
+   ],
+   "phrases": [
+    "Doʻkonda",
+    "Yordam"
+   ],
+   "grammar": [
+    5,
+    6,
+    7
+   ]
+  }
+ ],
+ "grammar": [
+  {
+   "t": "Xangul — boʻgʻin bloklari",
+   "h": "<p>Harflar yonma-yon emas, kvadrat blokka joylanadi. Har blok — bitta boʻgʻin.</p><div class=\"t-tw\"><table><tr><td class=\"n\">ㅎ + ㅏ + ㄴ = 한</td><td>han</td></tr><tr><td class=\"n\">ㄱ + ㅜ + ㄱ = 국</td><td>kuk</td></tr><tr><td class=\"n\">한 + 국 = 한국</td><td>Koreya</td></tr></table></div><p>Unli «ㅇ» boʻgʻin boshida yoziladi, lekin oʻqilmaydi: 아 = «a».</p>"
+  },
+  {
+   "t": "Gap tuzilishi: feʼl oxirda",
+   "h": "<p>Oʻzbekchadagi kabi: ega — toʻldiruvchi — feʼl.</p><div class=\"t-tw\"><table><tr><td class=\"n\">저는 밥을 먹어요.</td><td>Men ovqat yeyman.</td></tr><tr><td class=\"n\">chonin babil mogoyo</td><td>men — ovqatni — yeyman</td></tr></table></div>"
+  },
+  {
+   "t": "Kelishik qoʻshimchalari",
+   "h": "<div class=\"t-tw\"><table><tr><td class=\"n\">은 / 는</td><td>mavzu: 저는 — men esa</td></tr><tr><td class=\"n\">이 / 가</td><td>ega: 친구가 — doʻstim</td></tr><tr><td class=\"n\">을 / 를</td><td>tushum: 밥을 — ovqatni</td></tr><tr><td class=\"n\">에 / 에서</td><td>joy: 학교에 — maktabga, 집에서 — uyda</td></tr><tr><td class=\"n\">의</td><td>qaratqich: 저의 — mening</td></tr></table></div><p>Undosh bilan tugasa 은/이/을, unli bilan tugasa 는/가/를.</p>"
+  },
+  {
+   "t": "-요 — xushmuomala shakl",
+   "h": "<p>Kundalik muloqotda feʼl -요 bilan tugaydi. Rasmiyrogʻi -ㅂ니다.</p><div class=\"t-tw\"><table><tr><td class=\"n\">먹다 → 먹어요</td><td>yemoq → yeyman</td></tr><tr><td class=\"n\">가다 → 가요</td><td>bormoq → boraman</td></tr><tr><td class=\"n\">하다 → 해요</td><td>qilmoq → qilaman</td></tr></table></div>"
+  },
+  {
+   "t": "Hurmat darajalari",
+   "h": "<p>Kimga gapirayotganingizga qarab shakl oʻzgaradi — bu koreys tilining eng muhim qoidasi.</p><div class=\"t-tw\"><table><tr><td class=\"n\">밥 먹어</td><td>yaqin doʻstga</td></tr><tr><td class=\"n\">밥 먹어요</td><td>oddiy hurmat</td></tr><tr><td class=\"n\">식사하십니다</td><td>katta yoshli yoki rahbarga</td></tr></table></div>"
+  },
+  {
+   "t": "Oʻtgan zamon",
+   "h": "<div class=\"t-tw\"><table><tr><td class=\"n\">가요 → 갔어요</td><td>boraman → bordim</td></tr><tr><td class=\"n\">먹어요 → 먹었어요</td><td>yeyman → yedim</td></tr><tr><td class=\"n\">이에요 → 이었어요</td><td>…dir → …edi</td></tr></table></div>"
+  },
+  {
+   "t": "Kelasi zamon va niyat",
+   "h": "<div class=\"t-tw\"><table><tr><td class=\"n\">갈 거예요</td><td>boraman (reja)</td></tr><tr><td class=\"n\">하겠습니다</td><td>qilaman (qatʼiy niyat)</td></tr><tr><td class=\"n\">먹고 싶어요</td><td>yemoqchiman</td></tr></table></div>"
+  },
+  {
+   "t": "Inkor: 안 va 못",
+   "h": "<div class=\"t-tw\"><table><tr><td class=\"n\">안 가요</td><td>bormayman (xohlamayman)</td></tr><tr><td class=\"n\">못 가요</td><td>bora olmayman (imkon yoʻq)</td></tr><tr><td class=\"n\">없어요</td><td>yoʻq</td></tr><tr><td class=\"n\">아니에요</td><td>…emas</td></tr></table></div>"
+  }
+ ]
 });

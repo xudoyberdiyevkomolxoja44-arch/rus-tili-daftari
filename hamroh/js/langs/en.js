@@ -1,189 +1,1118 @@
-/* Инглиз тили */
+/* Ingliz tili */
 H.lang({
-  id: "en", code: "англ", name: "Инглиз тили", native: "English", speech: "en-US", dir: "ltr",
-  typeField: "native",
-  keys: ["qwertyuiop", "asdfghjkl", "zxcvbnm"],
-  note: "Талаффуз ўзбек кириллида тахминан берилган: инглиз товушларининг айнан муқобили йўқ.",
-  script: {
-    title: "Алифбо", unit: "ҳарф",
-    note: "26 ҳарф. Ҳарф номи билан ўқилиши кўпинча фарқ қилади — шунинг учун ҳар ҳарфга мисол сўз берилган.",
-    items: [
-      ["A a", "", "эй", "apple", "олма"], ["B b", "", "би", "book", "китоб"],
-      ["C c", "", "си", "cat", "мушук"], ["D d", "", "ди", "door", "эшик"],
-      ["E e", "", "и", "egg", "тухум"], ["F f", "", "эф", "fish", "балиқ"],
-      ["G g", "", "жи", "green", "яшил"], ["H h", "", "эйч", "house", "уй"],
-      ["I i", "", "ай", "ice", "муз"], ["J j", "", "жей", "job", "иш"],
-      ["K k", "", "кей", "key", "калит"], ["L l", "", "эл", "light", "ёруғлик"],
-      ["M m", "", "эм", "milk", "сут"], ["N n", "", "эн", "night", "тун"],
-      ["O o", "", "оу", "open", "очиқ"], ["P p", "", "пи", "pen", "ручка"],
-      ["Q q", "", "кью", "question", "савол"], ["R r", "", "ар", "red", "қизил"],
-      ["S s", "", "эс", "sun", "қуёш"], ["T t", "", "ти", "tea", "чой"],
-      ["U u", "", "ю", "under", "остида"], ["V v", "", "ви", "voice", "овоз"],
-      ["W w", "", "дабл-ю", "water", "сув"], ["X x", "", "экс", "box", "қути"],
-      ["Y y", "", "уай", "yellow", "сариқ"], ["Z z", "", "зед", "zero", "нол"]
-    ]
-  },
-  topics: [["greet", "Саломлашиш"], ["fam", "Оила ва одамлар"], ["num", "Сонлар"], ["time", "Вақт"],
-           ["food", "Овқат"], ["city", "Шаҳар ва йўл"], ["shop", "Харид"], ["verb", "Феъллар"],
-           ["adj", "Сифатлар"], ["color", "Ранглар"]],
-  words: {
-    greet: [
-      ["hello", "ҳэлоу", "салом"], ["hi", "ҳай", "салом (норасмий)"],
-      ["good morning", "гуд мо́нинг", "хайрли тонг"], ["good evening", "гуд и́внинг", "хайрли оқшом"],
-      ["goodbye", "гудба́й", "хайр"], ["please", "плиз", "илтимос"],
-      ["thank you", "сэнк ю", "раҳмат"], ["sorry", "со́ри", "кечирасиз (узр)"],
-      ["excuse me", "икскью́з ми", "кечирасиз (мурожаат)"], ["yes / no", "йес / ноу", "ҳа / йўқ"],
-      ["How are you?", "ҳау а ю", "Қалайсиз?"], ["Nice to meet you", "найс ту мит ю", "Танишганимдан хурсандман"]
-    ],
-    fam: [
-      ["family", "фэ́мили", "оила"], ["mother", "ма́зэр", "она"], ["father", "фа́зэр", "ота"],
-      ["son", "сан", "ўғил"], ["daughter", "до́тэр", "қиз (фарзанд)"], ["brother", "бра́зэр", "ака, ука"],
-      ["sister", "си́стэр", "опа, сингил"], ["wife", "вайф", "хотин"], ["husband", "ҳа́збэнд", "эр"],
-      ["child", "чайлд", "бола"], ["friend", "фрэнд", "дўст"], ["people", "пипл", "одамлар"]
-    ],
-    num: [
-      ["one", "уан", "бир (1)"], ["two", "ту", "икки (2)"], ["three", "сри", "уч (3)"],
-      ["four", "фо", "тўрт (4)"], ["five", "файв", "беш (5)"], ["six", "сикс", "олти (6)"],
-      ["seven", "сэвн", "етти (7)"], ["eight", "эйт", "саккиз (8)"], ["nine", "найн", "тўққиз (9)"],
-      ["ten", "тэн", "ўн (10)"], ["twenty", "тве́нти", "йигирма (20)"], ["hundred", "ҳа́ндрэд", "юз (100)"]
-    ],
-    time: [
-      ["time", "тайм", "вақт"], ["day", "дэй", "кун"], ["week", "уик", "ҳафта"],
-      ["month", "манс", "ой (календарь)"], ["year", "йиэ", "йил"], ["today", "тудэ́й", "бугун"],
-      ["tomorrow", "туморроу", "эртага"], ["yesterday", "йе́стэдэй", "кеча"], ["now", "нау", "ҳозир"],
-      ["morning", "мо́нинг", "тонг"], ["evening", "и́внинг", "оқшом"], ["hour", "а́уэ", "соат (давомийлик)"]
-    ],
-    food: [
-      ["food", "фуд", "овқат"], ["bread", "брэд", "нон"], ["water", "во́тэ", "сув"],
-      ["tea", "ти", "чой"], ["coffee", "ко́фи", "кофе"], ["milk", "милк", "сут"],
-      ["meat", "мит", "гўшт"], ["rice", "райс", "гуруч"], ["apple", "эпл", "олма"],
-      ["salt", "солт", "туз"], ["breakfast", "брэ́кфэст", "нонушта"], ["delicious", "дили́шэс", "мазали"]
-    ],
-    city: [
-      ["city", "си́ти", "шаҳар"], ["street", "стрит", "кўча"], ["house", "ҳаус", "уй"],
-      ["shop", "шоп", "дўкон"], ["market", "ма́кит", "бозор"], ["hospital", "ҳо́спитл", "касалхона"],
-      ["school", "скул", "мактаб"], ["office", "о́фис", "идора"], ["bus", "бас", "автобус"],
-      ["car", "ка", "машина"], ["station", "стэ́йшн", "бекат, вокзал"], ["Where?", "уэа", "Қаерда?"]
-    ],
-    shop: [
-      ["price", "прайс", "нарх"], ["money", "ма́ни", "пул"], ["cheap", "чип", "арзон"],
-      ["expensive", "икспэ́нсив", "қиммат"], ["to buy", "ту бай", "сотиб олмоқ"], ["to pay", "ту пэй", "тўламоқ"],
-      ["card", "кад", "банк картаси"], ["cash", "кэш", "нақд пул"], ["size", "сайз", "ўлчам"],
-      ["open", "о́упн", "очиқ"], ["closed", "клоузд", "ёпиқ"], ["receipt", "риси́т", "чек"]
-    ],
-    verb: [
-      ["to be", "ту би", "бўлмоқ"], ["to have", "ту ҳэв", "эга бўлмоқ"], ["to go", "ту гоу", "бормоқ"],
-      ["to come", "ту кам", "келмоқ"], ["to do", "ту ду", "қилмоқ"], ["to want", "ту вонт", "хоҳламоқ"],
-      ["to know", "ту ноу", "билмоқ"], ["to see", "ту си", "кўрмоқ"], ["to eat", "ту ит", "емоқ"],
-      ["to speak", "ту спик", "гапирмоқ"], ["to work", "ту уёк", "ишламоқ"], ["to help", "ту ҳэлп", "ёрдам бермоқ"]
-    ],
-    adj: [
-      ["big", "биг", "катта"], ["small", "смол", "кичик"], ["new", "нью", "янги"],
-      ["old", "оулд", "эски, қари"], ["good", "гуд", "яхши"], ["bad", "бэд", "ёмон"],
-      ["hot", "ҳот", "иссиқ"], ["cold", "коулд", "совуқ"], ["easy", "и́зи", "осон"],
-      ["difficult", "ди́фикэлт", "қийин"], ["fast", "фаст", "тез"], ["beautiful", "бью́тифул", "чиройли"]
-    ],
-    color: [
-      ["colour", "ка́лэ", "ранг"], ["red", "рэд", "қизил"], ["blue", "блу", "кўк"],
-      ["green", "грин", "яшил"], ["yellow", "йе́ллоу", "сариқ"], ["white", "уайт", "оқ"],
-      ["black", "блэк", "қора"], ["grey", "грэй", "кулранг"], ["brown", "браун", "жигарранг"],
-      ["orange", "о́ринж", "тўқ сариқ"], ["pink", "пинк", "пушти"], ["dark / light", "дак / лайт", "тўқ / очиқ"]
-    ]
-  },
-  phrases: [
-    ["Танишув", [
-      ["What is your name?", "уотс ё нэйм", "Исмингиз нима?"],
-      ["My name is Ali.", "май нэйм из али", "Менинг исмим Али."],
-      ["Where are you from?", "уэа а ю фром", "Қаердансиз?"],
-      ["I am from Uzbekistan.", "айм фром узбэкиста́н", "Мен Ўзбекистонданман."]
-    ]],
-    ["Тушунмаганда", [
-      ["I do not understand.", "ай доунт андэстэ́нд", "Мен тушунмайман."],
-      ["Please repeat that.", "плиз рипи́т зэт", "Илтимос, қайтаринг."],
-      ["Speak slowly, please.", "спик сло́ули плиз", "Секинроқ гапиринг."],
-      ["How do you say this in English?", "ҳау ду ю сэй зис ин и́нглиш", "Бу инглизча қандай бўлади?"]
-    ]],
-    ["Кафеда", [
-      ["Can I see the menu?", "кэн ай си зэ мэ́нью", "Менюни кўрсам бўладими?"],
-      ["I would like tea, please.", "ай вуд лайк ти плиз", "Чой олмоқчиман."],
-      ["The bill, please.", "зэ бил плиз", "Ҳисобни беринг."],
-      ["It was delicious.", "ит воз дили́шэс", "Жуда мазали эди."]
-    ]],
-    ["Йўлда", [
-      ["How do I get to the station?", "ҳау ду ай гет ту зэ стэ́йшн", "Бекатга қандай бораман?"],
-      ["Is it far from here?", "из ит фа фром ҳиэ", "Бу ердан узоқми?"],
-      ["Turn right, then left.", "тён райт зэн лэфт", "Ўнгга, кейин чапга буринг."],
-      ["Stop here, please.", "стоп ҳиэ плиз", "Шу ерда тўхтанг."]
-    ]],
-    ["Дўконда", [
-      ["How much is this?", "ҳау мач из зис", "Бу қанча туради?"],
-      ["Can I pay by card?", "кэн ай пэй бай кад", "Карта билан тўласам бўладими?"],
-      ["I will take it.", "айл тэйк ит", "Шуни оламан."],
-      ["Do you have a bigger size?", "ду ю ҳэв э би́гэ сайз", "Каттароқ ўлчами борми?"]
-    ]],
-    ["Ёрдам", [
-      ["Can you help me?", "кэн ю ҳэлп ми", "Ёрдам бера оласизми?"],
-      ["I need a doctor.", "ай нид э до́ктэ", "Менга шифокор керак."],
-      ["I lost my passport.", "ай лост май па́спот", "Паспортимни йўқотдим."],
-      ["Call the police, please.", "кол зэ пэли́с плиз", "Полицияга қўнғироқ қилинг."]
-    ]]
-  ],
-  quarter: { title: "Чорак 1 — Инглиз тили пойдевори", goal: "Уч ойда: алифбо ва ўқиш қоидалари, 144 сўз ва ибора, оддий суҳбатни олиб бора олиш." },
-  months: [
-    { title: "Ой 1 — Алифбо ва танишув", goal: "26 ҳарф, саломлашиш, оила, сонлар.", script: true,
-      topics: ["greet", "fam", "num"], phrases: ["Танишув", "Тушунмаганда"], grammar: [0, 1] },
-    { title: "Ой 2 — Кундалик ҳаёт", goal: "Вақт, овқат, шаҳар ва ранглар; замонлар.", script: false,
-      topics: ["time", "food", "city", "color"], phrases: ["Кафеда", "Йўлда"], grammar: [2, 3, 4] },
-    { title: "Ой 3 — Мулоқот ва харид", goal: "Дўконда, йўлда гаплашиш; феъл ва сифатлар.", script: false,
-      topics: ["shop", "verb", "adj"], phrases: ["Дўконда", "Ёрдам"], grammar: [5, 6, 7] }
-  ],
-  grammar: [
-    { t: "«To be» — энг муҳим феъл", h:
-      '<p>Ўзбекчадаги «-ман, -сан, -дир» инглизчада алоҳида сўз билан берилади.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">I am</td><td>мен …ман</td></tr>' +
-      '<tr><td class="n">you are</td><td>сен/сиз …сиз</td></tr>' +
-      '<tr><td class="n">he / she / it is</td><td>у …дир</td></tr>' +
-      '<tr><td class="n">we / they are</td><td>биз/улар …миз</td></tr></table></div>' +
-      '<p>Мисол: <b>I am a student.</b> — Мен талабаман. <b>She is a doctor.</b> — У шифокор.</p>' },
-    { t: "Артикллар: a, an, the", h:
-      '<p>Ўзбек тилида йўқ, лекин инглизчада отдан олдин деярли доим туради.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">a book</td><td>бир (ҳар қандай) китоб</td></tr>' +
-      '<tr><td class="n">an apple</td><td>унли товуш олдидан «an»</td></tr>' +
-      '<tr><td class="n">the book</td><td>ўша, маълум китоб</td></tr></table></div>' +
-      '<p>Биринчи марта эслатилса <b>a</b>, кейин <b>the</b>: <i>I see a car. The car is red.</i></p>' },
-    { t: "Ҳозирги оддий замон (Present Simple)", h:
-      '<p>Доимий, такрорланадиган ишлар учун. <b>he / she / it</b> да феълга <b>-s</b> қўшилади.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">I work</td><td>мен ишлайман</td></tr>' +
-      '<tr><td class="n">he works</td><td>у ишлайди</td></tr>' +
-      '<tr><td class="n">we work</td><td>биз ишлаймиз</td></tr></table></div>' +
-      '<p>Инкор ва сўроқ <b>do / does</b> билан: <i>I do not work. Does he work?</i></p>' },
-    { t: "Ўтган замон (Past Simple)", h:
-      '<p>Тўғри феълларга <b>-ed</b> қўшилади: <b>work → worked</b>, <b>open → opened</b>.</p>' +
-      '<p>Нотўғри феълларни ёдлаш керак:</p>' +
-      '<div class="t-tw"><table><tr><td class="n">go → went</td><td>бормоқ → борди</td></tr>' +
-      '<tr><td class="n">see → saw</td><td>кўрмоқ → кўрди</td></tr>' +
-      '<tr><td class="n">eat → ate</td><td>емоқ → еди</td></tr>' +
-      '<tr><td class="n">be → was / were</td><td>эди</td></tr></table></div>' },
-    { t: "Келаси замон: will ва going to", h:
-      '<div class="t-tw"><table><tr><td class="n">I will call you.</td><td>Қўнғироқ қиламан (ҳозир қарор қилдим).</td></tr>' +
-      '<tr><td class="n">I am going to work.</td><td>Ишлашни режалаштирганман.</td></tr></table></div>' +
-      '<p><b>will</b> — шу заҳоти қабул қилинган қарор, <b>going to</b> — олдиндан тузилган режа.</p>' },
-    { t: "Сўроқ ва инкор", h:
-      '<div class="t-tw"><table><tr><td class="n">Do you speak English?</td><td>Инглизча гапирасизми?</td></tr>' +
-      '<tr><td class="n">Does she work here?</td><td>У шу ерда ишлайдими?</td></tr>' +
-      '<tr><td class="n">Did you go?</td><td>Бордингизми?</td></tr>' +
-      '<tr><td class="n">I do not know.</td><td>Билмайман.</td></tr></table></div>' +
-      '<p>Диққат: <b>do / does / did</b> дан кейин феъл ўзгармаган ҳолда туради.</p>' },
-    { t: "Кўплик", h:
-      '<div class="t-tw"><table><tr><td class="n">book → books</td><td>китоб → китоблар</td></tr>' +
-      '<tr><td class="n">box → boxes</td><td>-s, -x, -ch дан кейин -es</td></tr>' +
-      '<tr><td class="n">city → cities</td><td>ундош + y → -ies</td></tr>' +
-      '<tr><td class="n">man → men, child → children</td><td>қоидасиз</td></tr></table></div>' },
-    { t: "Сўз тартиби ва модал феъллар", h:
-      '<p>Инглизчада тартиб қатъий: <b>эга → феъл → тўлдирувчи</b>. Ўзбекчадаги «феъл охирида» қоидаси ишламайди.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">I read a book.</td><td>Мен китоб ўқийман.</td></tr>' +
-      '<tr><td class="n">I can help you.</td><td>Ёрдам бера оламан.</td></tr>' +
-      '<tr><td class="n">You must go.</td><td>Боришингиз керак.</td></tr>' +
-      '<tr><td class="n">May I come in?</td><td>Кирсам бўладими?</td></tr></table></div>' }
+ "id": "en",
+ "code": "angl",
+ "name": "Ingliz tili",
+ "native": "English",
+ "speech": "en-US",
+ "dir": "ltr",
+ "typeField": "native",
+ "keys": [
+  "qwertyuiop",
+  "asdfghjkl",
+  "zxcvbnm"
+ ],
+ "note": "Talaffuz oʻzbek kirillida taxminan berilgan: ingliz tovushlarining aynan muqobili yoʻq.",
+ "script": {
+  "title": "Alifbo",
+  "unit": "harf",
+  "note": "26 harf. Harf nomi bilan oʻqilishi koʻpincha farq qiladi — shuning uchun har harfga misol soʻz berilgan.",
+  "items": [
+   [
+    "A a",
+    "",
+    "ey",
+    "apple",
+    "olma"
+   ],
+   [
+    "B b",
+    "",
+    "bi",
+    "book",
+    "kitob"
+   ],
+   [
+    "C c",
+    "",
+    "si",
+    "cat",
+    "mushuk"
+   ],
+   [
+    "D d",
+    "",
+    "di",
+    "door",
+    "eshik"
+   ],
+   [
+    "E e",
+    "",
+    "i",
+    "egg",
+    "tuxum"
+   ],
+   [
+    "F f",
+    "",
+    "ef",
+    "fish",
+    "baliq"
+   ],
+   [
+    "G g",
+    "",
+    "ji",
+    "green",
+    "yashil"
+   ],
+   [
+    "H h",
+    "",
+    "eych",
+    "house",
+    "uy"
+   ],
+   [
+    "I i",
+    "",
+    "ay",
+    "ice",
+    "muz"
+   ],
+   [
+    "J j",
+    "",
+    "jey",
+    "job",
+    "ish"
+   ],
+   [
+    "K k",
+    "",
+    "key",
+    "key",
+    "kalit"
+   ],
+   [
+    "L l",
+    "",
+    "el",
+    "light",
+    "yorugʻlik"
+   ],
+   [
+    "M m",
+    "",
+    "em",
+    "milk",
+    "sut"
+   ],
+   [
+    "N n",
+    "",
+    "en",
+    "night",
+    "tun"
+   ],
+   [
+    "O o",
+    "",
+    "ou",
+    "open",
+    "ochiq"
+   ],
+   [
+    "P p",
+    "",
+    "pi",
+    "pen",
+    "ruchka"
+   ],
+   [
+    "Q q",
+    "",
+    "kyu",
+    "question",
+    "savol"
+   ],
+   [
+    "R r",
+    "",
+    "ar",
+    "red",
+    "qizil"
+   ],
+   [
+    "S s",
+    "",
+    "es",
+    "sun",
+    "quyosh"
+   ],
+   [
+    "T t",
+    "",
+    "ti",
+    "tea",
+    "choy"
+   ],
+   [
+    "U u",
+    "",
+    "yu",
+    "under",
+    "ostida"
+   ],
+   [
+    "V v",
+    "",
+    "vi",
+    "voice",
+    "ovoz"
+   ],
+   [
+    "W w",
+    "",
+    "dabl-yu",
+    "water",
+    "suv"
+   ],
+   [
+    "X x",
+    "",
+    "eks",
+    "box",
+    "quti"
+   ],
+   [
+    "Y y",
+    "",
+    "uay",
+    "yellow",
+    "sariq"
+   ],
+   [
+    "Z z",
+    "",
+    "zed",
+    "zero",
+    "nol"
+   ]
   ]
+ },
+ "topics": [
+  [
+   "greet",
+   "Salomlashish"
+  ],
+  [
+   "fam",
+   "Oila va odamlar"
+  ],
+  [
+   "num",
+   "Sonlar"
+  ],
+  [
+   "time",
+   "Vaqt"
+  ],
+  [
+   "food",
+   "Ovqat"
+  ],
+  [
+   "city",
+   "Shahar va yoʻl"
+  ],
+  [
+   "shop",
+   "Xarid"
+  ],
+  [
+   "verb",
+   "Feʼllar"
+  ],
+  [
+   "adj",
+   "Sifatlar"
+  ],
+  [
+   "color",
+   "Ranglar"
+  ]
+ ],
+ "words": {
+  "greet": [
+   [
+    "hello",
+    "helou",
+    "salom"
+   ],
+   [
+    "hi",
+    "hay",
+    "salom (norasmiy)"
+   ],
+   [
+    "good morning",
+    "gud móning",
+    "xayrli tong"
+   ],
+   [
+    "good evening",
+    "gud ívning",
+    "xayrli oqshom"
+   ],
+   [
+    "goodbye",
+    "gudbáy",
+    "xayr"
+   ],
+   [
+    "please",
+    "pliz",
+    "iltimos"
+   ],
+   [
+    "thank you",
+    "senk yu",
+    "rahmat"
+   ],
+   [
+    "sorry",
+    "sóri",
+    "kechirasiz (uzr)"
+   ],
+   [
+    "excuse me",
+    "ikskyúz mi",
+    "kechirasiz (murojaat)"
+   ],
+   [
+    "yes / no",
+    "yes / nou",
+    "ha / yoʻq"
+   ],
+   [
+    "How are you?",
+    "hau a yu",
+    "Qalaysiz?"
+   ],
+   [
+    "Nice to meet you",
+    "nays tu mit yu",
+    "Tanishganimdan xursandman"
+   ]
+  ],
+  "fam": [
+   [
+    "family",
+    "fémili",
+    "oila"
+   ],
+   [
+    "mother",
+    "mázer",
+    "ona"
+   ],
+   [
+    "father",
+    "fázer",
+    "ota"
+   ],
+   [
+    "son",
+    "san",
+    "oʻgʻil"
+   ],
+   [
+    "daughter",
+    "dóter",
+    "qiz (farzand)"
+   ],
+   [
+    "brother",
+    "brázer",
+    "aka, uka"
+   ],
+   [
+    "sister",
+    "síster",
+    "opa, singil"
+   ],
+   [
+    "wife",
+    "vayf",
+    "xotin"
+   ],
+   [
+    "husband",
+    "házbend",
+    "er"
+   ],
+   [
+    "child",
+    "chayld",
+    "bola"
+   ],
+   [
+    "friend",
+    "frend",
+    "doʻst"
+   ],
+   [
+    "people",
+    "pipl",
+    "odamlar"
+   ]
+  ],
+  "num": [
+   [
+    "one",
+    "uan",
+    "bir (1)"
+   ],
+   [
+    "two",
+    "tu",
+    "ikki (2)"
+   ],
+   [
+    "three",
+    "sri",
+    "uch (3)"
+   ],
+   [
+    "four",
+    "fo",
+    "toʻrt (4)"
+   ],
+   [
+    "five",
+    "fayv",
+    "besh (5)"
+   ],
+   [
+    "six",
+    "siks",
+    "olti (6)"
+   ],
+   [
+    "seven",
+    "sevn",
+    "yetti (7)"
+   ],
+   [
+    "eight",
+    "eyt",
+    "sakkiz (8)"
+   ],
+   [
+    "nine",
+    "nayn",
+    "toʻqqiz (9)"
+   ],
+   [
+    "ten",
+    "ten",
+    "oʻn (10)"
+   ],
+   [
+    "twenty",
+    "tvénti",
+    "yigirma (20)"
+   ],
+   [
+    "hundred",
+    "hándred",
+    "yuz (100)"
+   ]
+  ],
+  "time": [
+   [
+    "time",
+    "taym",
+    "vaqt"
+   ],
+   [
+    "day",
+    "dey",
+    "kun"
+   ],
+   [
+    "week",
+    "uik",
+    "hafta"
+   ],
+   [
+    "month",
+    "mans",
+    "oy (kalendar)"
+   ],
+   [
+    "year",
+    "yie",
+    "yil"
+   ],
+   [
+    "today",
+    "tudéy",
+    "bugun"
+   ],
+   [
+    "tomorrow",
+    "tumorrou",
+    "ertaga"
+   ],
+   [
+    "yesterday",
+    "yéstedey",
+    "kecha"
+   ],
+   [
+    "now",
+    "nau",
+    "hozir"
+   ],
+   [
+    "morning",
+    "móning",
+    "tong"
+   ],
+   [
+    "evening",
+    "ívning",
+    "oqshom"
+   ],
+   [
+    "hour",
+    "áue",
+    "soat (davomiylik)"
+   ]
+  ],
+  "food": [
+   [
+    "food",
+    "fud",
+    "ovqat"
+   ],
+   [
+    "bread",
+    "bred",
+    "non"
+   ],
+   [
+    "water",
+    "vóte",
+    "suv"
+   ],
+   [
+    "tea",
+    "ti",
+    "choy"
+   ],
+   [
+    "coffee",
+    "kófi",
+    "kofe"
+   ],
+   [
+    "milk",
+    "milk",
+    "sut"
+   ],
+   [
+    "meat",
+    "mit",
+    "goʻsht"
+   ],
+   [
+    "rice",
+    "rays",
+    "guruch"
+   ],
+   [
+    "apple",
+    "epl",
+    "olma"
+   ],
+   [
+    "salt",
+    "solt",
+    "tuz"
+   ],
+   [
+    "breakfast",
+    "brékfest",
+    "nonushta"
+   ],
+   [
+    "delicious",
+    "dilíshes",
+    "mazali"
+   ]
+  ],
+  "city": [
+   [
+    "city",
+    "síti",
+    "shahar"
+   ],
+   [
+    "street",
+    "strit",
+    "koʻcha"
+   ],
+   [
+    "house",
+    "haus",
+    "uy"
+   ],
+   [
+    "shop",
+    "shop",
+    "doʻkon"
+   ],
+   [
+    "market",
+    "mákit",
+    "bozor"
+   ],
+   [
+    "hospital",
+    "hóspitl",
+    "kasalxona"
+   ],
+   [
+    "school",
+    "skul",
+    "maktab"
+   ],
+   [
+    "office",
+    "ófis",
+    "idora"
+   ],
+   [
+    "bus",
+    "bas",
+    "avtobus"
+   ],
+   [
+    "car",
+    "ka",
+    "mashina"
+   ],
+   [
+    "station",
+    "stéyshn",
+    "bekat, vokzal"
+   ],
+   [
+    "Where?",
+    "uea",
+    "Qayerda?"
+   ]
+  ],
+  "shop": [
+   [
+    "price",
+    "prays",
+    "narx"
+   ],
+   [
+    "money",
+    "máni",
+    "pul"
+   ],
+   [
+    "cheap",
+    "chip",
+    "arzon"
+   ],
+   [
+    "expensive",
+    "ikspénsiv",
+    "qimmat"
+   ],
+   [
+    "to buy",
+    "tu bay",
+    "sotib olmoq"
+   ],
+   [
+    "to pay",
+    "tu pey",
+    "toʻlamoq"
+   ],
+   [
+    "card",
+    "kad",
+    "bank kartasi"
+   ],
+   [
+    "cash",
+    "kesh",
+    "naqd pul"
+   ],
+   [
+    "size",
+    "sayz",
+    "oʻlcham"
+   ],
+   [
+    "open",
+    "óupn",
+    "ochiq"
+   ],
+   [
+    "closed",
+    "klouzd",
+    "yopiq"
+   ],
+   [
+    "receipt",
+    "risít",
+    "chek"
+   ]
+  ],
+  "verb": [
+   [
+    "to be",
+    "tu bi",
+    "boʻlmoq"
+   ],
+   [
+    "to have",
+    "tu hev",
+    "ega boʻlmoq"
+   ],
+   [
+    "to go",
+    "tu gou",
+    "bormoq"
+   ],
+   [
+    "to come",
+    "tu kam",
+    "kelmoq"
+   ],
+   [
+    "to do",
+    "tu du",
+    "qilmoq"
+   ],
+   [
+    "to want",
+    "tu vont",
+    "xohlamoq"
+   ],
+   [
+    "to know",
+    "tu nou",
+    "bilmoq"
+   ],
+   [
+    "to see",
+    "tu si",
+    "koʻrmoq"
+   ],
+   [
+    "to eat",
+    "tu it",
+    "yemoq"
+   ],
+   [
+    "to speak",
+    "tu spik",
+    "gapirmoq"
+   ],
+   [
+    "to work",
+    "tu uyok",
+    "ishlamoq"
+   ],
+   [
+    "to help",
+    "tu help",
+    "yordam bermoq"
+   ]
+  ],
+  "adj": [
+   [
+    "big",
+    "big",
+    "katta"
+   ],
+   [
+    "small",
+    "smol",
+    "kichik"
+   ],
+   [
+    "new",
+    "nyu",
+    "yangi"
+   ],
+   [
+    "old",
+    "ould",
+    "eski, qari"
+   ],
+   [
+    "good",
+    "gud",
+    "yaxshi"
+   ],
+   [
+    "bad",
+    "bed",
+    "yomon"
+   ],
+   [
+    "hot",
+    "hot",
+    "issiq"
+   ],
+   [
+    "cold",
+    "kould",
+    "sovuq"
+   ],
+   [
+    "easy",
+    "ízi",
+    "oson"
+   ],
+   [
+    "difficult",
+    "dífikelt",
+    "qiyin"
+   ],
+   [
+    "fast",
+    "fast",
+    "tez"
+   ],
+   [
+    "beautiful",
+    "byútiful",
+    "chiroyli"
+   ]
+  ],
+  "color": [
+   [
+    "colour",
+    "kále",
+    "rang"
+   ],
+   [
+    "red",
+    "red",
+    "qizil"
+   ],
+   [
+    "blue",
+    "blu",
+    "koʻk"
+   ],
+   [
+    "green",
+    "grin",
+    "yashil"
+   ],
+   [
+    "yellow",
+    "yéllou",
+    "sariq"
+   ],
+   [
+    "white",
+    "uayt",
+    "oq"
+   ],
+   [
+    "black",
+    "blek",
+    "qora"
+   ],
+   [
+    "grey",
+    "grey",
+    "kulrang"
+   ],
+   [
+    "brown",
+    "braun",
+    "jigarrang"
+   ],
+   [
+    "orange",
+    "órinj",
+    "toʻq sariq"
+   ],
+   [
+    "pink",
+    "pink",
+    "pushti"
+   ],
+   [
+    "dark / light",
+    "dak / layt",
+    "toʻq / ochiq"
+   ]
+  ]
+ },
+ "phrases": [
+  [
+   "Tanishuv",
+   [
+    [
+     "What is your name?",
+     "uots yo neym",
+     "Ismingiz nima?"
+    ],
+    [
+     "My name is Ali.",
+     "may neym iz ali",
+     "Mening ismim Ali."
+    ],
+    [
+     "Where are you from?",
+     "uea a yu from",
+     "Qayerdansiz?"
+    ],
+    [
+     "I am from Uzbekistan.",
+     "aym from uzbekistán",
+     "Men Oʻzbekistondanman."
+    ]
+   ]
+  ],
+  [
+   "Tushunmaganda",
+   [
+    [
+     "I do not understand.",
+     "ay dount andesténd",
+     "Men tushunmayman."
+    ],
+    [
+     "Please repeat that.",
+     "pliz ripít zet",
+     "Iltimos, qaytaring."
+    ],
+    [
+     "Speak slowly, please.",
+     "spik slóuli pliz",
+     "Sekinroq gapiring."
+    ],
+    [
+     "How do you say this in English?",
+     "hau du yu sey zis in ínglish",
+     "Bu inglizcha qanday boʻladi?"
+    ]
+   ]
+  ],
+  [
+   "Kafeda",
+   [
+    [
+     "Can I see the menu?",
+     "ken ay si ze ményu",
+     "Menyuni koʻrsam boʻladimi?"
+    ],
+    [
+     "I would like tea, please.",
+     "ay vud layk ti pliz",
+     "Choy olmoqchiman."
+    ],
+    [
+     "The bill, please.",
+     "ze bil pliz",
+     "Hisobni bering."
+    ],
+    [
+     "It was delicious.",
+     "it voz dilíshes",
+     "Juda mazali edi."
+    ]
+   ]
+  ],
+  [
+   "Yoʻlda",
+   [
+    [
+     "How do I get to the station?",
+     "hau du ay get tu ze stéyshn",
+     "Bekatga qanday boraman?"
+    ],
+    [
+     "Is it far from here?",
+     "iz it fa from hie",
+     "Bu yerdan uzoqmi?"
+    ],
+    [
+     "Turn right, then left.",
+     "tyon rayt zen left",
+     "Oʻngga, keyin chapga buring."
+    ],
+    [
+     "Stop here, please.",
+     "stop hie pliz",
+     "Shu yerda toʻxtang."
+    ]
+   ]
+  ],
+  [
+   "Doʻkonda",
+   [
+    [
+     "How much is this?",
+     "hau mach iz zis",
+     "Bu qancha turadi?"
+    ],
+    [
+     "Can I pay by card?",
+     "ken ay pey bay kad",
+     "Karta bilan toʻlasam boʻladimi?"
+    ],
+    [
+     "I will take it.",
+     "ayl teyk it",
+     "Shuni olaman."
+    ],
+    [
+     "Do you have a bigger size?",
+     "du yu hev e bíge sayz",
+     "Kattaroq oʻlchami bormi?"
+    ]
+   ]
+  ],
+  [
+   "Yordam",
+   [
+    [
+     "Can you help me?",
+     "ken yu help mi",
+     "Yordam bera olasizmi?"
+    ],
+    [
+     "I need a doctor.",
+     "ay nid e dókte",
+     "Menga shifokor kerak."
+    ],
+    [
+     "I lost my passport.",
+     "ay lost may páspot",
+     "Pasportimni yoʻqotdim."
+    ],
+    [
+     "Call the police, please.",
+     "kol ze pelís pliz",
+     "Politsiyaga qoʻngʻiroq qiling."
+    ]
+   ]
+  ]
+ ],
+ "quarter": {
+  "title": "Chorak 1 — Ingliz tili poydevori",
+  "goal": "Uch oyda: alifbo va oʻqish qoidalari, 144 soʻz va ibora, oddiy suhbatni olib bora olish."
+ },
+ "months": [
+  {
+   "title": "Oy 1 — Alifbo va tanishuv",
+   "goal": "26 harf, salomlashish, oila, sonlar.",
+   "script": true,
+   "topics": [
+    "greet",
+    "fam",
+    "num"
+   ],
+   "phrases": [
+    "Tanishuv",
+    "Tushunmaganda"
+   ],
+   "grammar": [
+    0,
+    1
+   ]
+  },
+  {
+   "title": "Oy 2 — Kundalik hayot",
+   "goal": "Vaqt, ovqat, shahar va ranglar; zamonlar.",
+   "script": false,
+   "topics": [
+    "time",
+    "food",
+    "city",
+    "color"
+   ],
+   "phrases": [
+    "Kafeda",
+    "Yoʻlda"
+   ],
+   "grammar": [
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "title": "Oy 3 — Muloqot va xarid",
+   "goal": "Doʻkonda, yoʻlda gaplashish; feʼl va sifatlar.",
+   "script": false,
+   "topics": [
+    "shop",
+    "verb",
+    "adj"
+   ],
+   "phrases": [
+    "Doʻkonda",
+    "Yordam"
+   ],
+   "grammar": [
+    5,
+    6,
+    7
+   ]
+  }
+ ],
+ "grammar": [
+  {
+   "t": "«To be» — eng muhim feʼl",
+   "h": "<p>Oʻzbekchadagi «-man, -san, -dir» inglizchada alohida soʻz bilan beriladi.</p><div class=\"t-tw\"><table><tr><td class=\"n\">I am</td><td>men …man</td></tr><tr><td class=\"n\">you are</td><td>sen/siz …siz</td></tr><tr><td class=\"n\">he / she / it is</td><td>u …dir</td></tr><tr><td class=\"n\">we / they are</td><td>biz/ular …miz</td></tr></table></div><p>Misol: <b>I am a student.</b> — Men talabaman. <b>She is a doctor.</b> — U shifokor.</p>"
+  },
+  {
+   "t": "Artikllar: a, an, the",
+   "h": "<p>Oʻzbek tilida yoʻq, lekin inglizchada otdan oldin deyarli doim turadi.</p><div class=\"t-tw\"><table><tr><td class=\"n\">a book</td><td>bir (har qanday) kitob</td></tr><tr><td class=\"n\">an apple</td><td>unli tovush oldidan «an»</td></tr><tr><td class=\"n\">the book</td><td>oʻsha, maʼlum kitob</td></tr></table></div><p>Birinchi marta eslatilsa <b>a</b>, keyin <b>the</b>: <i>I see a car. The car is red.</i></p>"
+  },
+  {
+   "t": "Hozirgi oddiy zamon (Present Simple)",
+   "h": "<p>Doimiy, takrorlanadigan ishlar uchun. <b>he / she / it</b> da feʼlga <b>-s</b> qoʻshiladi.</p><div class=\"t-tw\"><table><tr><td class=\"n\">I work</td><td>men ishlayman</td></tr><tr><td class=\"n\">he works</td><td>u ishlaydi</td></tr><tr><td class=\"n\">we work</td><td>biz ishlaymiz</td></tr></table></div><p>Inkor va soʻroq <b>do / does</b> bilan: <i>I do not work. Does he work?</i></p>"
+  },
+  {
+   "t": "Oʻtgan zamon (Past Simple)",
+   "h": "<p>Toʻgʻri feʼllarga <b>-ed</b> qoʻshiladi: <b>work → worked</b>, <b>open → opened</b>.</p><p>Notoʻgʻri feʼllarni yodlash kerak:</p><div class=\"t-tw\"><table><tr><td class=\"n\">go → went</td><td>bormoq → bordi</td></tr><tr><td class=\"n\">see → saw</td><td>koʻrmoq → koʻrdi</td></tr><tr><td class=\"n\">eat → ate</td><td>yemoq → yedi</td></tr><tr><td class=\"n\">be → was / were</td><td>edi</td></tr></table></div>"
+  },
+  {
+   "t": "Kelasi zamon: will va going to",
+   "h": "<div class=\"t-tw\"><table><tr><td class=\"n\">I will call you.</td><td>Qoʻngʻiroq qilaman (hozir qaror qildim).</td></tr><tr><td class=\"n\">I am going to work.</td><td>Ishlashni rejalashtirganman.</td></tr></table></div><p><b>will</b> — shu zahoti qabul qilingan qaror, <b>going to</b> — oldindan tuzilgan reja.</p>"
+  },
+  {
+   "t": "Soʻroq va inkor",
+   "h": "<div class=\"t-tw\"><table><tr><td class=\"n\">Do you speak English?</td><td>Inglizcha gapirasizmi?</td></tr><tr><td class=\"n\">Does she work here?</td><td>U shu yerda ishlaydimi?</td></tr><tr><td class=\"n\">Did you go?</td><td>Bordingizmi?</td></tr><tr><td class=\"n\">I do not know.</td><td>Bilmayman.</td></tr></table></div><p>Diqqat: <b>do / does / did</b> dan keyin feʼl oʻzgarmagan holda turadi.</p>"
+  },
+  {
+   "t": "Koʻplik",
+   "h": "<div class=\"t-tw\"><table><tr><td class=\"n\">book → books</td><td>kitob → kitoblar</td></tr><tr><td class=\"n\">box → boxes</td><td>-s, -x, -ch dan keyin -es</td></tr><tr><td class=\"n\">city → cities</td><td>undosh + y → -ies</td></tr><tr><td class=\"n\">man → men, child → children</td><td>qoidasiz</td></tr></table></div>"
+  },
+  {
+   "t": "Soʻz tartibi va modal feʼllar",
+   "h": "<p>Inglizchada tartib qatʼiy: <b>ega → feʼl → toʻldiruvchi</b>. Oʻzbekchadagi «feʼl oxirida» qoidasi ishlamaydi.</p><div class=\"t-tw\"><table><tr><td class=\"n\">I read a book.</td><td>Men kitob oʻqiyman.</td></tr><tr><td class=\"n\">I can help you.</td><td>Yordam bera olaman.</td></tr><tr><td class=\"n\">You must go.</td><td>Borishingiz kerak.</td></tr><tr><td class=\"n\">May I come in?</td><td>Kirsam boʻladimi?</td></tr></table></div>"
+  }
+ ]
 });

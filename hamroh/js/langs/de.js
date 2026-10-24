@@ -1,197 +1,1147 @@
-/* Немис тили */
+/* Nemis tili */
 H.lang({
-  id: "de", code: "нем", name: "Немис тили", native: "Deutsch", speech: "de-DE", dir: "ltr",
-  typeField: "native",
-  keys: ["qwertzuiop", "asdfghjkl", "yxcvbnm", "äöüß"],
-  note: "Отлар доим бош ҳарф билан ёзилади ва ҳар бирининг артикли бор — сўзни артикли билан бирга ёдланг.",
-  script: {
-    title: "Алифбо", unit: "ҳарф",
-    note: "26 ҳарф ва 4 та қўшимча белги: ä, ö, ü, ß. Немисчада ёзилганидек ўқилади — бу уни инглизчадан осонроқ қилади.",
-    items: [
-      ["A a", "", "а", "Apfel", "олма"], ["B b", "", "бэ", "Buch", "китоб"],
-      ["C c", "", "цэ", "Computer", "компьютер"], ["D d", "", "дэ", "Danke", "раҳмат"],
-      ["E e", "", "э", "Essen", "овқат"], ["F f", "", "эф", "Freund", "дўст"],
-      ["G g", "", "гэ", "gut", "яхши"], ["H h", "", "ҳа", "Haus", "уй"],
-      ["I i", "", "и", "Idee", "ғоя"], ["J j", "", "йот", "ja", "ҳа"],
-      ["K k", "", "ка", "Kind", "бола"], ["L l", "", "эл", "Licht", "ёруғлик"],
-      ["M m", "", "эм", "Milch", "сут"], ["N n", "", "эн", "Nacht", "тун"],
-      ["O o", "", "о", "Obst", "мева"], ["P p", "", "пэ", "Preis", "нарх"],
-      ["Q q", "", "ку", "Quelle", "булоқ"], ["R r", "", "эр", "rot", "қизил"],
-      ["S s", "", "эс", "Sonne", "қуёш"], ["T t", "", "тэ", "Tee", "чой"],
-      ["U u", "", "у", "Uhr", "соат"], ["V v", "", "фау — «ф» ўқилади", "Vater", "ота"],
-      ["W w", "", "вэ — «в» ўқилади", "Wasser", "сув"], ["X x", "", "икс", "Taxi", "такси"],
-      ["Y y", "", "упсилон", "Yoga", "йога"], ["Z z", "", "цэт — «ц» ўқилади", "Zeit", "вақт"],
-      ["Ä ä", "", "э", "Mädchen", "қиз бола"], ["Ö ö", "", "ў", "Öl", "мой"],
-      ["Ü ü", "", "ю", "über", "устида"], ["ß", "", "эсцет — «сс»", "Straße", "кўча"]
-    ]
-  },
-  topics: [["greet", "Саломлашиш"], ["fam", "Оила ва одамлар"], ["num", "Сонлар"], ["time", "Вақт"],
-           ["food", "Овқат"], ["city", "Шаҳар ва йўл"], ["shop", "Харид"], ["verb", "Феъллар"],
-           ["adj", "Сифатлар"], ["color", "Ранглар"]],
-  words: {
-    greet: [
-      ["Hallo", "ҳа́ло", "салом"], ["Guten Morgen", "гу́тэн мо́ргэн", "хайрли тонг"],
-      ["Guten Tag", "гу́тэн так", "хайрли кун"], ["Guten Abend", "гу́тэн а́бэнт", "хайрли оқшом"],
-      ["Auf Wiedersehen", "ауф ви́дэрзээн", "хайр (расмий)"], ["Tschüss", "чюс", "хайр (норасмий)"],
-      ["bitte", "би́тэ", "илтимос; марҳамат"], ["danke", "да́нкэ", "раҳмат"],
-      ["Entschuldigung", "энтшу́льдигунг", "кечирасиз"], ["ja / nein", "я / найн", "ҳа / йўқ"],
-      ["Wie geht es Ihnen?", "ви гейт эс и́нэн", "Қалайсиз?"], ["Freut mich", "фройт мих", "Танишганимдан хурсандман"]
-    ],
-    fam: [
-      ["die Familie", "ди фами́лиэ", "оила"], ["die Mutter", "ди му́тэр", "она"],
-      ["der Vater", "дэр фа́тэр", "ота"], ["der Sohn", "дэр зон", "ўғил"],
-      ["die Tochter", "ди то́хтэр", "қиз (фарзанд)"], ["der Bruder", "дэр бру́дэр", "ака, ука"],
-      ["die Schwester", "ди швэ́стэр", "опа, сингил"], ["die Frau", "ди фрау", "аёл, хотин"],
-      ["der Mann", "дэр ман", "эркак, эр"], ["das Kind", "дас кинт", "бола"],
-      ["der Freund", "дэр фройнт", "дўст"], ["die Leute", "ди ло́йтэ", "одамлар"]
-    ],
-    num: [
-      ["eins", "айнс", "бир (1)"], ["zwei", "цвай", "икки (2)"], ["drei", "драй", "уч (3)"],
-      ["vier", "фир", "тўрт (4)"], ["fünf", "фюнф", "беш (5)"], ["sechs", "зэкс", "олти (6)"],
-      ["sieben", "зи́бэн", "етти (7)"], ["acht", "ахт", "саккиз (8)"], ["neun", "нойн", "тўққиз (9)"],
-      ["zehn", "цэйн", "ўн (10)"], ["zwanzig", "цва́нцих", "йигирма (20)"], ["hundert", "ҳу́ндэрт", "юз (100)"]
-    ],
-    time: [
-      ["die Zeit", "ди цайт", "вақт"], ["der Tag", "дэр так", "кун"], ["die Woche", "ди во́хэ", "ҳафта"],
-      ["der Monat", "дэр мо́нат", "ой"], ["das Jahr", "дас яр", "йил"], ["heute", "ҳо́йтэ", "бугун"],
-      ["morgen", "мо́ргэн", "эртага"], ["gestern", "гэ́стэрн", "кеча"], ["jetzt", "йецт", "ҳозир"],
-      ["der Morgen", "дэр мо́ргэн", "тонг"], ["der Abend", "дэр а́бэнт", "оқшом"], ["die Stunde", "ди шту́ндэ", "соат"]
-    ],
-    food: [
-      ["das Essen", "дас э́сэн", "овқат"], ["das Brot", "дас брот", "нон"], ["das Wasser", "дас ва́сэр", "сув"],
-      ["der Tee", "дэр тэ", "чой"], ["der Kaffee", "дэр ка́фэ", "кофе"], ["die Milch", "ди мильх", "сут"],
-      ["das Fleisch", "дас флайш", "гўшт"], ["der Reis", "дэр райс", "гуруч"], ["der Apfel", "дэр а́пфэл", "олма"],
-      ["das Salz", "дас зальц", "туз"], ["das Frühstück", "дас фрю́штюк", "нонушта"], ["lecker", "лэ́кэр", "мазали"]
-    ],
-    city: [
-      ["die Stadt", "ди штат", "шаҳар"], ["die Straße", "ди штра́сэ", "кўча"], ["das Haus", "дас ҳаус", "уй"],
-      ["das Geschäft", "дас гэшэ́фт", "дўкон"], ["der Markt", "дэр маркт", "бозор"],
-      ["das Krankenhaus", "дас кра́нкэнҳаус", "касалхона"], ["die Schule", "ди шу́лэ", "мактаб"],
-      ["die Arbeit", "ди а́рбайт", "иш"], ["der Bus", "дэр бус", "автобус"], ["das Auto", "дас а́уто", "машина"],
-      ["der Bahnhof", "дэр ба́нҳоф", "вокзал"], ["Wo?", "во", "Қаерда?"]
-    ],
-    shop: [
-      ["der Preis", "дэр прайс", "нарх"], ["das Geld", "дас гэльт", "пул"], ["billig", "би́лих", "арзон"],
-      ["teuer", "то́йэр", "қиммат"], ["kaufen", "ка́уфэн", "сотиб олмоқ"], ["bezahlen", "бэца́лэн", "тўламоқ"],
-      ["die Karte", "ди ка́ртэ", "банк картаси"], ["das Bargeld", "дас ба́ргэльт", "нақд пул"],
-      ["die Größe", "ди грё́сэ", "ўлчам"], ["offen", "о́фэн", "очиқ"], ["geschlossen", "гэшло́сэн", "ёпиқ"],
-      ["die Rechnung", "ди рэ́хнунг", "ҳисоб, чек"]
-    ],
-    verb: [
-      ["sein", "зайн", "бўлмоқ"], ["haben", "ҳа́бэн", "эга бўлмоқ"], ["gehen", "гэ́эн", "бормоқ (пиёда)"],
-      ["kommen", "ко́мэн", "келмоқ"], ["machen", "ма́хэн", "қилмоқ"], ["wollen", "во́лэн", "хоҳламоқ"],
-      ["wissen", "ви́сэн", "билмоқ"], ["sehen", "зэ́эн", "кўрмоқ"], ["essen", "э́сэн", "емоқ"],
-      ["sprechen", "шпрэ́хэн", "гапирмоқ"], ["arbeiten", "а́рбайтэн", "ишламоқ"], ["helfen", "ҳэ́льфэн", "ёрдам бермоқ"]
-    ],
-    adj: [
-      ["groß", "грос", "катта"], ["klein", "клайн", "кичик"], ["neu", "ной", "янги"],
-      ["alt", "альт", "эски, қари"], ["gut", "гут", "яхши"], ["schlecht", "шлэхт", "ёмон"],
-      ["heiß", "ҳайс", "иссиқ"], ["kalt", "кальт", "совуқ"], ["einfach", "а́йнфах", "осон"],
-      ["schwer", "швэр", "қийин, оғир"], ["schnell", "шнэль", "тез"], ["schön", "шён", "чиройли"]
-    ],
-    color: [
-      ["die Farbe", "ди фа́рбэ", "ранг"], ["rot", "рот", "қизил"], ["blau", "блау", "кўк"],
-      ["grün", "грюн", "яшил"], ["gelb", "гэльп", "сариқ"], ["weiß", "вайс", "оқ"],
-      ["schwarz", "шварц", "қора"], ["grau", "грау", "кулранг"], ["braun", "браун", "жигарранг"],
-      ["orange", "ора́нжэ", "тўқ сариқ"], ["rosa", "ро́за", "пушти"], ["hell / dunkel", "ҳэль / ду́нкэль", "очиқ / тўқ"]
-    ]
-  },
-  phrases: [
-    ["Танишув", [
-      ["Wie heißen Sie?", "ви ҳа́йсэн зи", "Исмингиз нима?"],
-      ["Ich heiße Ali.", "их ҳа́йсэ али", "Менинг исмим Али."],
-      ["Woher kommen Sie?", "воҳэ́р ко́мэн зи", "Қаердансиз?"],
-      ["Ich komme aus Usbekistan.", "их ко́мэ аус узбэкиста́н", "Мен Ўзбекистонданман."]
-    ]],
-    ["Тушунмаганда", [
-      ["Ich verstehe nicht.", "их фэрштэ́э нихт", "Мен тушунмайман."],
-      ["Wiederholen Sie bitte.", "видэрҳо́лэн зи би́тэ", "Илтимос, қайтаринг."],
-      ["Sprechen Sie bitte langsamer.", "шпрэ́хэн зи би́тэ ла́нгзамэр", "Секинроқ гапиринг."],
-      ["Wie sagt man das auf Deutsch?", "ви закт ман дас ауф дойч", "Бу немисча қандай бўлади?"]
-    ]],
-    ["Кафеда", [
-      ["Die Speisekarte, bitte.", "ди шпа́йзэкартэ би́тэ", "Менюни беринг."],
-      ["Ich möchte einen Tee.", "их мё́хтэ а́йнэн тэ", "Бир чой олмоқчиман."],
-      ["Die Rechnung, bitte.", "ди рэ́хнунг би́тэ", "Ҳисобни беринг."],
-      ["Es war sehr lecker.", "эс вар зэр лэ́кэр", "Жуда мазали эди."]
-    ]],
-    ["Йўлда", [
-      ["Wie komme ich zum Bahnhof?", "ви ко́мэ их цум ба́нҳоф", "Вокзалга қандай бораман?"],
-      ["Ist es weit von hier?", "ист эс вайт фон ҳир", "Бу ердан узоқми?"],
-      ["Gehen Sie geradeaus.", "гэ́эн зи гэра́дэаус", "Тўғрига юринг."],
-      ["Halten Sie bitte hier.", "ҳа́льтэн зи би́тэ ҳир", "Шу ерда тўхтанг."]
-    ]],
-    ["Дўконда", [
-      ["Was kostet das?", "вас ко́стэт дас", "Бу қанча туради?"],
-      ["Kann ich mit Karte zahlen?", "кан их мит ка́ртэ ца́лэн", "Карта билан тўласам бўладими?"],
-      ["Ich nehme das.", "их нэ́мэ дас", "Шуни оламан."],
-      ["Haben Sie eine größere Größe?", "ҳа́бэн зи а́йнэ грё́сэрэ грё́сэ", "Каттароқ ўлчами борми?"]
-    ]],
-    ["Ёрдам", [
-      ["Können Sie mir helfen?", "кё́нэн зи мир ҳэ́льфэн", "Ёрдам бера оласизми?"],
-      ["Ich brauche einen Arzt.", "их бра́ухэ а́йнэн арцт", "Менга шифокор керак."],
-      ["Ich habe meinen Pass verloren.", "их ҳа́бэ ма́йнэн пас фэрло́рэн", "Паспортимни йўқотдим."],
-      ["Rufen Sie die Polizei.", "ру́фэн зи ди полица́й", "Полицияга қўнғироқ қилинг."]
-    ]]
-  ],
-  quarter: { title: "Чорак 1 — Немис тили пойдевори", goal: "Уч ойда: ўқиш қоидалари, 144 сўз ва ибора, артикллар, келишиклар ва оддий суҳбат." },
-  months: [
-    { title: "Ой 1 — Алифбо ва танишув", goal: "Ҳарфлар ва ўқиш, саломлашиш, оила, сонлар, артикллар.", script: true,
-      topics: ["greet", "fam", "num"], phrases: ["Танишув", "Тушунмаганда"], grammar: [0, 1] },
-    { title: "Ой 2 — Кундалик ҳаёт", goal: "Вақт, овқат, шаҳар, ранглар; сўз тартиби ва тусланиш.", script: false,
-      topics: ["time", "food", "city", "color"], phrases: ["Кафеда", "Йўлда"], grammar: [2, 3, 4] },
-    { title: "Ой 3 — Мулоқот ва харид", goal: "Дўкон, феъл ва сифатлар; ўтган замон, инкор, модал феъллар.", script: false,
-      topics: ["shop", "verb", "adj"], phrases: ["Дўконда", "Ёрдам"], grammar: [5, 6, 7] }
-  ],
-  grammar: [
-    { t: "Уч артикл: der, die, das", h:
-      '<p>Ҳар бир отнинг жинси бор ва у артикл орқали кўринади. Отни <b>доим артикли билан</b> ёдланг.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">der Mann</td><td>эркак жинс</td></tr>' +
-      '<tr><td class="n">die Frau</td><td>аёл жинс</td></tr>' +
-      '<tr><td class="n">das Kind</td><td>ўрта жинс</td></tr>' +
-      '<tr><td class="n">die Kinder</td><td>кўпликда доим «die»</td></tr></table></div>' +
-      '<p>Ноаниқ артикл: <b>ein</b> (der/das учун), <b>eine</b> (die учун).</p>' },
-    { t: "Шахс олмошлари ва «sein / haben»", h:
-      '<div class="t-tw"><table><tr><th></th><th>sein (бўлмоқ)</th><th>haben (эга бўлмоқ)</th></tr>' +
-      '<tr><td class="n">ich</td><td class="n">bin</td><td class="n">habe</td></tr>' +
-      '<tr><td class="n">du</td><td class="n">bist</td><td class="n">hast</td></tr>' +
-      '<tr><td class="n">er/sie/es</td><td class="n">ist</td><td class="n">hat</td></tr>' +
-      '<tr><td class="n">wir</td><td class="n">sind</td><td class="n">haben</td></tr>' +
-      '<tr><td class="n">Sie</td><td class="n">sind</td><td class="n">haben</td></tr></table></div>' +
-      '<p><b>Sie</b> — ҳурмат шакли, доим бош ҳарф билан.</p>' },
-    { t: "Феъл — иккинчи ўринда", h:
-      '<p>Оддий гапда феъл ҳар доим иккинчи ўринда туради, нима биринчи келишидан қатъи назар.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">Ich gehe heute nach Hause.</td><td>Мен бугун уйга бораман.</td></tr>' +
-      '<tr><td class="n">Heute gehe ich nach Hause.</td><td>Бугун уйга бораман. (феъл барибир 2-ўринда)</td></tr></table></div>' +
-      '<p>Сўроқда феъл биринчи ўринга чиқади: <b>Gehen Sie nach Hause?</b></p>' },
-    { t: "Ҳозирги замон тусланиши", h:
-      '<div class="t-tw"><table><tr><td class="n">ich mache</td><td>мен қиламан</td></tr>' +
-      '<tr><td class="n">du machst</td><td>сен қиласан</td></tr>' +
-      '<tr><td class="n">er macht</td><td>у қилади</td></tr>' +
-      '<tr><td class="n">wir machen</td><td>биз қиламиз</td></tr>' +
-      '<tr><td class="n">ihr macht</td><td>сизлар қиласизлар</td></tr>' +
-      '<tr><td class="n">sie / Sie machen</td><td>улар / Сиз қиласиз</td></tr></table></div>' },
-    { t: "Келишиклар: Nominativ, Akkusativ, Dativ", h:
-      '<div class="t-tw"><table><tr><th>келишик</th><th>эркак</th><th>маъно</th></tr>' +
-      '<tr><td>Nominativ (ким?)</td><td class="n">der Mann</td><td>эркак (эга)</td></tr>' +
-      '<tr><td>Akkusativ (кимни?)</td><td class="n">den Mann</td><td>эркакни</td></tr>' +
-      '<tr><td>Dativ (кимга?)</td><td class="n">dem Mann</td><td>эркакка</td></tr></table></div>' +
-      '<p>Фақат эркак жинсда артикл сезиларли ўзгаради — шундан бошланг.</p>' },
-    { t: "Ўтган замон (Perfekt)", h:
-      '<p>Сўзлашувда ўтган замон <b>haben / sein</b> + сифатдош (Partizip II) билан ясалади.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">Ich habe gearbeitet.</td><td>Мен ишладим.</td></tr>' +
-      '<tr><td class="n">Ich habe gegessen.</td><td>Мен едим.</td></tr>' +
-      '<tr><td class="n">Ich bin gegangen.</td><td>Мен бордим. (ҳаракат феъллари «sein» олади)</td></tr></table></div>' },
-    { t: "Инкор: nicht ва kein", h:
-      '<div class="t-tw"><table><tr><td class="n">Ich arbeite nicht.</td><td>Мен ишламайман. (феълни инкор)</td></tr>' +
-      '<tr><td class="n">Das ist nicht gut.</td><td>Бу яхши эмас.</td></tr>' +
-      '<tr><td class="n">Ich habe kein Geld.</td><td>Менда пул йўқ. (отни инкор)</td></tr></table></div>' +
-      '<p>Қоида: от инкор қилинса <b>kein</b>, қолган ҳолларда <b>nicht</b>.</p>' },
-    { t: "Модал феъллар", h:
-      '<p>Модал феъл тусланади, асосий феъл эса <b>гап охирида</b>, ўзгармаган ҳолда туради.</p>' +
-      '<div class="t-tw"><table><tr><td class="n">Ich kann Deutsch sprechen.</td><td>Немисча гапира оламан.</td></tr>' +
-      '<tr><td class="n">Ich muss arbeiten.</td><td>Ишлашим керак.</td></tr>' +
-      '<tr><td class="n">Ich will lernen.</td><td>Ўрганмоқчиман.</td></tr>' +
-      '<tr><td class="n">Darf ich fragen?</td><td>Сўрасам бўладими?</td></tr></table></div>' }
+ "id": "de",
+ "code": "nem",
+ "name": "Nemis tili",
+ "native": "Deutsch",
+ "speech": "de-DE",
+ "dir": "ltr",
+ "typeField": "native",
+ "keys": [
+  "qwertzuiop",
+  "asdfghjkl",
+  "yxcvbnm",
+  "äöüß"
+ ],
+ "note": "Otlar doim bosh harf bilan yoziladi va har birining artikli bor — soʻzni artikli bilan birga yodlang.",
+ "script": {
+  "title": "Alifbo",
+  "unit": "harf",
+  "note": "26 harf va 4 ta qoʻshimcha belgi: ä, ö, ü, ß. Nemischada yozilganidek oʻqiladi — bu uni inglizchadan osonroq qiladi.",
+  "items": [
+   [
+    "A a",
+    "",
+    "a",
+    "Apfel",
+    "olma"
+   ],
+   [
+    "B b",
+    "",
+    "be",
+    "Buch",
+    "kitob"
+   ],
+   [
+    "C c",
+    "",
+    "tse",
+    "Computer",
+    "kompyuter"
+   ],
+   [
+    "D d",
+    "",
+    "de",
+    "Danke",
+    "rahmat"
+   ],
+   [
+    "E e",
+    "",
+    "e",
+    "Essen",
+    "ovqat"
+   ],
+   [
+    "F f",
+    "",
+    "ef",
+    "Freund",
+    "doʻst"
+   ],
+   [
+    "G g",
+    "",
+    "ge",
+    "gut",
+    "yaxshi"
+   ],
+   [
+    "H h",
+    "",
+    "ha",
+    "Haus",
+    "uy"
+   ],
+   [
+    "I i",
+    "",
+    "i",
+    "Idee",
+    "gʻoya"
+   ],
+   [
+    "J j",
+    "",
+    "yot",
+    "ja",
+    "ha"
+   ],
+   [
+    "K k",
+    "",
+    "ka",
+    "Kind",
+    "bola"
+   ],
+   [
+    "L l",
+    "",
+    "el",
+    "Licht",
+    "yorugʻlik"
+   ],
+   [
+    "M m",
+    "",
+    "em",
+    "Milch",
+    "sut"
+   ],
+   [
+    "N n",
+    "",
+    "en",
+    "Nacht",
+    "tun"
+   ],
+   [
+    "O o",
+    "",
+    "o",
+    "Obst",
+    "meva"
+   ],
+   [
+    "P p",
+    "",
+    "pe",
+    "Preis",
+    "narx"
+   ],
+   [
+    "Q q",
+    "",
+    "ku",
+    "Quelle",
+    "buloq"
+   ],
+   [
+    "R r",
+    "",
+    "er",
+    "rot",
+    "qizil"
+   ],
+   [
+    "S s",
+    "",
+    "es",
+    "Sonne",
+    "quyosh"
+   ],
+   [
+    "T t",
+    "",
+    "te",
+    "Tee",
+    "choy"
+   ],
+   [
+    "U u",
+    "",
+    "u",
+    "Uhr",
+    "soat"
+   ],
+   [
+    "V v",
+    "",
+    "fau — «f» oʻqiladi",
+    "Vater",
+    "ota"
+   ],
+   [
+    "W w",
+    "",
+    "ve — «v» oʻqiladi",
+    "Wasser",
+    "suv"
+   ],
+   [
+    "X x",
+    "",
+    "iks",
+    "Taxi",
+    "taksi"
+   ],
+   [
+    "Y y",
+    "",
+    "upsilon",
+    "Yoga",
+    "yoga"
+   ],
+   [
+    "Z z",
+    "",
+    "tset — «ts» oʻqiladi",
+    "Zeit",
+    "vaqt"
+   ],
+   [
+    "Ä ä",
+    "",
+    "e",
+    "Mädchen",
+    "qiz bola"
+   ],
+   [
+    "Ö ö",
+    "",
+    "oʻ",
+    "Öl",
+    "moy"
+   ],
+   [
+    "Ü ü",
+    "",
+    "yu",
+    "über",
+    "ustida"
+   ],
+   [
+    "ß",
+    "",
+    "estset — «ss»",
+    "Straße",
+    "koʻcha"
+   ]
   ]
+ },
+ "topics": [
+  [
+   "greet",
+   "Salomlashish"
+  ],
+  [
+   "fam",
+   "Oila va odamlar"
+  ],
+  [
+   "num",
+   "Sonlar"
+  ],
+  [
+   "time",
+   "Vaqt"
+  ],
+  [
+   "food",
+   "Ovqat"
+  ],
+  [
+   "city",
+   "Shahar va yoʻl"
+  ],
+  [
+   "shop",
+   "Xarid"
+  ],
+  [
+   "verb",
+   "Feʼllar"
+  ],
+  [
+   "adj",
+   "Sifatlar"
+  ],
+  [
+   "color",
+   "Ranglar"
+  ]
+ ],
+ "words": {
+  "greet": [
+   [
+    "Hallo",
+    "hálo",
+    "salom"
+   ],
+   [
+    "Guten Morgen",
+    "gúten mórgen",
+    "xayrli tong"
+   ],
+   [
+    "Guten Tag",
+    "gúten tak",
+    "xayrli kun"
+   ],
+   [
+    "Guten Abend",
+    "gúten ábent",
+    "xayrli oqshom"
+   ],
+   [
+    "Auf Wiedersehen",
+    "auf víderzeen",
+    "xayr (rasmiy)"
+   ],
+   [
+    "Tschüss",
+    "chyus",
+    "xayr (norasmiy)"
+   ],
+   [
+    "bitte",
+    "bíte",
+    "iltimos; marhamat"
+   ],
+   [
+    "danke",
+    "dánke",
+    "rahmat"
+   ],
+   [
+    "Entschuldigung",
+    "entshúldigung",
+    "kechirasiz"
+   ],
+   [
+    "ja / nein",
+    "ya / nayn",
+    "ha / yoʻq"
+   ],
+   [
+    "Wie geht es Ihnen?",
+    "vi geyt es ínen",
+    "Qalaysiz?"
+   ],
+   [
+    "Freut mich",
+    "froyt mix",
+    "Tanishganimdan xursandman"
+   ]
+  ],
+  "fam": [
+   [
+    "die Familie",
+    "di famílie",
+    "oila"
+   ],
+   [
+    "die Mutter",
+    "di múter",
+    "ona"
+   ],
+   [
+    "der Vater",
+    "der fáter",
+    "ota"
+   ],
+   [
+    "der Sohn",
+    "der zon",
+    "oʻgʻil"
+   ],
+   [
+    "die Tochter",
+    "di tóxter",
+    "qiz (farzand)"
+   ],
+   [
+    "der Bruder",
+    "der brúder",
+    "aka, uka"
+   ],
+   [
+    "die Schwester",
+    "di shvéster",
+    "opa, singil"
+   ],
+   [
+    "die Frau",
+    "di frau",
+    "ayol, xotin"
+   ],
+   [
+    "der Mann",
+    "der man",
+    "erkak, er"
+   ],
+   [
+    "das Kind",
+    "das kint",
+    "bola"
+   ],
+   [
+    "der Freund",
+    "der froynt",
+    "doʻst"
+   ],
+   [
+    "die Leute",
+    "di lóyte",
+    "odamlar"
+   ]
+  ],
+  "num": [
+   [
+    "eins",
+    "ayns",
+    "bir (1)"
+   ],
+   [
+    "zwei",
+    "tsvay",
+    "ikki (2)"
+   ],
+   [
+    "drei",
+    "dray",
+    "uch (3)"
+   ],
+   [
+    "vier",
+    "fir",
+    "toʻrt (4)"
+   ],
+   [
+    "fünf",
+    "fyunf",
+    "besh (5)"
+   ],
+   [
+    "sechs",
+    "zeks",
+    "olti (6)"
+   ],
+   [
+    "sieben",
+    "zíben",
+    "yetti (7)"
+   ],
+   [
+    "acht",
+    "axt",
+    "sakkiz (8)"
+   ],
+   [
+    "neun",
+    "noyn",
+    "toʻqqiz (9)"
+   ],
+   [
+    "zehn",
+    "tseyn",
+    "oʻn (10)"
+   ],
+   [
+    "zwanzig",
+    "tsvántsix",
+    "yigirma (20)"
+   ],
+   [
+    "hundert",
+    "húndert",
+    "yuz (100)"
+   ]
+  ],
+  "time": [
+   [
+    "die Zeit",
+    "di tsayt",
+    "vaqt"
+   ],
+   [
+    "der Tag",
+    "der tak",
+    "kun"
+   ],
+   [
+    "die Woche",
+    "di vóxe",
+    "hafta"
+   ],
+   [
+    "der Monat",
+    "der mónat",
+    "oy"
+   ],
+   [
+    "das Jahr",
+    "das yar",
+    "yil"
+   ],
+   [
+    "heute",
+    "hóyte",
+    "bugun"
+   ],
+   [
+    "morgen",
+    "mórgen",
+    "ertaga"
+   ],
+   [
+    "gestern",
+    "géstern",
+    "kecha"
+   ],
+   [
+    "jetzt",
+    "yetst",
+    "hozir"
+   ],
+   [
+    "der Morgen",
+    "der mórgen",
+    "tong"
+   ],
+   [
+    "der Abend",
+    "der ábent",
+    "oqshom"
+   ],
+   [
+    "die Stunde",
+    "di shtúnde",
+    "soat"
+   ]
+  ],
+  "food": [
+   [
+    "das Essen",
+    "das ésen",
+    "ovqat"
+   ],
+   [
+    "das Brot",
+    "das brot",
+    "non"
+   ],
+   [
+    "das Wasser",
+    "das váser",
+    "suv"
+   ],
+   [
+    "der Tee",
+    "der te",
+    "choy"
+   ],
+   [
+    "der Kaffee",
+    "der káfe",
+    "kofe"
+   ],
+   [
+    "die Milch",
+    "di milx",
+    "sut"
+   ],
+   [
+    "das Fleisch",
+    "das flaysh",
+    "goʻsht"
+   ],
+   [
+    "der Reis",
+    "der rays",
+    "guruch"
+   ],
+   [
+    "der Apfel",
+    "der ápfel",
+    "olma"
+   ],
+   [
+    "das Salz",
+    "das zalts",
+    "tuz"
+   ],
+   [
+    "das Frühstück",
+    "das fryúshtyuk",
+    "nonushta"
+   ],
+   [
+    "lecker",
+    "léker",
+    "mazali"
+   ]
+  ],
+  "city": [
+   [
+    "die Stadt",
+    "di shtat",
+    "shahar"
+   ],
+   [
+    "die Straße",
+    "di shtráse",
+    "koʻcha"
+   ],
+   [
+    "das Haus",
+    "das haus",
+    "uy"
+   ],
+   [
+    "das Geschäft",
+    "das geshéft",
+    "doʻkon"
+   ],
+   [
+    "der Markt",
+    "der markt",
+    "bozor"
+   ],
+   [
+    "das Krankenhaus",
+    "das kránkenhaus",
+    "kasalxona"
+   ],
+   [
+    "die Schule",
+    "di shúle",
+    "maktab"
+   ],
+   [
+    "die Arbeit",
+    "di árbayt",
+    "ish"
+   ],
+   [
+    "der Bus",
+    "der bus",
+    "avtobus"
+   ],
+   [
+    "das Auto",
+    "das áuto",
+    "mashina"
+   ],
+   [
+    "der Bahnhof",
+    "der bánhof",
+    "vokzal"
+   ],
+   [
+    "Wo?",
+    "vo",
+    "Qayerda?"
+   ]
+  ],
+  "shop": [
+   [
+    "der Preis",
+    "der prays",
+    "narx"
+   ],
+   [
+    "das Geld",
+    "das gelt",
+    "pul"
+   ],
+   [
+    "billig",
+    "bílix",
+    "arzon"
+   ],
+   [
+    "teuer",
+    "tóyer",
+    "qimmat"
+   ],
+   [
+    "kaufen",
+    "káufen",
+    "sotib olmoq"
+   ],
+   [
+    "bezahlen",
+    "betsálen",
+    "toʻlamoq"
+   ],
+   [
+    "die Karte",
+    "di kárte",
+    "bank kartasi"
+   ],
+   [
+    "das Bargeld",
+    "das bárgelt",
+    "naqd pul"
+   ],
+   [
+    "die Größe",
+    "di gryóse",
+    "oʻlcham"
+   ],
+   [
+    "offen",
+    "ófen",
+    "ochiq"
+   ],
+   [
+    "geschlossen",
+    "geshlósen",
+    "yopiq"
+   ],
+   [
+    "die Rechnung",
+    "di réxnung",
+    "hisob, chek"
+   ]
+  ],
+  "verb": [
+   [
+    "sein",
+    "zayn",
+    "boʻlmoq"
+   ],
+   [
+    "haben",
+    "háben",
+    "ega boʻlmoq"
+   ],
+   [
+    "gehen",
+    "géen",
+    "bormoq (piyoda)"
+   ],
+   [
+    "kommen",
+    "kómen",
+    "kelmoq"
+   ],
+   [
+    "machen",
+    "máxen",
+    "qilmoq"
+   ],
+   [
+    "wollen",
+    "vólen",
+    "xohlamoq"
+   ],
+   [
+    "wissen",
+    "vísen",
+    "bilmoq"
+   ],
+   [
+    "sehen",
+    "zéen",
+    "koʻrmoq"
+   ],
+   [
+    "essen",
+    "ésen",
+    "yemoq"
+   ],
+   [
+    "sprechen",
+    "shpréxen",
+    "gapirmoq"
+   ],
+   [
+    "arbeiten",
+    "árbayten",
+    "ishlamoq"
+   ],
+   [
+    "helfen",
+    "hélfen",
+    "yordam bermoq"
+   ]
+  ],
+  "adj": [
+   [
+    "groß",
+    "gros",
+    "katta"
+   ],
+   [
+    "klein",
+    "klayn",
+    "kichik"
+   ],
+   [
+    "neu",
+    "noy",
+    "yangi"
+   ],
+   [
+    "alt",
+    "alt",
+    "eski, qari"
+   ],
+   [
+    "gut",
+    "gut",
+    "yaxshi"
+   ],
+   [
+    "schlecht",
+    "shlext",
+    "yomon"
+   ],
+   [
+    "heiß",
+    "hays",
+    "issiq"
+   ],
+   [
+    "kalt",
+    "kalt",
+    "sovuq"
+   ],
+   [
+    "einfach",
+    "áynfax",
+    "oson"
+   ],
+   [
+    "schwer",
+    "shver",
+    "qiyin, ogʻir"
+   ],
+   [
+    "schnell",
+    "shnel",
+    "tez"
+   ],
+   [
+    "schön",
+    "shyon",
+    "chiroyli"
+   ]
+  ],
+  "color": [
+   [
+    "die Farbe",
+    "di fárbe",
+    "rang"
+   ],
+   [
+    "rot",
+    "rot",
+    "qizil"
+   ],
+   [
+    "blau",
+    "blau",
+    "koʻk"
+   ],
+   [
+    "grün",
+    "gryun",
+    "yashil"
+   ],
+   [
+    "gelb",
+    "gelp",
+    "sariq"
+   ],
+   [
+    "weiß",
+    "vays",
+    "oq"
+   ],
+   [
+    "schwarz",
+    "shvarts",
+    "qora"
+   ],
+   [
+    "grau",
+    "grau",
+    "kulrang"
+   ],
+   [
+    "braun",
+    "braun",
+    "jigarrang"
+   ],
+   [
+    "orange",
+    "oránje",
+    "toʻq sariq"
+   ],
+   [
+    "rosa",
+    "róza",
+    "pushti"
+   ],
+   [
+    "hell / dunkel",
+    "hel / dúnkel",
+    "ochiq / toʻq"
+   ]
+  ]
+ },
+ "phrases": [
+  [
+   "Tanishuv",
+   [
+    [
+     "Wie heißen Sie?",
+     "vi háysen zi",
+     "Ismingiz nima?"
+    ],
+    [
+     "Ich heiße Ali.",
+     "ix háyse ali",
+     "Mening ismim Ali."
+    ],
+    [
+     "Woher kommen Sie?",
+     "vohér kómen zi",
+     "Qayerdansiz?"
+    ],
+    [
+     "Ich komme aus Usbekistan.",
+     "ix kóme aus uzbekistán",
+     "Men Oʻzbekistondanman."
+    ]
+   ]
+  ],
+  [
+   "Tushunmaganda",
+   [
+    [
+     "Ich verstehe nicht.",
+     "ix fershtée nixt",
+     "Men tushunmayman."
+    ],
+    [
+     "Wiederholen Sie bitte.",
+     "viderhólen zi bíte",
+     "Iltimos, qaytaring."
+    ],
+    [
+     "Sprechen Sie bitte langsamer.",
+     "shpréxen zi bíte lángzamer",
+     "Sekinroq gapiring."
+    ],
+    [
+     "Wie sagt man das auf Deutsch?",
+     "vi zakt man das auf doych",
+     "Bu nemischa qanday boʻladi?"
+    ]
+   ]
+  ],
+  [
+   "Kafeda",
+   [
+    [
+     "Die Speisekarte, bitte.",
+     "di shpáyzekarte bíte",
+     "Menyuni bering."
+    ],
+    [
+     "Ich möchte einen Tee.",
+     "ix myóxte áynen te",
+     "Bir choy olmoqchiman."
+    ],
+    [
+     "Die Rechnung, bitte.",
+     "di réxnung bíte",
+     "Hisobni bering."
+    ],
+    [
+     "Es war sehr lecker.",
+     "es var zer léker",
+     "Juda mazali edi."
+    ]
+   ]
+  ],
+  [
+   "Yoʻlda",
+   [
+    [
+     "Wie komme ich zum Bahnhof?",
+     "vi kóme ix tsum bánhof",
+     "Vokzalga qanday boraman?"
+    ],
+    [
+     "Ist es weit von hier?",
+     "ist es vayt fon hir",
+     "Bu yerdan uzoqmi?"
+    ],
+    [
+     "Gehen Sie geradeaus.",
+     "géen zi gerádeaus",
+     "Toʻgʻriga yuring."
+    ],
+    [
+     "Halten Sie bitte hier.",
+     "hálten zi bíte hir",
+     "Shu yerda toʻxtang."
+    ]
+   ]
+  ],
+  [
+   "Doʻkonda",
+   [
+    [
+     "Was kostet das?",
+     "vas kóstet das",
+     "Bu qancha turadi?"
+    ],
+    [
+     "Kann ich mit Karte zahlen?",
+     "kan ix mit kárte tsálen",
+     "Karta bilan toʻlasam boʻladimi?"
+    ],
+    [
+     "Ich nehme das.",
+     "ix néme das",
+     "Shuni olaman."
+    ],
+    [
+     "Haben Sie eine größere Größe?",
+     "háben zi áyne gryósere gryóse",
+     "Kattaroq oʻlchami bormi?"
+    ]
+   ]
+  ],
+  [
+   "Yordam",
+   [
+    [
+     "Können Sie mir helfen?",
+     "kyónen zi mir hélfen",
+     "Yordam bera olasizmi?"
+    ],
+    [
+     "Ich brauche einen Arzt.",
+     "ix bráuxe áynen artst",
+     "Menga shifokor kerak."
+    ],
+    [
+     "Ich habe meinen Pass verloren.",
+     "ix hábe máynen pas ferlóren",
+     "Pasportimni yoʻqotdim."
+    ],
+    [
+     "Rufen Sie die Polizei.",
+     "rúfen zi di politsáy",
+     "Politsiyaga qoʻngʻiroq qiling."
+    ]
+   ]
+  ]
+ ],
+ "quarter": {
+  "title": "Chorak 1 — Nemis tili poydevori",
+  "goal": "Uch oyda: oʻqish qoidalari, 144 soʻz va ibora, artikllar, kelishiklar va oddiy suhbat."
+ },
+ "months": [
+  {
+   "title": "Oy 1 — Alifbo va tanishuv",
+   "goal": "Harflar va oʻqish, salomlashish, oila, sonlar, artikllar.",
+   "script": true,
+   "topics": [
+    "greet",
+    "fam",
+    "num"
+   ],
+   "phrases": [
+    "Tanishuv",
+    "Tushunmaganda"
+   ],
+   "grammar": [
+    0,
+    1
+   ]
+  },
+  {
+   "title": "Oy 2 — Kundalik hayot",
+   "goal": "Vaqt, ovqat, shahar, ranglar; soʻz tartibi va tuslanish.",
+   "script": false,
+   "topics": [
+    "time",
+    "food",
+    "city",
+    "color"
+   ],
+   "phrases": [
+    "Kafeda",
+    "Yoʻlda"
+   ],
+   "grammar": [
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "title": "Oy 3 — Muloqot va xarid",
+   "goal": "Doʻkon, feʼl va sifatlar; oʻtgan zamon, inkor, modal feʼllar.",
+   "script": false,
+   "topics": [
+    "shop",
+    "verb",
+    "adj"
+   ],
+   "phrases": [
+    "Doʻkonda",
+    "Yordam"
+   ],
+   "grammar": [
+    5,
+    6,
+    7
+   ]
+  }
+ ],
+ "grammar": [
+  {
+   "t": "Uch artikl: der, die, das",
+   "h": "<p>Har bir otning jinsi bor va u artikl orqali koʻrinadi. Otni <b>doim artikli bilan</b> yodlang.</p><div class=\"t-tw\"><table><tr><td class=\"n\">der Mann</td><td>erkak jins</td></tr><tr><td class=\"n\">die Frau</td><td>ayol jins</td></tr><tr><td class=\"n\">das Kind</td><td>oʻrta jins</td></tr><tr><td class=\"n\">die Kinder</td><td>koʻplikda doim «die»</td></tr></table></div><p>Noaniq artikl: <b>ein</b> (der/das uchun), <b>eine</b> (die uchun).</p>"
+  },
+  {
+   "t": "Shaxs olmoshlari va «sein / haben»",
+   "h": "<div class=\"t-tw\"><table><tr><th></th><th>sein (boʻlmoq)</th><th>haben (ega boʻlmoq)</th></tr><tr><td class=\"n\">ich</td><td class=\"n\">bin</td><td class=\"n\">habe</td></tr><tr><td class=\"n\">du</td><td class=\"n\">bist</td><td class=\"n\">hast</td></tr><tr><td class=\"n\">er/sie/es</td><td class=\"n\">ist</td><td class=\"n\">hat</td></tr><tr><td class=\"n\">wir</td><td class=\"n\">sind</td><td class=\"n\">haben</td></tr><tr><td class=\"n\">Sie</td><td class=\"n\">sind</td><td class=\"n\">haben</td></tr></table></div><p><b>Sie</b> — hurmat shakli, doim bosh harf bilan.</p>"
+  },
+  {
+   "t": "Feʼl — ikkinchi oʻrinda",
+   "h": "<p>Oddiy gapda feʼl har doim ikkinchi oʻrinda turadi, nima birinchi kelishidan qatʼi nazar.</p><div class=\"t-tw\"><table><tr><td class=\"n\">Ich gehe heute nach Hause.</td><td>Men bugun uyga boraman.</td></tr><tr><td class=\"n\">Heute gehe ich nach Hause.</td><td>Bugun uyga boraman. (feʼl baribir 2-oʻrinda)</td></tr></table></div><p>Soʻroqda feʼl birinchi oʻringa chiqadi: <b>Gehen Sie nach Hause?</b></p>"
+  },
+  {
+   "t": "Hozirgi zamon tuslanishi",
+   "h": "<div class=\"t-tw\"><table><tr><td class=\"n\">ich mache</td><td>men qilaman</td></tr><tr><td class=\"n\">du machst</td><td>sen qilasan</td></tr><tr><td class=\"n\">er macht</td><td>u qiladi</td></tr><tr><td class=\"n\">wir machen</td><td>biz qilamiz</td></tr><tr><td class=\"n\">ihr macht</td><td>sizlar qilasizlar</td></tr><tr><td class=\"n\">sie / Sie machen</td><td>ular / Siz qilasiz</td></tr></table></div>"
+  },
+  {
+   "t": "Kelishiklar: Nominativ, Akkusativ, Dativ",
+   "h": "<div class=\"t-tw\"><table><tr><th>kelishik</th><th>erkak</th><th>maʼno</th></tr><tr><td>Nominativ (kim?)</td><td class=\"n\">der Mann</td><td>erkak (ega)</td></tr><tr><td>Akkusativ (kimni?)</td><td class=\"n\">den Mann</td><td>erkakni</td></tr><tr><td>Dativ (kimga?)</td><td class=\"n\">dem Mann</td><td>erkakka</td></tr></table></div><p>Faqat erkak jinsda artikl sezilarli oʻzgaradi — shundan boshlang.</p>"
+  },
+  {
+   "t": "Oʻtgan zamon (Perfekt)",
+   "h": "<p>Soʻzlashuvda oʻtgan zamon <b>haben / sein</b> + sifatdosh (Partizip II) bilan yasaladi.</p><div class=\"t-tw\"><table><tr><td class=\"n\">Ich habe gearbeitet.</td><td>Men ishladim.</td></tr><tr><td class=\"n\">Ich habe gegessen.</td><td>Men yedim.</td></tr><tr><td class=\"n\">Ich bin gegangen.</td><td>Men bordim. (harakat feʼllari «sein» oladi)</td></tr></table></div>"
+  },
+  {
+   "t": "Inkor: nicht va kein",
+   "h": "<div class=\"t-tw\"><table><tr><td class=\"n\">Ich arbeite nicht.</td><td>Men ishlamayman. (feʼlni inkor)</td></tr><tr><td class=\"n\">Das ist nicht gut.</td><td>Bu yaxshi emas.</td></tr><tr><td class=\"n\">Ich habe kein Geld.</td><td>Menda pul yoʻq. (otni inkor)</td></tr></table></div><p>Qoida: ot inkor qilinsa <b>kein</b>, qolgan hollarda <b>nicht</b>.</p>"
+  },
+  {
+   "t": "Modal feʼllar",
+   "h": "<p>Modal feʼl tuslanadi, asosiy feʼl esa <b>gap oxirida</b>, oʻzgarmagan holda turadi.</p><div class=\"t-tw\"><table><tr><td class=\"n\">Ich kann Deutsch sprechen.</td><td>Nemischa gapira olaman.</td></tr><tr><td class=\"n\">Ich muss arbeiten.</td><td>Ishlashim kerak.</td></tr><tr><td class=\"n\">Ich will lernen.</td><td>Oʻrganmoqchiman.</td></tr><tr><td class=\"n\">Darf ich fragen?</td><td>Soʻrasam boʻladimi?</td></tr></table></div>"
+  }
+ ]
 });
