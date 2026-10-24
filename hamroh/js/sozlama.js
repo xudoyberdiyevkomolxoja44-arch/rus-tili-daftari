@@ -81,13 +81,13 @@
     }
 
     h += '<div class="h-list"><div class="h-item"><span class="ttl">' + H.esc(a.user.email) +
-      (a.user.name ? '<span class="sub">' + H.esc(a.user.name) + '</span>' : '') + '</span>' +
+      (a.user.name ? '<span class="sub" style="display:block">' + H.esc(a.user.name) + '</span>' : '') + '</span>' +
       '<button class="h-btn sm" data-auth="out">Chiqish</button></div></div>';
     h += '<div class="h-row" style="margin-top:10px">' +
       '<button class="h-btn sm" data-auth="sync">Hozir sinxronlash</button></div></div>';
 
     /* oila */
-    h += '<div class="h-card" data-m="shajara"><div class="h-card-h"><h3>Oila</h3>' +
+    h += '<div class="h-card"><div class="h-card-h"><h3>Oila</h3>' +
       (a.family ? '<span class="h-pill ok">' + H.esc(a.family) + '</span>' : '') + '</div>';
     if (a.family) {
       h += '<p class="h-note">Shajara shu oilaga umumiy: kim oʻzgartirsa, hammada ' +
@@ -146,6 +146,7 @@
       '<p class="h-note" style="margin-top:8px">Ilova internetsiz ham ishlaydi. Telefon brauzerida menyudan ' +
       '«Bosh ekranga qo\'shish» ni tanlasangiz, alohida dasturdek ochiladi.</p>' +
       '<div class="h-row" style="margin-top:12px">' +
+      '<button class="h-btn" data-act="share">Ilova havolasini ulashish</button>' +
       '<button class="h-btn" data-act="refresh">Ilovani yangilash</button>' +
       '<button class="h-btn bad" data-act="wipe">Barcha maʼlumotni oʻchirish</button></div>' +
       '<p class="h-note" style="margin-top:8px">«Ilovani yangilash» — agar telefonda eski koʻrinish qolib ketsa, ' +
@@ -231,6 +232,16 @@
       return;
     }
     if (a.dataset.act === "import") { const f = document.getElementById("h-file"); if (f) f.click(); return; }
+    if (a.dataset.act === "share") {
+      const url = location.origin + location.pathname;
+      const txt = "Qadam — namoz, oila, shajara, ish, sport va til ilovasi:\n" + url;
+      if (navigator.share) { navigator.share({ title: "Qadam", text: "Qadam ilovasi", url: url }).catch(() => {}); }
+      else {
+        try { navigator.clipboard.writeText(txt); alert("Havola nusxalandi:\n" + url); }
+        catch (err) { alert(url); }
+      }
+      return;
+    }
     if (a.dataset.act === "refresh") {
       if (H.hardRefresh) H.hardRefresh();
       else location.reload();

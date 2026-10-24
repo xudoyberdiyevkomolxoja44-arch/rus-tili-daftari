@@ -18,6 +18,11 @@
     return { pct: v, parts };
   };
 
+  H.on("account", () => {
+    const el = document.getElementById("m-bugun");
+    if (el && !el.hidden) render(el);
+  });
+
   H.mod({
     id: "bugun", title: "Bugun",
     init(el) { el.addEventListener("click", onClick); },
@@ -33,7 +38,21 @@
     const r = H.tilSummary();
     const sc = H.dayScore();
 
-    let h = '<div class="b-hero">' +
+    let h = "";
+    if (H.acc && H.acc.on && H.acc.ready && !H.acc.user) {
+      h += '<div class="h-card lift"><div class="h-card-h"><h3>Hisobingizga kiring</h3></div>' +
+        '<p class="h-note">Kirsangiz maʼlumotlaringiz saqlanadi va boshqa qurilmada ham ochiladi. ' +
+        'Namoz, ish, sport va til natijalari faqat sizga koʻrinadi, shajara esa oilaga umumiy boʻladi.</p>' +
+        '<div class="h-row" style="margin-top:10px">' +
+        '<button class="h-btn pri" data-go="sozlama">Kirish / Roʻyxatdan oʻtish</button></div></div>';
+    } else if (H.acc && H.acc.user && !H.acc.family) {
+      h += '<div class="h-card"><div class="h-card-h"><h3>Oilaga qoʻshiling</h3></div>' +
+        '<p class="h-note">Shajarani yaqinlaringiz bilan birga yuritish uchun oila kodini kiriting ' +
+        'yoki yangi oila oching.</p>' +
+        '<div class="h-row" style="margin-top:10px">' +
+        '<button class="h-btn" data-go="sozlama">Sozlamaga oʻtish</button></div></div>';
+    }
+    h += '<div class="b-hero">' +
       '<div><h2 class="h-h2">' + H.fmtLong(today) + '</h2>' +
       '<p class="h-note">Kun natijasi: ' + Math.round(sc.pct * 100) + '%' +
       ' · keyingi namoz: <b>' + nx.name + '</b> ' + H.hm(nx.at) + '</p></div>' +
