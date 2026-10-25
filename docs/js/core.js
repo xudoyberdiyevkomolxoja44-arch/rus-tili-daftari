@@ -192,9 +192,15 @@ window.H = (function () {
   let active = null;
   H.active = () => active;
 
-  H.go = (id, keepScroll) => {
+  const hist = [];                       /* koʻrilgan boʻlimlar zanjiri */
+
+  H.go = (id, keepScroll, noHist) => {
     const m = H.byId(id); if (!m) return;
     active = id;
+    if (!noHist && hist[hist.length - 1] !== id) {
+      hist.push(id);
+      if (hist.length > 60) hist.shift();
+    }
     H.mods.forEach(x => {
       const el = document.getElementById("m-" + x.id);
       if (el) el.hidden = x.id !== id;
@@ -208,6 +214,72 @@ window.H = (function () {
     if (!keepScroll) window.scrollTo({ top: 0, behavior: "smooth" });
     try { localStorage.setItem(PREFIX + "tab", id); } catch (e) {}
   };
+  /* ---------- orqaga qaytish ----------
+     Tartib: ochiq oyna → boʻlimning ichki koʻrinishi → oldingi boʻlim.
+     Qaytadigan joy qolmasa false qaytaradi (shunda ilovadan chiqiladi). */
+  let backAt = 0;
+  H.back = () => {
+    const now = Date.now();
+    if (now - backAt < 350) return true;        /* ikki marta oʻqilib ketmasin */
+    backAt = now;
+
+    const sheets = document.querySelectorAll(".n-sheet");
+    if (sheets.length) {
+      const last = sheets[sheets.length - 1];
+      const close = last.querySelector("[data-close]");
+      if (close) close.click(); else last.remove();
+      return true;
+    }
+    const m = H.byId(active);
+    if (m && m.back) { try { if (m.back() === true) return true; } catch (e) {} }
+
+    if (hist.length > 1) {
+      hist.pop();
+      H.go(hist[hist.length - 1], false, true);
+      return true;
+    }
+    return false;
+  };
+
+  /* qurilmaning orqaga tugmasi va chetdan surish — bitta zaxira qadam orqali */
+  try {
+    history.replaceState({ qadam: 0 }, "");
+    history.pushState({ qadam: 1 }, "");
+    addEventListener("popstate", () => {
+      if (H.back()) { try { history.pushState({ qadam: 1 }, ""); } catch (e) {} }
+      /* qaytadigan joy qolmasa zaxira tiklanmaydi — keyingi bosishda ilova yopiladi */
+    });
+  } catch (e) {}
+
+  /* barmoq bilan chapdan oʻngga surish — bitta orqaga */
+  (function swipeBack() {
+    const EDGE = 44, MIN = 72, SKEW = 55, VAQT = 800;
+    let x0 = 0, y0 = 0, t0 = 0, kuzat = false;
+    const scrollable = n => {
+      for (; n && n !== document.body; n = n.parentElement) {
+        if (n.scrollWidth - n.clientWidth > 4) {
+          const ov = getComputedStyle(n).overflowX;
+          if (ov === "auto" || ov === "scroll") return true;
+        }
+      }
+      return false;
+    };
+    addEventListener("touchstart", e => {
+      kuzat = false;
+      if (e.touches.length !== 1) return;
+      const t = e.touches[0];
+      if (t.clientX > EDGE) return;                  /* faqat chap chetdan */
+      if (scrollable(e.target)) return;              /* yonga suriladigan joy — tegmaymiz */
+      x0 = t.clientX; y0 = t.clientY; t0 = Date.now(); kuzat = true;
+    }, { passive: true });
+    addEventListener("touchend", e => {
+      if (!kuzat) return;
+      kuzat = false;
+      const t = e.changedTouches[0];
+      if (t.clientX - x0 >= MIN && Math.abs(t.clientY - y0) <= SKEW && Date.now() - t0 < VAQT) H.back();
+    }, { passive: true });
+  })();
+
   H.renderActive = () => {
     const m = H.byId(active);
     if (!m) return;

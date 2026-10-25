@@ -226,7 +226,26 @@
       const d = data();
       if (d.cur && langDef(d.cur)) { cur = d.cur; view = "course"; }
     },
-    show() { render(); }
+    show() { render(); },
+    /* orqaga: imtihon → reja, mashgʻulot → reja, kurs → til tanlash */
+    back() {
+      if (exam || cq) {
+        exam = null; cq = null;
+        planView = { type: "overview", month: planView.month, sel: planView.sel };
+        render(); return true;
+      }
+      if (session) {
+        session = null; queue = []; item = null; tab = "plan";
+        planView = { type: "overview", month: null, sel: null };
+        render(); return true;
+      }
+      if (planView && planView.type !== "overview") {
+        planView = { type: "overview", month: planView.month, sel: planView.sel };
+        render(); return true;
+      }
+      if (view === "course") { view = "pick"; render(); return true; }
+      return false;
+    }
   });
 
   document.addEventListener("click", e => {

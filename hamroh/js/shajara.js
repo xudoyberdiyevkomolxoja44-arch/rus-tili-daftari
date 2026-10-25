@@ -238,7 +238,18 @@
   H.mod({
     id: NS, title: "Shajara",
     init(el) { el.addEventListener("click", onClick); el.addEventListener("submit", onSubmit); el.addEventListener("change", onChange); },
-    show(el) { render(el); }
+    show(el) { render(el); },
+    /* orqaga: tahrir → daraxt, boshqa varaq → daraxt */
+    back() {
+      const el = document.getElementById("m-" + NS);
+      if (!el) return false;
+      if (editing || preset || parentFor) {
+        editing = null; preset = null; parentFor = null; photoBuf = null; tab = "tree";
+        render(el); return true;
+      }
+      if (tab !== "tree") { tab = "tree"; render(el); return true; }
+      return false;
+    }
   });
 
   /* Surat yoki bosh harf — barcha joyda bir xil koʻrinadi */
