@@ -1,5 +1,6 @@
 /* ============ Hamroh — umumiy uslublar ============ */
 :root{
+  color-scheme:light;
   --paper:#F4F0E6;
   --surface:#FFFCF5;
   --surface-2:#EBE4D6;
@@ -24,6 +25,7 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
+    color-scheme:dark;
     --paper:#13191B;
     --surface:#1B2325;
     --surface-2:#243032;
@@ -44,6 +46,7 @@
   }
 }
 :root[data-theme="dark"]{
+  color-scheme:dark;
     --paper:#13191B;
   --surface:#1B2325;
   --surface-2:#243032;
@@ -63,7 +66,7 @@
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;background:var(--paper)}
 body{
   background:var(--paper);color:var(--ink);
   font-family:var(--f-sans);font-size:16px;line-height:1.55;
@@ -223,7 +226,7 @@ select.h-in{appearance:none;background-image:linear-gradient(45deg,transparent 5
 
 
 @media (hover:none){
-  .h-btn:hover,.h-item:hover{background:var(--surface)}
+  .h-btn:not(.pri):hover,.h-item:hover{background:var(--surface)}
 }
 @media (max-width:560px){
   .h-top-in{padding:10px 14px 0;gap:10px}

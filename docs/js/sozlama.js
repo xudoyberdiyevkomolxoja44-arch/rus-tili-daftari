@@ -17,8 +17,33 @@
     const t = data().theme;
     if (t === "auto") document.documentElement.removeAttribute("data-theme");
     else document.documentElement.setAttribute("data-theme", t);
+    paintChrome();
   }
   H.applyTheme = applyTheme;
+
+  /* Telefon chetlari — tepadagi soat chizigʻi va pastdagi brauzer paneli —
+     ilova foni bilan bir xil rangda boʻlsin. Rangni CSS oʻzi hisoblaydi,
+     shuning uchun «Tizimga qarab» holatida ham, qoʻlda tanlanganda ham toʻgʻri chiqadi. */
+  function paintChrome() {
+    let paper = "";
+    try {
+      paper = getComputedStyle(document.documentElement).getPropertyValue("--paper").trim();
+    } catch (e) {}
+    if (!paper) return;
+    document.head.querySelectorAll('meta[name="theme-color"]').forEach(m => m.remove());
+    const m = document.createElement("meta");
+    m.name = "theme-color";
+    m.content = paper;
+    document.head.appendChild(m);
+  }
+
+  /* telefon qorongʻi rejimga oʻtsa — «Tizimga qarab» holatida darhol ergashamiz */
+  if (window.matchMedia) {
+    const mq = matchMedia("(prefers-color-scheme: dark)");
+    const onSys = () => { if (data().theme === "auto") paintChrome(); };
+    if (mq.addEventListener) mq.addEventListener("change", onSys);
+    else if (mq.addListener) mq.addListener(onSys);
+  }
 
   function snapshot() {
     const all = H.store.all();
