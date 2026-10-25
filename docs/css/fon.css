@@ -1,0 +1,58 @@
+/* ============ Fon va mayinlik ============
+   Fon: ilova rangidagi yumshoq nur va milliy naqsh (sakkiz burchakli
+   yulduz) — juda xira, oʻqishga xalaqit bermaydi, ikkala koʻrinishda ham
+   oʻzi moslashadi. Naqsh ekranga mahkamlangan: sahifa surilganda qayta
+   chizilmaydi, shuning uchun surish mayin qoladi. */
+
+:root{
+  --naqsh:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%2323313A' stroke-opacity='.042' stroke-width='1.1'%3E%3Cpath d='M36 8 64 36 36 64 8 36Z'/%3E%3Cpath d='M16 16h40v40H16z'/%3E%3Cpath d='M0 -8 8 0 0 8 -8 0Z'/%3E%3Cpath d='M72 -8 80 0 72 8 64 0Z'/%3E%3Cpath d='M0 64 8 72 0 80 -8 72Z'/%3E%3Cpath d='M72 64 80 72 72 80 64 72Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --naqsh:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%2349BDB4' stroke-opacity='.06' stroke-width='1.1'%3E%3Cpath d='M36 8 64 36 36 64 8 36Z'/%3E%3Cpath d='M16 16h40v40H16z'/%3E%3Cpath d='M0 -8 8 0 0 8 -8 0Z'/%3E%3Cpath d='M72 -8 80 0 72 8 64 0Z'/%3E%3Cpath d='M0 64 8 72 0 80 -8 72Z'/%3E%3Cpath d='M72 64 80 72 72 80 64 72Z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+:root[data-theme="dark"]{
+  --naqsh:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%2349BDB4' stroke-opacity='.06' stroke-width='1.1'%3E%3Cpath d='M36 8 64 36 36 64 8 36Z'/%3E%3Cpath d='M16 16h40v40H16z'/%3E%3Cpath d='M0 -8 8 0 0 8 -8 0Z'/%3E%3Cpath d='M72 -8 80 0 72 8 64 0Z'/%3E%3Cpath d='M0 64 8 72 0 80 -8 72Z'/%3E%3Cpath d='M72 64 80 72 72 80 64 72Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* fon rangini html ushlab turadi — bezak uning ustiga, matn esa bezak ustiga tushadi */
+body{background-color:transparent}
+body::before{
+  content:"";position:fixed;inset:-2px;z-index:-1;pointer-events:none;
+  background-image:
+    radial-gradient(130% 60% at 50% -12%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 62%),
+    radial-gradient(76% 42% at 50% 44%, color-mix(in srgb, var(--surface) 72%, transparent), transparent 72%),
+    radial-gradient(104% 48% at 50% 108%, color-mix(in srgb, var(--gold) 9%, transparent), transparent 58%),
+    var(--naqsh);
+  background-repeat:no-repeat, no-repeat, no-repeat, repeat;
+  background-size:auto, auto, auto, 56px 56px;
+}
+
+/* ---------- mayinlik ---------- */
+
+/* bosganda chiqadigan kulrang yaltirash olib tashlanadi */
+html{-webkit-tap-highlight-color:transparent}
+
+/* chetga yetganda sahifa ortidagi oyna tortilmasin */
+body{overscroll-behavior-y:contain}
+
+/* .r-item ga bu yerda transition qoʻyilmaydi — barmoq ortidan kechikmasligi uchun */
+
+/* boʻlim almashganda yumshoq kirish */
+@keyframes h-kir{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.h-panel:not([hidden]){animation:h-kir .2s cubic-bezier(.22,.7,.3,1) both}
+
+/* bosilganda sezilarli, lekin arzon javob */
+.h-btn,.r-hub,.r-turn,.h-item{transition:transform .09s ease-out}
+.h-btn:active,.r-turn:active,.h-item:active{transform:scale(.975)}
+.r-hub:active{transform:translate(-50%,-50%) scale(.975)}
+
+/* chambarak burilayotganda brauzerga oldindan aytib qoʻyamiz */
+.r-grab .r-dial,.r-grab .r-item{will-change:transform}
+
+/* harakat kamaytirilgan boʻlsa — hech qanday animatsiya yoʻq
+   (app.css dagi umumiy qoida bilan birga ishlaydi) */
+@media (prefers-reduced-motion:reduce){
+  .h-panel:not([hidden]){animation:none}
+}

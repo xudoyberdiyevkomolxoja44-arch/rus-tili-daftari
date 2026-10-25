@@ -66,7 +66,7 @@
 .r-hub i{font-style:normal;font-size:10.5px;color:var(--ink-3);line-height:1.2;display:block;margin-top:3px}
 
 /* burilish silliq boʻlsin — faqat qoʻyib yuborilganda */
-.r-anim .r-dial,.r-anim .r-item{transition:transform .24s cubic-bezier(.22,.7,.3,1)}
+.r-anim .r-dial,.r-anim .r-item{transition:transform var(--spin,.24s) cubic-bezier(.17,.78,.3,1)}
 
 .r-turns{display:flex;align-items:center;gap:12px;width:min(86vw,330px)}
 .r-turn{

@@ -64,7 +64,15 @@
     }
   }
 
-  function turn(by) { setAngle(angleFor(indexAt(ang) + by), true); }
+  /* tanlangan boʻlimga yumshoq qoʻnish — masofa qancha uzoq boʻlsa, shuncha uzunroq */
+  function settle(i) {
+    const t = angleFor(i);
+    const far = Math.abs(t - ang) / step;
+    wrap.style.setProperty("--spin", (0.17 + Math.min(far, 4) * 0.055).toFixed(2) + "s");
+    setAngle(t, true);
+  }
+
+  function turn(by) { settle(indexAt(ang) + by); }
 
   function open() {
     const m = list[sel];
@@ -80,7 +88,7 @@
       const r = wrap.getBoundingClientRect();
       const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
       drag = {
-        id: e.pointerId, cx, cy, ang0: ang, moved: 0,
+        id: e.pointerId, cx, cy, ang0: ang, moved: 0, trail: [],
         a0: Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI,
         item: e.target.closest(".r-item")
       };
@@ -96,6 +104,10 @@
       while (d < -180) d += 360;
       if (Math.abs(d) > drag.moved) drag.moved = Math.abs(d);
       setAngle(drag.ang0 + d, false);
+      /* oxirgi ~90 ms — qoʻyib yuborilgandagi tezlikni shundan olamiz */
+      const now = performance.now();
+      drag.trail.push({ t: now, a: ang });
+      while (drag.trail.length > 2 && now - drag.trail[0].t > 90) drag.trail.shift();
     });
 
     const end = e => {
@@ -107,11 +119,19 @@
       if (d.moved < 4) {                       /* burilmadi — demak bosildi */
         if (d.item) {
           const i = nodes.indexOf(d.item);
-          if (i >= 0) { if (i === sel) open(); else setAngle(angleFor(i), true); }
+          if (i >= 0) { if (i === sel) open(); else settle(i); }
         }
         return;
       }
-      setAngle(angleFor(indexAt(ang)), true);  /* eng yaqin boʻlimga qoʻnadi */
+      /* qoʻyib yuborilgandagi tezlik — chambarak bir oz oʻzi aylanib boradi */
+      let v = 0;
+      const tr = d.trail;
+      if (tr.length > 1) {
+        const a = tr[0], b = tr[tr.length - 1];
+        if (b.t > a.t) v = (b.a - a.a) / (b.t - a.t);        /* daraja/ms */
+      }
+      const lim = 3 * step;
+      settle(indexAt(ang + Math.max(-lim, Math.min(lim, v * 120))));
     };
     wrap.addEventListener("pointerup", end);
     wrap.addEventListener("pointercancel", end);
