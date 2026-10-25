@@ -114,6 +114,7 @@
   function render(el) {
     const d = data();
     let h = accountBlock();
+    if (H.eslatmaBlock) h += H.eslatmaBlock();
     h += '<div class="h-card"><div class="h-card-h"><h3>Profil</h3></div>' +
       '<form data-form="profil" class="h-form">' +
       '<div class="h-field wide"><label>Ismingiz</label>' +

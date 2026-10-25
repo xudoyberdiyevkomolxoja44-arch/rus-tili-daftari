@@ -9,7 +9,7 @@
 (function (H) {
   const CFG = window.QADAM_FB || {};
   const ON = !!(CFG && CFG.apiKey && CFG.projectId);
-  const PERSONAL = ["namoz", "oila", "ish", "sport", "til", "profil"];
+  const PERSONAL = ["namoz", "oila", "ish", "sport", "til", "profil", "eslatma"];
   const SHARED = ["shajara"];
   const V = "10.12.2";
 
