@@ -1,0 +1,82 @@
+/* ============ Rul — boʻlimlar chambaragi ============ */
+.r-screen{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  /* sarlavha va .h-wrap chekkalarini ayirib, koʻrinadigan joyning oʻrtasiga olamiz */
+  padding:4px 0 8px;min-height:calc(100dvh - 163px);
+}
+
+.r-wrap{
+  position:relative;width:min(86vw,330px);aspect-ratio:1;
+  touch-action:none;user-select:none;-webkit-user-select:none;
+  cursor:grab;
+}
+.r-wrap.r-grab{cursor:grabbing}
+
+/* chambarak gardishi */
+.r-rim{
+  position:absolute;inset:0;border-radius:50%;
+  border:13px solid var(--surface-2);
+  box-shadow:inset 0 0 0 1px var(--line), 0 0 0 1px var(--line), var(--shadow);
+}
+
+/* mayoq nuri — oʻrtadan tepaga, tanlangan boʻlimga qaraydi */
+.r-beam{
+  position:absolute;left:50%;top:50%;
+  width:58%;height:calc(var(--r, 110px) + 10px);
+  transform:translate(-50%,-100%);
+  background:linear-gradient(to top,
+    color-mix(in srgb, var(--accent) 42%, transparent),
+    color-mix(in srgb, var(--accent) 16%, transparent) 60%,
+    transparent);
+  clip-path:polygon(45% 100%, 55% 100%, 100% 0, 0 0);
+  pointer-events:none;
+}
+
+.r-dial{position:absolute;inset:0;transform:rotate(var(--dial,0deg))}
+
+.r-item{
+  position:absolute;left:50%;top:50%;
+  width:21%;aspect-ratio:1;margin-left:-10.5%;margin-top:-10.5%;
+  display:grid;place-content:center;padding:4px;z-index:2;
+  border:1px solid var(--line);border-radius:50%;background:var(--surface);
+  color:var(--ink-2);font-size:12.5px;font-weight:400;line-height:1.15;text-align:center;
+  /* oʻz burchagi ham, chambarak burchagi ham qaytariladi — yozuv tik turadi */
+  transform:rotate(var(--a)) translateY(calc(-1 * var(--r, 110px)))
+            rotate(calc(-1 * var(--a) - var(--dial,0deg)));
+}
+.r-item.on{
+  border-color:var(--accent);background:var(--accent-soft);
+  color:var(--ink);font-weight:700;box-shadow:var(--shadow);
+}
+
+/* mayoq */
+.r-hub{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:42%;aspect-ratio:1;z-index:3;
+  display:grid;place-content:center;gap:1px;padding:10px;text-align:center;
+  border:1px solid var(--line);border-radius:50%;
+  background:var(--surface);box-shadow:var(--shadow);
+}
+.r-hub-mark{
+  width:0;height:0;margin:0 auto 5px;
+  border-left:7px solid transparent;border-right:7px solid transparent;
+  border-bottom:10px solid var(--accent);
+}
+.r-hub b{font-family:var(--f-serif);font-size:16px;line-height:1.1;display:block}
+.r-hub i{font-style:normal;font-size:10.5px;color:var(--ink-3);line-height:1.2;display:block;margin-top:3px}
+
+/* burilish silliq boʻlsin — faqat qoʻyib yuborilganda */
+.r-anim .r-dial,.r-anim .r-item{transition:transform .24s cubic-bezier(.22,.7,.3,1)}
+
+.r-turns{display:flex;align-items:center;gap:12px;width:min(86vw,330px)}
+.r-turn{
+  flex:0 0 auto;width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--line);background:var(--surface);
+  color:var(--ink-2);font-size:21px;line-height:1;
+}
+.r-note{flex:1;font-size:12.5px;color:var(--ink-3);text-align:center}
+
+@media (max-width:560px){
+  .r-screen{gap:14px}
+  .r-hub b{font-size:15px}
+}

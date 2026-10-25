@@ -205,14 +205,13 @@ window.H = (function () {
       const el = document.getElementById("m-" + x.id);
       if (el) el.hidden = x.id !== id;
     });
-    document.querySelectorAll(".h-navbtn").forEach(b =>
-      b.setAttribute("aria-selected", String(b.dataset.m === id)));
     const el = document.getElementById("m-" + id);
     if (el && !el.dataset.ready) { el.dataset.ready = "1"; if (m.init) m.init(el); }
     if (m.show) m.show(el);
     else if (m.render) m.render(el);
     if (!keepScroll) window.scrollTo({ top: 0, behavior: "smooth" });
-    try { localStorage.setItem(PREFIX + "tab", id); } catch (e) {}
+    /* chambarakning oʻzi eslab qolinmaydi — u oxirgi boʻlimni koʻrsatib turadi */
+    if (!m.root) { try { localStorage.setItem(PREFIX + "tab", id); } catch (e) {} }
   };
   /* ---------- orqaga qaytish ----------
      Tartib: ochiq oyna → boʻlimning ichki koʻrinishi → oldingi boʻlim.
@@ -270,6 +269,7 @@ window.H = (function () {
       const t = e.touches[0];
       if (t.clientX > EDGE) return;                  /* faqat chap chetdan */
       if (scrollable(e.target)) return;              /* yonga suriladigan joy — tegmaymiz */
+      if (e.target.closest && e.target.closest("[data-noswipe]")) return;  /* chambarak — burishga xalaqit bermaymiz */
       x0 = t.clientX; y0 = t.clientY; t0 = Date.now(); kuzat = true;
     }, { passive: true });
     addEventListener("touchend", e => {

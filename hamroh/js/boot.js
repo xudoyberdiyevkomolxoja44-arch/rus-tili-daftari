@@ -1,23 +1,17 @@
 /* ============ Ishga tushirish ============ */
 (function (H) {
-  const nav = document.getElementById("h-nav");
   const main = document.getElementById("h-main");
 
-  /* boʻlimlar tartibi */
-  const ORDER = ["bugun", "namoz", "oila", "shajara", "ish", "sport", "til", "sozlama"];
+  /* boʻlimlar tartibi — chambarakda ham shu tartibda teriladi */
+  const ORDER = ["rul", "bugun", "namoz", "oila", "shajara", "ish", "sport", "til", "sozlama"];
   H.mods.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
 
-  /* modullar uchun joy va tugmalar */
-  nav.innerHTML = H.mods.map(m =>
-    '<button class="h-navbtn" role="tab" data-m="' + m.id + '" aria-selected="false" aria-controls="m-' + m.id + '">' +
-    m.title + '</button>').join("");
+  /* modullar uchun joy */
   main.innerHTML = H.mods.map(m =>
-    '<section class="h-panel" id="m-' + m.id + '" role="tabpanel" hidden></section>').join("");
+    '<section class="h-panel" id="m-' + m.id + '" hidden></section>').join("");
 
-  nav.addEventListener("click", e => {
-    const b = e.target.closest(".h-navbtn");
-    if (b) H.go(b.dataset.m);
-  });
+  /* sarlavhadagi «Qadam» — chambarakka qaytaradi */
+  document.getElementById("h-home").addEventListener("click", () => H.go("rul"));
 
   /* sana va kun natijasi sarlavhada */
   function head() {
@@ -55,9 +49,8 @@
     pr._lat = 1; H.store.save("profil");
   })();
 
-  let start = "bugun";
-  try { const s = localStorage.getItem("hamroh:tab"); if (s && H.byId(s)) start = s; } catch (e) {}
-  H.go(start, true);
+  /* ilova doim chambarakdan boshlanadi — oxirgi boʻlim mayoq roʻparasida turadi */
+  H.go("rul", true);
   head();
 
   /* hisob bilan sinxronlash (boʻlmasa ilova baribir ishlayveradi) */
