@@ -3,7 +3,7 @@
   const main = document.getElementById("h-main");
 
   /* boʻlimlar tartibi — chambarakda ham shu tartibda teriladi */
-  const ORDER = ["rul", "bugun", "namoz", "oila", "shajara", "ish", "sport", "til", "sozlama"];
+  const ORDER = ["rul", "bugun", "namoz", "oila", "shajara", "ish", "sport", "til", "diqqat", "sozlama"];
   H.mods.sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
 
   /* modullar uchun joy */

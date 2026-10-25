@@ -15,6 +15,7 @@
     ish: "keldim-ketdim",
     sport: "mashgʻulot",
     til: "sakkiz til",
+    diqqat: "xalaqitsiz ish",
     sozlama: "profil va zaxira"
   };
 
