@@ -157,6 +157,16 @@
 
     el.innerHTML =
       '<div class="r-screen">' +
+        '<div class="p-wrap">' +
+        /* piyola — chambarak uning ichida turadi */
+        '<svg class="p-kosa" viewBox="-6 0 212 212" aria-hidden="true">' +
+          '<path class="p-body" d="M2 10 C-3 70 10 140 52 172 C66 179 82 182 100 182 C118 182 134 179 148 172 C190 140 203 70 198 10 Q100 46 2 10 Z"/>' +
+          '<path class="p-lip" d="M2 10 Q100 46 198 10"/>' +
+          '<path class="p-band" d="M8 88 Q100 126 192 88"/>' +
+          '<g class="p-gul"><path d="M100 121 115 136 100 151 85 136Z"/><path d="M89.4 125.4h21.2v21.2H89.4z"/></g>' +
+          '<path class="p-foot" d="M84 179 L77 200 L123 200 L116 179"/>' +
+          '<path class="p-base" d="M70 200 L130 200"/>' +
+        '</svg>' +
         '<div class="r-wrap" id="r-wrap" data-noswipe role="group" aria-label="Boʻlimlar chambaragi">' +
           '<div class="r-rim"></div>' +
           '<div class="r-beam" aria-hidden="true"></div>' +
@@ -170,6 +180,7 @@
             '<b id="r-hub-name"></b>' +
             '<i id="r-hub-hint"></i>' +
           '</button>' +
+        '</div>' +
         '</div>' +
         '<div class="r-turns">' +
           '<button class="r-turn" type="button" data-t="-1" aria-label="Chapga burish">‹</button>' +

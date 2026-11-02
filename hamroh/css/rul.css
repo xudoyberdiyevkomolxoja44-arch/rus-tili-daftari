@@ -2,11 +2,25 @@
 .r-screen{
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
   /* sarlavha va .h-wrap chekkalarini ayirib, koʻrinadigan joyning oʻrtasiga olamiz */
-  padding:4px 0 8px;min-height:calc(100dvh - 163px);
+  padding:4px 0 8px;min-height:calc(100dvh - 163px);--rw:min(86vw,330px);
+}
+
+/* piyola: chambarak uning ogʻzida, kosa pastga choʻzilib turadi */
+.p-wrap{position:relative;width:var(--rw);aspect-ratio:200/302}
+.p-kosa{
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:106%;display:block;pointer-events:none;
+}
+.p-kosa .p-body{fill:var(--surface);stroke:var(--line);stroke-width:1.6}
+.p-kosa .p-lip{fill:none;stroke:var(--line);stroke-width:1.6;stroke-linecap:round}
+.p-kosa .p-band{fill:none;stroke:var(--accent);stroke-width:1.4;opacity:.45;stroke-dasharray:6 5;stroke-linecap:round}
+.p-kosa .p-gul{fill:none;stroke:var(--accent);stroke-width:1.3;opacity:.4}
+.p-kosa .p-foot,.p-kosa .p-base{
+  fill:none;stroke:var(--line);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
 }
 
 .r-wrap{
-  position:relative;width:min(86vw,330px);aspect-ratio:1;
+  position:absolute;top:0;left:0;width:100%;aspect-ratio:1;
   touch-action:none;user-select:none;-webkit-user-select:none;
   cursor:grab;
 }
@@ -68,7 +82,7 @@
 /* burilish silliq boʻlsin — faqat qoʻyib yuborilganda */
 .r-anim .r-dial,.r-anim .r-item{transition:transform var(--spin,.24s) cubic-bezier(.17,.78,.3,1)}
 
-.r-turns{display:flex;align-items:center;gap:12px;width:min(86vw,330px)}
+.r-turns{display:flex;align-items:center;gap:12px;width:var(--rw)}
 .r-turn{
   flex:0 0 auto;width:42px;height:42px;border-radius:50%;
   border:1px solid var(--line);background:var(--surface);
@@ -80,3 +94,7 @@
   .r-screen{gap:14px}
   .r-hub b{font-size:15px}
 }
+
+/* past ekranlarda piyola sigʻishi uchun bir oz kichrayadi */
+@media (max-height:740px){ .r-screen{--rw:min(76vw,288px)} }
+@media (max-height:650px){ .r-screen{--rw:min(68vw,256px)} }
