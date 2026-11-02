@@ -1,11 +1,11 @@
 /* ============ Rul — boʻlimlar chambaragi ============
-   Boʻlimlar doira boʻylab, rul chambaragidek terilgan. Oʻrtadagi mayoq
-   tepaga qaraydi: chambarakni chapga-oʻngga burganda mayoq roʻparasiga
-   kelgan boʻlim tanlanadi, yana bir bosilsa oʻsha boʻlim ochiladi. */
+   Katta doira ekran tagida, yarmi koʻrinib turadi. Boʻlim panellari uning
+   yoyi boʻylab teriladi: chambarak chapga-oʻngga burilganda panel oʻrtaga
+   chiqadi, chetdagilari xiralashadi. Oʻrtadagi panel yana bir bosilsa
+   oʻsha boʻlim ochiladi. */
 (function (H) {
   const NS = "rul";
 
-  /* chambarakda uzun nom sigʻmaydi */
   const SHORT = { til: "Til" };
   const HINT = {
     bugun: "kun xulosasi",
@@ -19,19 +19,33 @@
     sozlama: "profil va zaxira"
   };
 
+  const FADE = 92;                /* shu burchakdan nariga panel koʻrinmaydi */
+
   let list = [], nodes = [];
-  let wrap, hubName, hubHint;
-  let ang = 0, step = 45, sel = 0;
+  let wrap, screenEl, headName, headHint;
+  let ang = 0, step = 40, sel = 0;
 
   const nom = m => SHORT[m.id] || m.title;
+  const norm = a => ((a + 180) % 360 + 360) % 360 - 180;
 
-  /* tepada (12 soat yoʻnalishida) turgan boʻlim */
+  /* Sahifa aynan ekran boʻyi boʻlsin — doira tagga tegsin, ortiqcha surilish
+     boʻlmasin. .h-wrap ning pastki chekkasi bekor qilinadi. */
+  function fit() {
+    if (!screenEl) return;
+    const box = document.querySelector(".h-wrap");
+    const pb = box ? parseFloat(getComputedStyle(box).paddingBottom) || 0 : 0;
+    screenEl.style.marginBottom = -pb + "px";
+    const t = screenEl.getBoundingClientRect().top + (window.scrollY || 0);
+    screenEl.style.minHeight = Math.max(360, Math.round(window.innerHeight - t)) + "px";
+  }
+
+  /* oʻrtada (yoyning tepasida) turgan boʻlim */
   function indexAt(a) {
     const n = list.length;
     return ((Math.round(-a / step) % n) + n) % n;
   }
 
-  /* i-boʻlimni tepaga olib chiqadigan burchak — hozirgisiga eng yaqini */
+  /* i-boʻlimni oʻrtaga olib chiqadigan burchak — hozirgisiga eng yaqini */
   function angleFor(i) {
     const full = list.length * step;
     let t = -i * step;
@@ -39,18 +53,27 @@
     return t;
   }
 
-  function paint() {
+  /* panellar: oʻrtadagisi yorqin, chetga borgani sayin xiralashadi */
+  function paintArc() {
     nodes.forEach((b, i) => {
+      const d = Math.abs(norm(i * step + ang));
+      const o = d < FADE ? Math.max(0, 1 - Math.pow(d / FADE, 1.25)) : 0;
+      b.style.opacity = o.toFixed(3);
+      b.style.setProperty("--sc", (1 - Math.min(d, FADE) / FADE * 0.3).toFixed(3));
+      b.style.zIndex = String(120 - Math.round(d));
+      b.style.pointerEvents = o > 0.12 ? "auto" : "none";
       const on = i === sel;
       b.classList.toggle("on", on);
       b.setAttribute("aria-current", on ? "true" : "false");
       b.tabIndex = on ? 0 : -1;
     });
+  }
+
+  function paintHead() {
     const m = list[sel];
-    if (m) {
-      hubName.textContent = nom(m);
-      hubHint.textContent = HINT[m.id] || "ochish uchun bosing";
-    }
+    if (!m) return;
+    headName.textContent = nom(m);
+    headHint.textContent = HINT[m.id] || "";
   }
 
   function setAngle(a, animate) {
@@ -60,9 +83,10 @@
     const i = indexAt(a);
     if (i !== sel) {
       sel = i;
-      paint();
+      paintHead();
       try { navigator.vibrate && navigator.vibrate(8); } catch (e) {}
     }
+    paintArc();
   }
 
   /* tanlangan boʻlimga yumshoq qoʻnish — masofa qancha uzoq boʻlsa, shuncha uzunroq */
@@ -85,9 +109,8 @@
     let drag = null;
 
     wrap.addEventListener("pointerdown", e => {
-      if (e.target.closest(".r-hub") || e.target.closest(".r-turn")) return;
       const r = wrap.getBoundingClientRect();
-      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const cx = r.left + r.width / 2, cy = r.bottom;   /* doira markazi — tagda */
       drag = {
         id: e.pointerId, cx, cy, ang0: ang, moved: 0, trail: [],
         a0: Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI,
@@ -117,7 +140,7 @@
       drag = null;
       wrap.classList.remove("r-grab");
       try { wrap.releasePointerCapture(e.pointerId); } catch (err) {}
-      if (d.moved < 4) {                       /* burilmadi — demak bosildi */
+      if (d.moved < 3) {                       /* burilmadi — demak bosildi */
         if (d.item) {
           const i = nodes.indexOf(d.item);
           if (i >= 0) { if (i === sel) open(); else settle(i); }
@@ -144,76 +167,55 @@
     });
   }
 
-  /* chambarak oʻlchamiga qarab boʻlimlar radiusi */
-  function measure() {
-    if (!wrap) return;
-    const w = wrap.getBoundingClientRect().width;
-    if (w) wrap.style.setProperty("--r", Math.round(w / 2 - w * 0.165) + "px");
-  }
-
   function build(el) {
     list = H.mods.filter(m => m.id !== NS);
     step = 360 / list.length;
 
     el.innerHTML =
       '<div class="r-screen">' +
-        '<div class="p-wrap">' +
-        /* piyola — chambarak uning ichida turadi */
-        '<svg class="p-kosa" viewBox="-6 0 212 212" aria-hidden="true">' +
-          '<path class="p-body" d="M2 10 C-3 70 10 140 52 172 C66 179 82 182 100 182 C118 182 134 179 148 172 C190 140 203 70 198 10 Q100 46 2 10 Z"/>' +
-          '<path class="p-lip" d="M2 10 Q100 46 198 10"/>' +
-          '<path class="p-band" d="M8 88 Q100 126 192 88"/>' +
-          '<g class="p-gul"><path d="M100 121 115 136 100 151 85 136Z"/><path d="M89.4 125.4h21.2v21.2H89.4z"/></g>' +
-          '<path class="p-foot" d="M84 179 L77 200 L123 200 L116 179"/>' +
-          '<path class="p-base" d="M70 200 L130 200"/>' +
-        '</svg>' +
-        '<div class="r-wrap" id="r-wrap" data-noswipe role="group" aria-label="Boʻlimlar chambaragi">' +
-          '<div class="r-rim"></div>' +
-          '<div class="r-beam" aria-hidden="true"></div>' +
-          '<div class="r-dial">' +
-            list.map((m, i) =>
-              '<button class="r-item" type="button" style="--a:' + (i * step) + 'deg">' +
-              '<span>' + nom(m) + '</span></button>').join("") +
-          '</div>' +
-          '<button class="r-hub" type="button" id="r-hub">' +
-            '<span class="r-hub-mark" aria-hidden="true"></span>' +
-            '<b id="r-hub-name"></b>' +
-            '<i id="r-hub-hint"></i>' +
-          '</button>' +
-        '</div>' +
+        '<div class="r-head">' +
+          '<b id="r-name"></b>' +
+          '<i id="r-hint"></i>' +
         '</div>' +
         '<div class="r-turns">' +
           '<button class="r-turn" type="button" data-t="-1" aria-label="Chapga burish">‹</button>' +
-          '<span class="r-note">Chambarakni burib boʻlim tanlang, mayoqni bosib kiring</span>' +
+          '<span class="r-note">Chambarakni burib boʻlim tanlang, oʻrtadagisini bosib kiring</span>' +
           '<button class="r-turn" type="button" data-t="1" aria-label="Oʻngga burish">›</button>' +
+        '</div>' +
+        '<div class="r-stage" id="r-wrap" data-noswipe role="group" aria-label="Boʻlimlar chambaragi">' +
+          '<div class="r-disc" aria-hidden="true"></div>' +
+          '<span class="r-mark" aria-hidden="true"></span>' +
+          list.map((m, i) =>
+            '<button class="r-item" type="button" style="--a:' + (i * step) + 'deg">' +
+            nom(m) + '</button>').join("") +
         '</div>' +
       '</div>';
 
     wrap = el.querySelector("#r-wrap");
+    screenEl = el.querySelector(".r-screen");
     nodes = [].slice.call(el.querySelectorAll(".r-item"));
-    hubName = el.querySelector("#r-hub-name");
-    hubHint = el.querySelector("#r-hub-hint");
+    headName = el.querySelector("#r-name");
+    headHint = el.querySelector("#r-hint");
 
-    el.querySelector("#r-hub").addEventListener("click", open);
     el.querySelectorAll(".r-turn").forEach(b =>
       b.addEventListener("click", () => turn(Number(b.dataset.t))));
 
     bind();
-    measure();
-    addEventListener("resize", measure);
-    paint();
+    paintHead();
+    addEventListener("resize", fit);
+    addEventListener("orientationchange", fit);
   }
 
   H.mod({
     id: NS, title: "Qadam", root: true,
     init: build,
     show() {
-      measure();
-      /* oxirgi ochilgan boʻlim mayoq roʻparasida tursin */
+      fit();
+      /* oxirgi ochilgan boʻlim oʻrtada tursin */
       let last = null;
       try { last = localStorage.getItem("hamroh:tab"); } catch (e) {}
       const i = list.map(m => m.id).indexOf(last);
-      if (i >= 0 && i !== sel) { sel = i; paint(); }
+      if (i >= 0 && i !== sel) { sel = i; paintHead(); }
       setAngle(angleFor(sel), false);
     }
   });

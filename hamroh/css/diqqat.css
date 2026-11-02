@@ -38,4 +38,4 @@
 :root[data-diqqat="1"] .h-top{display:none}
 :root[data-diqqat="1"] #h-alerts{display:none}
 :root[data-diqqat="1"] .h-wrap{padding-top:26px;padding-bottom:104px}
-:root[data-diqqat="1"] .r-screen{min-height:calc(100dvh - 142px)}
+:root[data-diqqat="1"] .r-screen{min-height:calc(100dvh - 26px);margin-bottom:-104px}

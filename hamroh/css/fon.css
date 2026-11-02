@@ -32,7 +32,7 @@ body::before{
 /* ---------- mayinlik ---------- */
 
 /* bosganda chiqadigan kulrang yaltirash olib tashlanadi */
-html{-webkit-tap-highlight-color:transparent}
+html{-webkit-tap-highlight-color:transparent;overflow-x:clip}
 
 /* chetga yetganda sahifa ortidagi oyna tortilmasin */
 body{overscroll-behavior-y:contain}
