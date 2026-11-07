@@ -8,7 +8,7 @@
   min-height:calc(100dvh - 73px);margin-bottom:-90px;padding:0;
   --Rd:min(30vw,118px);          /* tagdagi doira radiusi */
   --Dy:calc(var(--Rd) * .68);    /* doira markazi ekran tagidan shuncha pastda */
-  --pw:min(48vw,182px);          /* panelning eng keng joyi */
+  --pw:min(68vw,258px);          /* panelning eng keng joyi */
   --pad:20px;
   --glint:rgba(255,255,255,.3);  /* panel tepasidagi yorugʻlik */
   /* xanjar shakli: uchi tepada, yelkasi keng, tagi tor.

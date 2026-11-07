@@ -217,7 +217,7 @@
     /* yelpigʻich 360° emas. Qadam shunday tanlanganki, qoʻshni panellar
        bir-birining ustiga tushmasin — yonma-yon, orasida kichik tirqish bilan
        tursin. Toʻliq aylanish list.length * step ga teng. */
-    step = 16;
+    step = 21;
 
     el.innerHTML =
       '<div class="r-screen">' +
