@@ -102,7 +102,7 @@
       const th = norm(i * step + ang);        /* ekrandagi haqiqiy burchak */
       const d = Math.abs(th);
       /* chetdagilar ham ancha toʻq — faqat chekkaga borganda tez soʻnadi */
-      const o = d < FADE ? Math.max(0, 1 - Math.pow(d / FADE, 2)) : 0;
+      const o = d < FADE ? Math.max(0, 1 - Math.pow(d / FADE, 1.3)) : 0;
       b.style.setProperty("--th", th.toFixed(2) + "deg");
       /* oʻrtaga qaragan yoni: chapdagining oʻng cheti, oʻngdagining chap cheti */
       b.style.setProperty("--yon", th < 0 ? "to left" : "to right");
