@@ -44,7 +44,7 @@
   position:absolute;inset:0;clip-path:var(--xanjar);
   --fillc:color-mix(in srgb, var(--surface) 82%, transparent);
   /* panel yuqoridan pastga qarab xiralashib, yoʻqolib ketadi */
-  background:linear-gradient(to bottom, var(--fillc) 0 15%, transparent 100%);
+  background:linear-gradient(to bottom, var(--fillc) 0, transparent 100%);
 }
 .r-txt{
   /* panel chetga burilganda yozuv markazga yaqinroq suriladi */
