@@ -63,8 +63,8 @@
     const pts = [
       { x: W * 0.5,  y: 0 },          /* uchi */
       { x: W,        y: H * 0.21 },   /* oʻng yelka */
-      { x: W * 0.66, y: H },          /* pastki oʻng */
-      { x: W * 0.34, y: H },          /* pastki chap */
+      { x: W * 0.58, y: H },          /* pastki oʻng */
+      { x: W * 0.42, y: H },          /* pastki chap */
       { x: 0,        y: H * 0.21 }    /* chap yelka */
     ];
     screenEl.style.setProperty("--xanjar", 'path("' + roundPath(pts, W * 0.2) + '")');
@@ -214,9 +214,10 @@
 
   function build(el) {
     list = H.mods.filter(m => m.id !== NS);
-    /* yelpigʻich 360° emas — panellar bir-biriga yaqinroq tursin.
-       Toʻliq aylanish list.length * step ga teng, oʻrash shunga qarab ishlaydi. */
-    step = 18;
+    /* yelpigʻich 360° emas. Qadam shunday tanlanganki, qoʻshni panellar
+       bir-birining ustiga tushmasin — yonma-yon, orasida kichik tirqish bilan
+       tursin. Toʻliq aylanish list.length * step ga teng. */
+    step = 16;
 
     el.innerHTML =
       '<div class="r-screen">' +
