@@ -34,6 +34,40 @@
     return a > f / 2 ? a - f : a;
   };
 
+  /* ---------- xanjar shakli ----------
+     Burchaklari dumaloq koʻpburchak: har bir uchida ikki tomonga r qadam
+     chekinib, uchning oʻzini egri chiziq nazoratchisi qilamiz. */
+  function roundPath(pts, r) {
+    const n = pts.length;
+    let d = "";
+    for (let i = 0; i < n; i++) {
+      const p = pts[i], a = pts[(i - 1 + n) % n], b = pts[(i + 1) % n];
+      const v1x = a.x - p.x, v1y = a.y - p.y, l1 = Math.hypot(v1x, v1y) || 1;
+      const v2x = b.x - p.x, v2y = b.y - p.y, l2 = Math.hypot(v2x, v2y) || 1;
+      const rr = Math.min(r, l1 / 2, l2 / 2);
+      const sx = p.x + v1x * rr / l1, sy = p.y + v1y * rr / l1;
+      const ex = p.x + v2x * rr / l2, ey = p.y + v2y * rr / l2;
+      d += (i ? "L" : "M") + sx.toFixed(1) + " " + sy.toFixed(1) +
+           "Q" + p.x.toFixed(1) + " " + p.y.toFixed(1) + " " +
+           ex.toFixed(1) + " " + ey.toFixed(1);
+    }
+    return d + "Z";
+  }
+
+  function shape() {
+    if (!screenEl || !nodes.length) return;
+    const W = nodes[0].offsetWidth, H = nodes[0].offsetHeight;
+    if (!W || !H) return;
+    const pts = [
+      { x: W * 0.5,  y: 0 },          /* uchi */
+      { x: W,        y: H * 0.21 },   /* oʻng yelka */
+      { x: W * 0.66, y: H },          /* pastki oʻng */
+      { x: W * 0.34, y: H },          /* pastki chap */
+      { x: 0,        y: H * 0.21 }    /* chap yelka */
+    ];
+    screenEl.style.setProperty("--xanjar", 'path("' + roundPath(pts, W * 0.2) + '")');
+  }
+
   /* Sahifa aynan ekran boʻyi boʻlsin — doira tagga tegsin, ortiqcha surilish
      boʻlmasin. .h-wrap ning pastki chekkasi bekor qilinadi. */
   function fit() {
@@ -43,6 +77,7 @@
     screenEl.style.marginBottom = -pb + "px";
     const t = screenEl.getBoundingClientRect().top + (window.scrollY || 0);
     screenEl.style.minHeight = Math.max(360, Math.round(window.innerHeight - t)) + "px";
+    shape();
   }
 
   /* oʻrtada (yoyning tepasida) turgan boʻlim */

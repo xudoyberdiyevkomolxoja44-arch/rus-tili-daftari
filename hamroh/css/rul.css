@@ -5,9 +5,10 @@
   display:flex;flex-direction:column;align-items:stretch;
   min-height:calc(100dvh - 73px);margin-bottom:-90px;padding:0;
   --Rd:min(30vw,118px);          /* tagdagi doira radiusi */
-  --pw:min(46vw,174px);          /* panelning eng keng joyi */
+  --pw:min(60vw,228px);          /* panelning eng keng joyi */
   --pad:20px;
-  /* xanjar shakli: uchi tepada, yelkasi keng, tagi tor */
+  /* xanjar shakli: uchi tepada, yelkasi keng, tagi tor.
+     Burchaklari dumaloq path() ni JS hisoblab qoʻyadi — bu zaxira. */
   --xanjar:polygon(50% 0%, 100% 21%, 66% 100%, 34% 100%, 0% 21%);
 }
 
@@ -27,9 +28,9 @@
 /* ---------- yelpigʻich panellari ---------- */
 .r-item{
   position:absolute;left:50%;bottom:0;
-  width:var(--pw);height:calc(80% - var(--Rd));
+  width:var(--pw);height:calc(88% - var(--Rd));
   margin-left:calc(-.5 * var(--pw));
-  padding:0;background:var(--line);border:none;
+  padding:0;background:none;border:none;
   clip-path:var(--xanjar);
   transform-origin:50% 100%;
   /* burchakni JS beradi — yelpigʻich chetida oʻralib ketmasin */
@@ -37,14 +38,14 @@
             translateY(calc(-1 * var(--Rd)))
             scale(var(--sc,1));
 }
-/* ichki toʻldirish — chekkada ingichka chiziq qolsin */
+/* toʻldirish — ramkasiz, faqat rang */
 .r-fill{
-  position:absolute;inset:2px;clip-path:var(--xanjar);
-  background:color-mix(in srgb, var(--surface) 74%, transparent);
+  position:absolute;inset:0;clip-path:var(--xanjar);
+  background:color-mix(in srgb, var(--surface) 78%, transparent);
   -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
 }
 .r-txt{
-  position:absolute;left:10%;right:10%;top:14%;
+  position:absolute;left:10%;right:10%;top:17%;
   text-align:center;color:var(--ink-2);
 }
 .r-txt b{display:block;font-family:var(--f-serif);font-size:19px;line-height:1.15}
@@ -54,8 +55,7 @@
 }
 
 /* oʻrtaga kelgani toʻqroq */
-.r-item.on{background:var(--accent)}
-.r-item.on .r-fill{background:color-mix(in srgb, var(--accent-soft) 90%, transparent)}
+.r-item.on .r-fill{background:color-mix(in srgb, var(--accent-soft) 94%, transparent)}
 .r-item.on .r-txt{color:var(--ink)}
 .r-item.on .r-txt b{font-weight:700}
 .r-item.on .r-txt i{opacity:1}
