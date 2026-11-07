@@ -104,10 +104,11 @@
       /* chetdagi panelning yozuvi ekrandan chiqib ketmasin — ichkariroqqa */
       b.style.setProperty("--tt", (16 + Math.min(d, step) / step * 20).toFixed(1) + "%");
       b.style.opacity = o.toFixed(3);
-      b.style.setProperty("--sc", (1 - Math.min(d, FADE) / FADE * 0.08).toFixed(3));
-      /* 3D: panel oʻz oʻqi boʻylab buriladi va orqaga uzoqlashadi */
-      b.style.setProperty("--ry", (th * 1.5).toFixed(1) + "deg");
-      b.style.setProperty("--tz", (-Math.min(d, FADE) * 1.7).toFixed(0) + "px");
+      /* 3D: panel oʻz oʻqi boʻylab buriladi, orqaga uzoqlashadi va kichrayadi —
+         shunda chetdagilarning uchi ham ekranga sigʻadi */
+      b.style.setProperty("--sc", (1 - Math.min(d, FADE) / FADE * 0.55).toFixed(3));
+      b.style.setProperty("--ry", (th * 2).toFixed(1) + "deg");
+      b.style.setProperty("--tz", (-Math.min(d, FADE) * 3.2).toFixed(0) + "px");
       b.style.zIndex = String(120 - Math.round(d));
       b.style.pointerEvents = o > 0.12 ? "auto" : "none";
       const on = i === sel;
@@ -215,7 +216,6 @@
 
     el.innerHTML =
       '<div class="r-screen">' +
-        '<p class="r-note">Surib tanlang, oʻrtadagisini bosib kiring</p>' +
         '<div class="r-stage" id="r-wrap" data-noswipe role="group" aria-label="Boʻlimlar chambaragi">' +
           list.map((m, i) =>
             '<button class="r-item" type="button" style="--a:' + (i * step) + 'deg">' +

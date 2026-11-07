@@ -14,10 +14,6 @@
   --xanjar:polygon(50% 0%, 100% 21%, 66% 100%, 34% 100%, 0% 21%);
 }
 
-.r-note{
-  margin:0;padding:2px 18px 6px;text-align:center;
-  font-size:12.5px;color:var(--ink-3);line-height:1.35;
-}
 
 /* ---------- sahna ---------- */
 .r-stage{
