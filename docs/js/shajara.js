@@ -283,7 +283,7 @@
   let CW = 174, CH = 74, AV = 58, LINES = 3;
   let autoLines = 0;   // oʻlchab aniqlangan qator soni
   let fitPass = 0;     // oʻlchash urinishlari soni
-  const MG = 14, GX = 14, GY = 42;
+  const MG = 14, GX = 14, GY = 26;
 
   /* Eng uzun FISH sigʻadigan qilib katak oʻlchamini tanlaymiz.
      Surat doim katakning uchdan birini egallaydi (AV * 3 = CW). */
