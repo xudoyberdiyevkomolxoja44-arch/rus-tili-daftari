@@ -1,88 +1,92 @@
-/* ============ Rul — boʻlimlar chambaragi ============ */
+/* ============ Rul — boʻlimlar yelpigʻichi ============
+   Ekran tagida doira, ichida strelka. Boʻlim panellari doiradan tashqariga
+   yelpigʻichdek yoyilgan: oʻrtaga kelgani toʻq, ikki chetdagisi xira. */
 .r-screen{
-  display:flex;flex-direction:column;align-items:center;
-  /* sarlavha (≈55px) va .h-wrap tepa chekkasi (18px) ayriladi;
-     pastki 90px chekka esa bekor qilinadi — doira ekran tagiga tegsin */
+  display:flex;flex-direction:column;align-items:stretch;
   min-height:calc(100dvh - 73px);margin-bottom:-90px;padding:0;
-  --R:min(66vw,258px);
-  --Rp:calc(var(--R) * .78);
-  --pw:min(34vw,132px);
+  --Rd:min(30vw,118px);          /* tagdagi doira radiusi */
+  --pw:min(46vw,174px);          /* panelning eng keng joyi */
   --pad:20px;
+  /* xanjar shakli: uchi tepada, yelkasi keng, tagi tor */
+  --xanjar:polygon(50% 0%, 100% 21%, 66% 100%, 34% 100%, 0% 21%);
 }
 
-/* tanlangan boʻlim nomi — yuqorida */
-.r-head{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
-  text-align:center;padding:14px 16px 12px;gap:6px;
-}
-.r-head b{font-family:var(--f-serif);font-size:30px;line-height:1.15;letter-spacing:-.01em}
-.r-head i{font-style:normal;font-size:13.5px;color:var(--ink-3);line-height:1.3}
-
-/* mayoq — oʻrtadagi panelga qaragan belgi */
-.r-mark{
-  position:absolute;left:50%;top:9px;margin-left:-7px;z-index:200;
-  width:0;height:0;
-  border-left:7px solid transparent;border-right:7px solid transparent;
-  border-top:9px solid var(--accent);
+.r-note{
+  margin:0;padding:2px 18px 8px;text-align:center;
+  font-size:12.5px;color:var(--ink-3);line-height:1.35;
 }
 
-.r-turns{display:flex;align-items:center;gap:12px;width:min(86vw,330px);margin:0 0 16px}
-.r-turn{
-  flex:0 0 auto;width:42px;height:42px;border-radius:50%;
-  border:1px solid var(--line);
-  background:color-mix(in srgb, var(--surface) 60%, transparent);
-  color:var(--ink-2);font-size:21px;line-height:1;
-}
-.r-note{flex:1;font-size:12.5px;color:var(--ink-3);text-align:center}
-
-/* ---------- ekran tagidagi doira ---------- */
-/* sahna .h-wrap chekkalaridan tashqariga chiqadi — doira ekran chetiga tegsin */
+/* ---------- sahna ---------- */
 .r-stage{
-  position:relative;height:var(--R);overflow:hidden;
-  align-self:stretch;margin:0 calc(-1 * var(--pad));
+  position:relative;flex:1;min-height:320px;overflow:hidden;
+  margin:0 calc(-1 * var(--pad));
   touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;
 }
 .r-stage.r-grab{cursor:grabbing}
 
-/* doiraning faqat yuqori yarmi — qolgani ekran tagida */
-.r-disc{
+/* ---------- yelpigʻich panellari ---------- */
+.r-item{
   position:absolute;left:50%;bottom:0;
-  width:calc(2 * var(--R));height:var(--R);margin-left:calc(-1 * var(--R));
-  border:1px solid var(--line);border-bottom:none;
-  border-radius:var(--R) var(--R) 0 0;
-  background:color-mix(in srgb, var(--surface) 42%, transparent);
-  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  width:var(--pw);height:calc(80% - var(--Rd));
+  margin-left:calc(-.5 * var(--pw));
+  padding:0;background:var(--line);border:none;
+  clip-path:var(--xanjar);
+  transform-origin:50% 100%;
+  /* burchakni JS beradi — yelpigʻich chetida oʻralib ketmasin */
+  transform:rotate(var(--th,0deg))
+            translateY(calc(-1 * var(--Rd)))
+            scale(var(--sc,1));
 }
-/* ichki punktir yoy — milliy bezak bilan bir ohangda */
-.r-disc::after{
-  content:"";position:absolute;left:50%;bottom:0;
-  width:52%;height:52%;margin-left:-26%;
-  border:1px dashed color-mix(in srgb, var(--accent) 34%, transparent);
-  border-bottom:none;border-radius:50% 50% 0 0 / 100% 100% 0 0;
+/* ichki toʻldirish — chekkada ingichka chiziq qolsin */
+.r-fill{
+  position:absolute;inset:2px;clip-path:var(--xanjar);
+  background:color-mix(in srgb, var(--surface) 74%, transparent);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+}
+.r-txt{
+  position:absolute;left:10%;right:10%;top:14%;
+  text-align:center;color:var(--ink-2);
+}
+.r-txt b{display:block;font-family:var(--f-serif);font-size:19px;line-height:1.15}
+.r-txt i{
+  display:block;font-style:normal;font-size:12px;line-height:1.3;
+  color:var(--ink-3);margin-top:4px;opacity:0;
 }
 
-/* ---------- panellar ---------- */
-.r-item{
-  position:absolute;left:50%;bottom:0;width:var(--pw);
-  padding:11px 9px;border-radius:14px;
-  border:1px solid color-mix(in srgb, var(--line) 85%, transparent);
-  background:color-mix(in srgb, var(--surface) 52%, transparent);
-  -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
-  color:var(--ink-2);font-size:13.5px;line-height:1.2;text-align:center;
-  /* markaz — doira markazi (sahna tagining oʻrtasi); yozuv doim tik turadi */
-  transform:
-    translate(-50%,50%)
-    rotate(calc(var(--a) + var(--dial,0deg)))
-    translateY(calc(-1 * var(--Rp)))
-    rotate(calc(-1 * var(--a) - var(--dial,0deg)))
-    scale(var(--sc,1));
+/* oʻrtaga kelgani toʻqroq */
+.r-item.on{background:var(--accent)}
+.r-item.on .r-fill{background:color-mix(in srgb, var(--accent-soft) 90%, transparent)}
+.r-item.on .r-txt{color:var(--ink)}
+.r-item.on .r-txt b{font-weight:700}
+.r-item.on .r-txt i{opacity:1}
+
+/* ---------- tagdagi doira va strelka ---------- */
+.r-disc{
+  position:absolute;left:50%;bottom:0;z-index:150;
+  width:calc(2 * var(--Rd));height:var(--Rd);margin-left:calc(-1 * var(--Rd));
+  border:1px solid var(--line);border-bottom:none;
+  border-radius:var(--Rd) var(--Rd) 0 0;
+  background:color-mix(in srgb, var(--surface) 72%, transparent);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;
 }
-.r-item.on{
-  border-color:var(--accent);
-  background:color-mix(in srgb, var(--accent-soft) 72%, transparent);
-  color:var(--ink);font-weight:700;
-  box-shadow:var(--shadow);
+.r-ok{
+  width:38%;max-width:52px;height:auto;margin-bottom:4%;
+  fill:none;stroke:var(--accent);stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
 }
+
+/* ---------- burish tugmalari ---------- */
+.r-turn{
+  position:absolute;bottom:14px;z-index:160;
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--line);
+  background:color-mix(in srgb, var(--surface) 70%, transparent);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  color:var(--ink-2);font-size:20px;line-height:1;
+}
+.r-turn.chap{left:14px}
+.r-turn.ong{right:14px}
 
 /* burilish silliq boʻlsin — faqat qoʻyib yuborilganda */
 .r-anim .r-item{
@@ -93,9 +97,7 @@
 
 @media (max-width:560px){
   .r-screen{--pad:14px}
-  .r-head b{font-size:26px}
 }
 @media (max-height:700px){
-  .r-screen{--R:min(60vw,228px)}
-  .r-head b{font-size:24px}
+  .r-txt b{font-size:17px}
 }

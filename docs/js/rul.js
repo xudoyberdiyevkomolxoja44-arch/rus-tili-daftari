@@ -19,14 +19,20 @@
     sozlama: "profil va zaxira"
   };
 
-  const FADE = 92;                /* shu burchakdan nariga panel koʻrinmaydi */
+  const FADE = 44;                /* shu burchakdan nariga panel koʻrinmaydi */
 
   let list = [], nodes = [];
-  let wrap, screenEl, headName, headHint;
+  let wrap, screenEl;
   let ang = 0, step = 40, sel = 0;
 
   const nom = m => SHORT[m.id] || m.title;
-  const norm = a => ((a + 180) % 360 + 360) % 360 - 180;
+  /* yelpigʻich bir aylanishi = list.length * step; burchak shunga qarab
+     [-yarim, +yarim] oraligʻiga keltiriladi */
+  const norm = a => {
+    const f = list.length * step || 360;
+    a = ((a % f) + f) % f;
+    return a > f / 2 ? a - f : a;
+  };
 
   /* Sahifa aynan ekran boʻyi boʻlsin — doira tagga tegsin, ortiqcha surilish
      boʻlmasin. .h-wrap ning pastki chekkasi bekor qilinadi. */
@@ -53,13 +59,15 @@
     return t;
   }
 
-  /* panellar: oʻrtadagisi yorqin, chetga borgani sayin xiralashadi */
+  /* panellar: oʻrtadagisi toʻq, chetga borgani sayin xiralashadi */
   function paintArc() {
     nodes.forEach((b, i) => {
-      const d = Math.abs(norm(i * step + ang));
-      const o = d < FADE ? Math.max(0, 1 - Math.pow(d / FADE, 1.25)) : 0;
+      const th = norm(i * step + ang);        /* ekrandagi haqiqiy burchak */
+      const d = Math.abs(th);
+      const o = d < FADE ? Math.max(0, 1 - d / FADE) : 0;
+      b.style.setProperty("--th", th.toFixed(2) + "deg");
       b.style.opacity = o.toFixed(3);
-      b.style.setProperty("--sc", (1 - Math.min(d, FADE) / FADE * 0.3).toFixed(3));
+      b.style.setProperty("--sc", (1 - Math.min(d, FADE) / FADE * 0.08).toFixed(3));
       b.style.zIndex = String(120 - Math.round(d));
       b.style.pointerEvents = o > 0.12 ? "auto" : "none";
       const on = i === sel;
@@ -69,13 +77,6 @@
     });
   }
 
-  function paintHead() {
-    const m = list[sel];
-    if (!m) return;
-    headName.textContent = nom(m);
-    headHint.textContent = HINT[m.id] || "";
-  }
-
   function setAngle(a, animate) {
     ang = a;
     wrap.classList.toggle("r-anim", !!animate);
@@ -83,7 +84,6 @@
     const i = indexAt(a);
     if (i !== sel) {
       sel = i;
-      paintHead();
       try { navigator.vibrate && navigator.vibrate(8); } catch (e) {}
     }
     paintArc();
@@ -169,39 +169,38 @@
 
   function build(el) {
     list = H.mods.filter(m => m.id !== NS);
-    step = 360 / list.length;
+    /* yelpigʻich 360° emas — panellar bir-biriga yaqinroq tursin.
+       Toʻliq aylanish list.length * step ga teng, oʻrash shunga qarab ishlaydi. */
+    step = 18;
 
     el.innerHTML =
       '<div class="r-screen">' +
-        '<div class="r-head">' +
-          '<b id="r-name"></b>' +
-          '<i id="r-hint"></i>' +
-        '</div>' +
-        '<div class="r-turns">' +
-          '<button class="r-turn" type="button" data-t="-1" aria-label="Chapga burish">‹</button>' +
-          '<span class="r-note">Chambarakni burib boʻlim tanlang, oʻrtadagisini bosib kiring</span>' +
-          '<button class="r-turn" type="button" data-t="1" aria-label="Oʻngga burish">›</button>' +
-        '</div>' +
+        '<p class="r-note">Chambarakni burib boʻlim tanlang, oʻrtadagisini bosib kiring</p>' +
         '<div class="r-stage" id="r-wrap" data-noswipe role="group" aria-label="Boʻlimlar chambaragi">' +
-          '<div class="r-disc" aria-hidden="true"></div>' +
-          '<span class="r-mark" aria-hidden="true"></span>' +
           list.map((m, i) =>
             '<button class="r-item" type="button" style="--a:' + (i * step) + 'deg">' +
-            nom(m) + '</button>').join("") +
+              '<span class="r-fill" aria-hidden="true"></span>' +
+              '<span class="r-txt"><b>' + nom(m) + '</b>' +
+              '<i>' + (HINT[m.id] || "") + '</i></span>' +
+            '</button>').join("") +
+          '<div class="r-disc" aria-hidden="true">' +
+            '<svg class="r-ok" viewBox="0 0 24 24" aria-hidden="true">' +
+              '<path d="M12 21V5M12 4 4.5 12.5M12 4l7.5 8.5"/>' +
+            '</svg>' +
+          '</div>' +
+          '<button class="r-turn chap" type="button" data-t="-1" aria-label="Chapga burish">‹</button>' +
+          '<button class="r-turn ong" type="button" data-t="1" aria-label="Oʻngga burish">›</button>' +
         '</div>' +
       '</div>';
 
     wrap = el.querySelector("#r-wrap");
     screenEl = el.querySelector(".r-screen");
     nodes = [].slice.call(el.querySelectorAll(".r-item"));
-    headName = el.querySelector("#r-name");
-    headHint = el.querySelector("#r-hint");
 
     el.querySelectorAll(".r-turn").forEach(b =>
       b.addEventListener("click", () => turn(Number(b.dataset.t))));
 
     bind();
-    paintHead();
     addEventListener("resize", fit);
     addEventListener("orientationchange", fit);
   }
@@ -215,7 +214,7 @@
       let last = null;
       try { last = localStorage.getItem("hamroh:tab"); } catch (e) {}
       const i = list.map(m => m.id).indexOf(last);
-      if (i >= 0 && i !== sel) { sel = i; paintHead(); }
+      if (i >= 0 && i !== sel) sel = i;
       setAngle(angleFor(sel), false);
     }
   });
