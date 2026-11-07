@@ -442,15 +442,37 @@
       }
     }
 
+    /* 7. Bitta avlod bitta chiziqda turmasin.
+       Tugʻilgan yiliga qarab kattasi tepada, kichigi pastda turadi.
+       Qatorda odam qancha koʻp boʻlsa, shuncha koʻp pogʻona —
+       yolgʻiz yoki ikki kishilik qator esa tekis qoladi. */
+    const STEP = Math.round(CH * 0.38);
+    const tops = [];
+    let yAt = 0;
+    rows.forEach((row, r) => {
+      const n = row.length;
+      const lev = Math.max(1, Math.min(4, Math.ceil(n / 2)));
+      if (lev > 1) {
+        row.slice()
+          .sort((a, b) => String(key(a)).localeCompare(String(key(b))) || a.ord.localeCompare(b.ord))
+          .forEach((u, i) => { u.dy = Math.floor(i * lev / n) * STEP; });
+      } else row.forEach(u => { u.dy = 0; });
+      tops[r] = yAt;
+      let low = 0;
+      row.forEach(u => { u.y = yAt + u.dy; low = Math.max(low, u.dy); });
+      yAt += low + CH + GY;
+    });
+    const totalH = Math.max(CH, yAt - GY) + 8;
+
     /* chapga suramiz */
     let minX = Infinity, maxX = -Infinity;
     units.forEach(u => { minX = Math.min(minX, u.x - u.w / 2); maxX = Math.max(maxX, u.x + u.w / 2); });
     units.forEach(u => { u.x -= minX - 8; });
 
     return {
-      units, links, rows,
+      units, links, rows, tops,
       width: Math.round(maxX - minX + 16),
-      height: rows.length * CH + (rows.length - 1) * GY + 8,
+      height: totalH,
       unconnected: d.people.length - unitOf.size
     };
   }
@@ -465,7 +487,7 @@
   function anchorX(u) {
     return u.x;
   }
-  const rowY = u => u.row * (CH + GY);
+  const rowY = u => u.y;
 
   function drawChart(ch) {
     const d = data();
@@ -485,7 +507,7 @@
     ch.links.forEach(l => {
       const px = anchorX(l.pu), py = rowY(l.pu) + CH;
       const cx = memberX(l.cu, l.childId), cy = rowY(l.cu);
-      const bus = py + GY / 2;
+      const bus = ch.tops[l.cu.row] - GY / 2;
       paths += '<path d="M' + px + ' ' + py + ' V' + bus + ' H' + cx + ' V' + cy + '"/>';
     });
     return '<div class="s-zoom"><div class="s-chart" data-w="' + ch.width + '" data-h="' + ch.height + '"' +
