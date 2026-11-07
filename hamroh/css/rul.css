@@ -58,6 +58,18 @@
 
 /* tanlov bir paneldan ikkinchisiga oʻtganda rang, soya va izoh asta almashadi */
 .r-item{transition:filter .45s ease}
+/* chetdagi panelning oʻrtaga qaragan yoni toʻqroq koʻrinadi */
+.r-fill::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  opacity:var(--yonop,0);
+  background:linear-gradient(var(--yon,to right),
+    color-mix(in srgb, var(--accent) 60%, transparent) 0,
+    transparent 52%);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0,transparent 100%);
+  transition:opacity .45s ease;
+}
+
 .r-fill{transition:--fillc .45s ease}
 .r-txt{transition:color .45s ease}
 .r-txt i{transition:opacity .45s ease}

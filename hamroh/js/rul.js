@@ -104,6 +104,9 @@
       /* chetdagilar ham ancha toʻq — faqat chekkaga borganda tez soʻnadi */
       const o = d < FADE ? Math.max(0, 1 - Math.pow(d / FADE, 2)) : 0;
       b.style.setProperty("--th", th.toFixed(2) + "deg");
+      /* oʻrtaga qaragan yoni: chapdagining oʻng cheti, oʻngdagining chap cheti */
+      b.style.setProperty("--yon", th < 0 ? "to right" : "to left");
+      b.style.setProperty("--yonop", (o > 0 ? Math.min(d, step) / step : 0).toFixed(3));
       /* chetdagi panelning yozuvi ekrandan chiqib ketmasin — ichkariroqqa */
       b.style.setProperty("--tt", (16 + Math.min(d, step) / step * 20).toFixed(1) + "%");
       b.style.opacity = o.toFixed(3);
