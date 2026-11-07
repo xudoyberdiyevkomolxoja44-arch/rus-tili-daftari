@@ -101,16 +101,16 @@
     nodes.forEach((b, i) => {
       const th = norm(i * step + ang);        /* ekrandagi haqiqiy burchak */
       const d = Math.abs(th);
-      const o = d < FADE ? Math.max(0, 1 - d / FADE) : 0;
+      /* chetdagilar ham ancha toʻq — faqat chekkaga borganda tez soʻnadi */
+      const o = d < FADE ? Math.max(0, 1 - Math.pow(d / FADE, 2)) : 0;
       b.style.setProperty("--th", th.toFixed(2) + "deg");
       /* chetdagi panelning yozuvi ekrandan chiqib ketmasin — ichkariroqqa */
       b.style.setProperty("--tt", (16 + Math.min(d, step) / step * 20).toFixed(1) + "%");
       b.style.opacity = o.toFixed(3);
-      /* 3D: panel oʻz oʻqi boʻylab buriladi, orqaga uzoqlashadi va kichrayadi —
-         shunda chetdagilarning uchi ham ekranga sigʻadi */
-      b.style.setProperty("--sc", (1 - Math.min(d, FADE) / FADE * 0.55).toFixed(3));
+      /* 3D: panel oʻz oʻqi boʻylab buriladi. Oʻlchami oʻrtadagi bilan bir xil —
+         kichraytirilmaydi, chuqurlik faqat sal sezilarli */
       b.style.setProperty("--ry", (th * 2).toFixed(1) + "deg");
-      b.style.setProperty("--tz", (-Math.min(d, FADE) * 3.2).toFixed(0) + "px");
+      b.style.setProperty("--tz", (-Math.min(d, FADE) * 1.5).toFixed(0) + "px");
       b.style.zIndex = String(120 - Math.round(d));
       b.style.pointerEvents = o > 0.12 ? "auto" : "none";
       const on = i === sel;
