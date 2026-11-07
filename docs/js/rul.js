@@ -221,17 +221,12 @@
               '<i>' + (HINT[m.id] || "") + '</i></span>' +
             '</button>').join("") +
           '<div class="r-disc" aria-hidden="true"></div>' +
-          '<button class="r-turn chap" type="button" data-t="-1" aria-label="Chapga burish">‹</button>' +
-          '<button class="r-turn ong" type="button" data-t="1" aria-label="Oʻngga burish">›</button>' +
         '</div>' +
       '</div>';
 
     wrap = el.querySelector("#r-wrap");
     screenEl = el.querySelector(".r-screen");
     nodes = [].slice.call(el.querySelectorAll(".r-item"));
-
-    el.querySelectorAll(".r-turn").forEach(b =>
-      b.addEventListener("click", () => turn(Number(b.dataset.t))));
 
     bind();
     addEventListener("resize", fit);

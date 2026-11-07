@@ -73,17 +73,6 @@
   -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
 }
 
-/* ---------- burish tugmalari ---------- */
-.r-turn{
-  position:absolute;bottom:14px;z-index:160;
-  width:40px;height:40px;border-radius:50%;
-  border:1px solid var(--line);
-  background:color-mix(in srgb, var(--surface) 70%, transparent);
-  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
-  color:var(--ink-2);font-size:20px;line-height:1;
-}
-.r-turn.chap{left:14px}
-.r-turn.ong{right:14px}
 
 /* burilish silliq boʻlsin — faqat qoʻyib yuborilganda */
 .r-anim .r-item{
