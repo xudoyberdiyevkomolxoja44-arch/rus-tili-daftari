@@ -5,16 +5,17 @@
   display:flex;flex-direction:column;align-items:stretch;
   min-height:calc(100dvh - 73px);margin-bottom:-90px;padding:0;
   --Rd:min(30vw,118px);          /* tagdagi doira radiusi */
-  --Dy:calc(var(--Rd) * .58);    /* doira markazi ekran tagidan shuncha pastda */
+  --Dy:calc(var(--Rd) * .68);    /* doira markazi ekran tagidan shuncha pastda */
   --pw:min(68vw,258px);          /* panelning eng keng joyi */
   --pad:20px;
+  --glint:rgba(255,255,255,.3);  /* panel tepasidagi yorugʻlik */
   /* xanjar shakli: uchi tepada, yelkasi keng, tagi tor.
      Burchaklari dumaloq path() ni JS hisoblab qoʻyadi — bu zaxira. */
   --xanjar:polygon(50% 0%, 100% 21%, 66% 100%, 34% 100%, 0% 21%);
 }
 
 .r-note{
-  margin:0;padding:2px 18px 8px;text-align:center;
+  margin:0;padding:2px 18px 6px;text-align:center;
   font-size:12.5px;color:var(--ink-3);line-height:1.35;
 }
 
@@ -22,6 +23,8 @@
 .r-stage{
   position:relative;flex:1;min-height:320px;overflow:hidden;
   margin:0 calc(-1 * var(--pad));
+  /* chuqurlik: panellar chetga borgani sayin oʻz oʻqi boʻylab burilib uzoqlashadi */
+  perspective:820px;perspective-origin:50% 100%;
   touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;
 }
 .r-stage.r-grab{cursor:grabbing}
@@ -29,7 +32,7 @@
 /* ---------- yelpigʻich panellari ---------- */
 .r-item{
   position:absolute;left:50%;bottom:calc(-1 * var(--Dy));
-  width:var(--pw);height:calc(92% + var(--Dy) - var(--Rd));
+  width:var(--pw);height:calc(97% + var(--Dy) - var(--Rd));
   margin-left:calc(-.5 * var(--pw));
   padding:0;background:none;border:none;
   clip-path:var(--xanjar);
@@ -37,15 +40,28 @@
   /* burchakni JS beradi — yelpigʻich chetida oʻralib ketmasin */
   transform:rotate(var(--th,0deg))
             translateY(calc(-1 * var(--Rd)))
+            translateZ(var(--tz,0px))
+            rotateY(var(--ry,0deg))
             scale(var(--sc,1));
 }
 /* toʻldirish — ramkasiz, faqat rang */
 .r-fill{
   position:absolute;inset:0;clip-path:var(--xanjar);
   --fillc:color-mix(in srgb, var(--surface) 82%, transparent);
-  /* panel yuqoridan pastga qarab xiralashib, yoʻqolib ketadi */
-  background:linear-gradient(to bottom, var(--fillc) 0, transparent 100%);
+  /* tepasida yorugʻlik, pastga qarab xiralashib yoʻqoladi */
+  background:
+    radial-gradient(130% 52% at 50% 1%, var(--glint), transparent 68%),
+    linear-gradient(to bottom, var(--fillc) 0, transparent 100%);
 }
+
+/* hajm: soya xanjar shaklining oʻziga tushadi */
+.r-item{filter:drop-shadow(0 9px 16px color-mix(in srgb, var(--ink) 11%, transparent))}
+.r-item.on{filter:drop-shadow(0 14px 26px color-mix(in srgb, var(--ink) 17%, transparent))}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .r-screen{--glint:rgba(255,255,255,.07)}
+}
+:root[data-theme="dark"] .r-screen{--glint:rgba(255,255,255,.07)}
 .r-txt{
   /* panel chetga burilganda yozuv markazga yaqinroq suriladi */
   position:absolute;left:10%;right:10%;top:var(--tt,17%);
