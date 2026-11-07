@@ -42,8 +42,9 @@
 /* toʻldirish — ramkasiz, faqat rang */
 .r-fill{
   position:absolute;inset:0;clip-path:var(--xanjar);
-  background:color-mix(in srgb, var(--surface) 78%, transparent);
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  --fillc:color-mix(in srgb, var(--surface) 82%, transparent);
+  /* panel yuqoridan pastga qarab xiralashib, yoʻqolib ketadi */
+  background:linear-gradient(to bottom, var(--fillc) 0 30%, transparent 92%);
 }
 .r-txt{
   /* panel chetga burilganda yozuv markazga yaqinroq suriladi */
@@ -57,7 +58,7 @@
 }
 
 /* oʻrtaga kelgani toʻqroq */
-.r-item.on .r-fill{background:color-mix(in srgb, var(--accent-soft) 94%, transparent)}
+.r-item.on .r-fill{--fillc:color-mix(in srgb, var(--accent-soft) 96%, transparent)}
 .r-item.on .r-txt{color:var(--ink)}
 .r-item.on .r-txt b{font-weight:700}
 .r-item.on .r-txt i{opacity:1}
@@ -70,12 +71,6 @@
   border-radius:var(--Rd) var(--Rd) 0 0;
   background:color-mix(in srgb, var(--surface) 72%, transparent);
   -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
-}
-.r-ok{
-  position:absolute;left:50%;top:5px;transform:translateX(-50%);
-  height:calc((var(--Rd) - var(--Dy)) * .6);width:auto;
-  fill:none;stroke:var(--accent);stroke-width:2;
-  stroke-linecap:round;stroke-linejoin:round;
 }
 
 /* ---------- burish tugmalari ---------- */

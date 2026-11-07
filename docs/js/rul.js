@@ -220,11 +220,7 @@
               '<span class="r-txt"><b>' + nom(m) + '</b>' +
               '<i>' + (HINT[m.id] || "") + '</i></span>' +
             '</button>').join("") +
-          '<div class="r-disc" aria-hidden="true">' +
-            '<svg class="r-ok" viewBox="0 0 24 24" aria-hidden="true">' +
-              '<path d="M12 21V5M12 4 4.5 12.5M12 4l7.5 8.5"/>' +
-            '</svg>' +
-          '</div>' +
+          '<div class="r-disc" aria-hidden="true"></div>' +
           '<button class="r-turn chap" type="button" data-t="-1" aria-label="Chapga burish">‹</button>' +
           '<button class="r-turn ong" type="button" data-t="1" aria-label="Oʻngga burish">›</button>' +
         '</div>' +
