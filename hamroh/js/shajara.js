@@ -549,10 +549,12 @@
       const zoom = box.querySelector(".s-zoom");
       if (chart && zoom) {
         const W = +chart.dataset.w, Hh = +chart.dataset.h;
-        const fit = () => Math.max(0.2, Math.min(1, (box.clientWidth - 8) / W, (box.clientHeight - 8) / Hh));
+        /* katta shajara butunlay koʻrinishi uchun ancha kichrayishga ruxsat */
+        const MIN_K = 0.06, MAX_K = 2;
+        const fit = () => Math.max(MIN_K, Math.min(1, (box.clientWidth - 8) / W, (box.clientHeight - 8) / Hh));
         let k = d.zoom ? d.zoom : fit();
         const apply = v => {
-          k = Math.max(0.2, Math.min(2, v));
+          k = Math.max(MIN_K, Math.min(MAX_K, v));
           chart.style.transform = "scale(" + k + ")";
           zoom.style.width = Math.ceil(W * k) + "px";
           zoom.style.height = Math.ceil(Hh * k) + "px";
