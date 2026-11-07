@@ -20,7 +20,7 @@
   };
 
   const FADE = 44;                /* shu burchakdan nariga panel koʻrinmaydi */
-  const OGIR = 0.62;              /* chambarak «ogʻirligi»: barmoqdan sekinroq aylanadi */
+  const OGIR = 0.42;              /* chambarak «ogʻirligi»: barmoqdan sekinroq aylanadi */
   const TITRASH = 18;             /* har bir boʻlim almashganda shuncha ms titraydi */
 
   let list = [], nodes = [];
@@ -136,7 +136,7 @@
   function settle(i) {
     const t = angleFor(i);
     const far = Math.abs(t - ang) / step;
-    wrap.style.setProperty("--spin", (0.3 + Math.min(far, 4) * 0.11).toFixed(2) + "s");
+    wrap.style.setProperty("--spin", (0.42 + Math.min(far, 4) * 0.14).toFixed(2) + "s");
     setAngle(t, true);
   }
 
@@ -200,7 +200,7 @@
         if (b.t > a.t) v = (b.a - a.a) / (b.t - a.t);        /* daraja/ms */
       }
       const lim = 2 * step;
-      settle(indexAt(ang + Math.max(-lim, Math.min(lim, v * 85))));
+      settle(indexAt(ang + Math.max(-lim, Math.min(lim, v * 60))));
     };
     wrap.addEventListener("pointerup", end);
     wrap.addEventListener("pointercancel", end);

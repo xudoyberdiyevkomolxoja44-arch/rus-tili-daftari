@@ -1,3 +1,5 @@
+@property --fillc{syntax:"<color>";inherits:false;initial-value:transparent}
+
 /* ============ Rul — boʻlimlar yelpigʻichi ============
    Ekran tagida doira, ichida strelka. Boʻlim panellari doiradan tashqariga
    yelpigʻichdek yoyilgan: oʻrtaga kelgani toʻq, ikki chetdagisi xira. */
@@ -54,6 +56,12 @@
 .r-item{filter:drop-shadow(0 9px 16px color-mix(in srgb, var(--ink) 11%, transparent))}
 .r-item.on{filter:drop-shadow(0 14px 26px color-mix(in srgb, var(--ink) 17%, transparent))}
 
+/* tanlov bir paneldan ikkinchisiga oʻtganda rang, soya va izoh asta almashadi */
+.r-item{transition:filter .45s ease}
+.r-fill{transition:--fillc .45s ease}
+.r-txt{transition:color .45s ease}
+.r-txt i{transition:opacity .45s ease}
+
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]) .r-screen{--glint:rgba(255,255,255,.07)}
 }
@@ -72,7 +80,6 @@
 /* oʻrtaga kelgani toʻqroq */
 .r-item.on .r-fill{--fillc:color-mix(in srgb, var(--accent-soft) 96%, transparent)}
 .r-item.on .r-txt{color:var(--ink)}
-.r-item.on .r-txt b{font-weight:700}
 .r-item.on .r-txt i{opacity:1}
 
 /* ---------- tagdagi doira va strelka ---------- */
@@ -88,8 +95,10 @@
 
 /* burilish silliq boʻlsin — faqat qoʻyib yuborilganda */
 .r-anim .r-item{
-  transition:transform var(--spin,.4s) cubic-bezier(.2,.9,.25,1),
-             opacity var(--spin,.4s) cubic-bezier(.2,.9,.25,1);
+  /* ogʻir gʻildirakdek: joyidan sekin qoʻzgʻalib, uzoq sekinlashib toʻxtaydi */
+  transition:transform var(--spin,.56s) cubic-bezier(.38,.68,.22,1),
+             opacity var(--spin,.56s) cubic-bezier(.38,.68,.22,1),
+             filter .45s ease;
 }
 .r-grab .r-item{will-change:transform,opacity}
 
