@@ -101,6 +101,8 @@
       const d = Math.abs(th);
       const o = d < FADE ? Math.max(0, 1 - d / FADE) : 0;
       b.style.setProperty("--th", th.toFixed(2) + "deg");
+      /* chetdagi panelning yozuvi ekrandan chiqib ketmasin — ichkariroqqa */
+      b.style.setProperty("--tt", (16 + Math.min(d, step) / step * 20).toFixed(1) + "%");
       b.style.opacity = o.toFixed(3);
       b.style.setProperty("--sc", (1 - Math.min(d, FADE) / FADE * 0.08).toFixed(3));
       b.style.zIndex = String(120 - Math.round(d));

@@ -5,7 +5,8 @@
   display:flex;flex-direction:column;align-items:stretch;
   min-height:calc(100dvh - 73px);margin-bottom:-90px;padding:0;
   --Rd:min(30vw,118px);          /* tagdagi doira radiusi */
-  --pw:min(60vw,228px);          /* panelning eng keng joyi */
+  --Dy:calc(var(--Rd) * .58);    /* doira markazi ekran tagidan shuncha pastda */
+  --pw:min(68vw,258px);          /* panelning eng keng joyi */
   --pad:20px;
   /* xanjar shakli: uchi tepada, yelkasi keng, tagi tor.
      Burchaklari dumaloq path() ni JS hisoblab qoʻyadi — bu zaxira. */
@@ -27,8 +28,8 @@
 
 /* ---------- yelpigʻich panellari ---------- */
 .r-item{
-  position:absolute;left:50%;bottom:0;
-  width:var(--pw);height:calc(88% - var(--Rd));
+  position:absolute;left:50%;bottom:calc(-1 * var(--Dy));
+  width:var(--pw);height:calc(92% + var(--Dy) - var(--Rd));
   margin-left:calc(-.5 * var(--pw));
   padding:0;background:none;border:none;
   clip-path:var(--xanjar);
@@ -45,7 +46,8 @@
   -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
 }
 .r-txt{
-  position:absolute;left:10%;right:10%;top:17%;
+  /* panel chetga burilganda yozuv markazga yaqinroq suriladi */
+  position:absolute;left:10%;right:10%;top:var(--tt,17%);
   text-align:center;color:var(--ink-2);
 }
 .r-txt b{display:block;font-family:var(--f-serif);font-size:19px;line-height:1.15}
@@ -62,16 +64,16 @@
 
 /* ---------- tagdagi doira va strelka ---------- */
 .r-disc{
-  position:absolute;left:50%;bottom:0;z-index:150;
+  position:absolute;left:50%;bottom:calc(-1 * var(--Dy));z-index:150;
   width:calc(2 * var(--Rd));height:var(--Rd);margin-left:calc(-1 * var(--Rd));
   border:1px solid var(--line);border-bottom:none;
   border-radius:var(--Rd) var(--Rd) 0 0;
   background:color-mix(in srgb, var(--surface) 72%, transparent);
   -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
-  display:flex;align-items:center;justify-content:center;
 }
 .r-ok{
-  width:38%;max-width:52px;height:auto;margin-bottom:4%;
+  position:absolute;left:50%;top:5px;transform:translateX(-50%);
+  height:calc((var(--Rd) - var(--Dy)) * .6);width:auto;
   fill:none;stroke:var(--accent);stroke-width:2;
   stroke-linecap:round;stroke-linejoin:round;
 }
