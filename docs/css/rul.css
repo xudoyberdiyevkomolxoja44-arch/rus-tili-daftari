@@ -88,8 +88,8 @@
 
 /* burilish silliq boʻlsin — faqat qoʻyib yuborilganda */
 .r-anim .r-item{
-  transition:transform var(--spin,.24s) cubic-bezier(.17,.78,.3,1),
-             opacity var(--spin,.24s) ease-out;
+  transition:transform var(--spin,.4s) cubic-bezier(.2,.9,.25,1),
+             opacity var(--spin,.4s) cubic-bezier(.2,.9,.25,1);
 }
 .r-grab .r-item{will-change:transform,opacity}
 

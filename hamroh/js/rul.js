@@ -20,6 +20,8 @@
   };
 
   const FADE = 44;                /* shu burchakdan nariga panel koʻrinmaydi */
+  const OGIR = 0.62;              /* chambarak «ogʻirligi»: barmoqdan sekinroq aylanadi */
+  const TITRASH = 18;             /* har bir boʻlim almashganda shuncha ms titraydi */
 
   let list = [], nodes = [];
   let wrap, screenEl;
@@ -125,7 +127,7 @@
     const i = indexAt(a);
     if (i !== sel) {
       sel = i;
-      try { navigator.vibrate && navigator.vibrate(8); } catch (e) {}
+      try { navigator.vibrate && navigator.vibrate(TITRASH); } catch (e) {}
     }
     paintArc();
   }
@@ -134,7 +136,7 @@
   function settle(i) {
     const t = angleFor(i);
     const far = Math.abs(t - ang) / step;
-    wrap.style.setProperty("--spin", (0.17 + Math.min(far, 4) * 0.055).toFixed(2) + "s");
+    wrap.style.setProperty("--spin", (0.3 + Math.min(far, 4) * 0.11).toFixed(2) + "s");
     setAngle(t, true);
   }
 
@@ -142,7 +144,9 @@
 
   function open() {
     const m = list[sel];
-    if (m) H.go(m.id);
+    if (!m) return;
+    try { navigator.vibrate && navigator.vibrate(30); } catch (e) {}
+    H.go(m.id);
   }
 
   /* ---------- chambarakni burish ---------- */
@@ -168,7 +172,7 @@
       while (d > 180) d -= 360;
       while (d < -180) d += 360;
       if (Math.abs(d) > drag.moved) drag.moved = Math.abs(d);
-      setAngle(drag.ang0 + d, false);
+      setAngle(drag.ang0 + d * OGIR, false);
       /* oxirgi ~90 ms — qoʻyib yuborilgandagi tezlikni shundan olamiz */
       const now = performance.now();
       drag.trail.push({ t: now, a: ang });
@@ -195,8 +199,8 @@
         const a = tr[0], b = tr[tr.length - 1];
         if (b.t > a.t) v = (b.a - a.a) / (b.t - a.t);        /* daraja/ms */
       }
-      const lim = 3 * step;
-      settle(indexAt(ang + Math.max(-lim, Math.min(lim, v * 120))));
+      const lim = 2 * step;
+      settle(indexAt(ang + Math.max(-lim, Math.min(lim, v * 85))));
     };
     wrap.addEventListener("pointerup", end);
     wrap.addEventListener("pointercancel", end);
