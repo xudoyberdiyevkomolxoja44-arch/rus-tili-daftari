@@ -31,13 +31,16 @@
 @media(max-width:420px){.b-pr b{font-size:11px}.b-pr span{font-size:9.5px}}
 
 /* ---- Namoz ---- */
-.n-cal{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
-@media(max-width:560px){.n-cal{grid-template-columns:repeat(6,1fr)}}
+.n-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.n-wd{font-size:10px;line-height:1;text-align:center;color:var(--ink-3);padding:0 0 3px}
+.n-wd.ju{color:var(--accent)}
+.n-pad{min-height:0}
 .n-day{
   border:1px solid var(--line);background:var(--surface);border-radius:6px;
   padding:5px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;
 }
 .n-day b{font-family:var(--f-mono);font-size:11.5px;font-weight:400;color:var(--ink-2)}
+.n-day.ju{border-color:color-mix(in srgb, var(--accent) 34%, var(--line))}
 .n-day.now{border-color:var(--accent);border-width:2px;background:var(--accent-soft)}
 .n-day.future{opacity:.4;cursor:default}
 .n-dots{display:flex;gap:2px}
@@ -46,6 +49,7 @@
 .n-dots i.yakka{background:var(--ink-3)}
 .n-dots i.qazo{background:var(--red)}
 .n-dots i.qazoq{background:var(--green);opacity:.5}
+@media(max-width:400px){.n-day{padding:4px 1px 3px}.n-dots{gap:1.5px}.n-day b{font-size:11px}}
 /* «Qazosi oʻqildi» yorligʻi qator ostida, oʻng tomonda turadi */
 .h-item.n-wrap{flex-wrap:wrap}
 .n-qq{flex:0 0 100%;display:flex;justify-content:flex-end;margin:-2px 0 2px}

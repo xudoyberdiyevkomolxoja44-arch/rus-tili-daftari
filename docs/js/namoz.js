@@ -228,15 +228,25 @@
       '<p class="h-note" style="margin-top:10px">Quyosh chiqishi: ' + (t.quyosh == null ? "—" : H.hm(t.quyosh)) +
       ' — bomdod vaqti shunda tugaydi.</p></div>';
 
-    /* oy kalendari */
+    /* oy kalendari — hafta kunlariga moslab terilgan.
+       Hafta dushanbadan boshlanadi; oyning 1-kuni oʻz ustuniga tushishi uchun
+       oldiga boʻsh katak qoʻyiladi. Bu faqat koʻrinish — yozuvlarga tegilmaydi. */
+    const WD = ["Du", "Se", "Cho", "Pa", "Ju", "Sha", "Yak"];
+    const mdays = H.monthDays(mk);
+    const off = (H.date(mdays[0]).getDay() + 6) % 7;          // dushanba = 0
     h += '<div class="h-sec"><div class="h-sec-h"><span>Oylik daftar</span>' +
       '<span><button class="h-link" data-mon="-1">‹ oldingi</button> ' + mk +
       ' <button class="h-link" data-mon="1">keyingi ›</button></span></div>' +
-      '<div class="n-cal">' + H.monthDays(mk).map(iso => {
+      '<div class="n-cal">' +
+      WD.map((w, i) => '<span class="n-wd' + (i === 4 ? " ju" : "") + '">' + w + '</span>').join("") +
+      new Array(off).fill('<span class="n-pad"></span>').join("") +
+      mdays.map(iso => {
         const future = iso > today;
         const s = H.namozDayStat(iso);
-        return '<button class="n-day' + (iso === today ? " now" : "") + (future ? " future" : "") + '"' +
-          (future ? " disabled" : "") + ' data-day="' + iso + '" title="' + H.fmtDate(iso) + ' — ' + s.done + '/5">' +
+        const ju = H.date(iso).getDay() === 5;
+        return '<button class="n-day' + (ju ? " ju" : "") + (iso === today ? " now" : "") +
+          (future ? " future" : "") + '"' +
+          (future ? " disabled" : "") + ' data-day="' + iso + '" title="' + H.fmtLong(iso) + ' — ' + s.done + '/5">' +
           '<b>' + H.date(iso).getDate() + '</b><span class="n-dots">' +
           PRAYERS.map(([k]) => '<i class="' + (s.rec[k] || "none") + '"></i>').join("") +
           '</span></button>';
