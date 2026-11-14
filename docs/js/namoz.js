@@ -136,15 +136,26 @@
     H.store.save(NS);
   }
 
-  /* kunlik daftarda «Qazo» va «Qazosi oʻqildi» deb belgilanganlar soni */
-  function logQazo() {
+  /* Kunlik daftarda «Qazo» deb belgilangan (hali qazosi oʻqilmagan) namozlar —
+     har namoz boʻyicha alohida. Qazo daftari shu hisobdan toʻladi. */
+  function logQazoBy() {
     const d = H.store.get(NS, DEF);
-    let qazo = 0, qq = 0;
+    const by = {}; PRAYERS.forEach(([k]) => { by[k] = 0; });
+    let qq = 0;
     for (const iso in d.log) {
       const rec = d.log[iso];
-      PRAYERS.forEach(([k]) => { if (rec[k] === "qazo") qazo++; else if (rec[k] === QQ) qq++; });
+      PRAYERS.forEach(([k]) => { if (rec[k] === "qazo") by[k]++; else if (rec[k] === QQ) qq++; });
     }
-    return { qazo, qq };
+    return { by, qq };
+  }
+  /* «−» bosilganda eng eski belgilangan qazo yopiladi */
+  function oldestQazoDay(k) {
+    const d = H.store.get(NS, DEF);
+    let best = null;
+    for (const iso in d.log) {
+      if (d.log[iso][k] === "qazo" && (best === null || iso < best)) best = iso;
+    }
+    return best;
   }
 
   function streak() {
@@ -207,8 +218,9 @@
     const st = H.namozDayStat(today);
     const mk = viewMonth || H.monthKey(today);
     const ms = monthStat(mk);
-    const qazoTotal = PRAYERS.reduce((a, [k]) => a + (d.qazo[k] || 0), 0);
-    const lg = logQazo();
+    const lq = logQazoBy();
+    const qOne = k => (lq.by[k] || 0) + (d.qazo[k] || 0);
+    const qazoTotal = PRAYERS.reduce((a, [k]) => a + qOne(k), 0);
 
     let h = '<div class="h-card lift" data-m="namoz">' +
       '<div class="h-card-h"><h3>Bugungi namozlar</h3>' +
@@ -262,17 +274,23 @@
     /* qazo daftari */
     h += '<div class="h-card" data-m="namoz"><div class="h-card-h"><h3>Qazo daftari</h3>' +
       '<span class="h-pill' + (qazoTotal ? " warn" : " ok") + '">' + qazoTotal + ' ta</span></div>' +
-      '<p class="h-note" style="margin:-4px 0 10px">Oʻqilmay qolgan namozlar hisobi. Qazosini oʻqiganingizda «−» ni bosing.' +
-      (lg.qazo || lg.qq ? '<br>Kunlik daftarda «Qazo» deb belgilangani: <b>' + lg.qazo + '</b> ta' +
-        (lg.qq ? ', qazosi oʻqilgani: <b>' + lg.qq + '</b> ta' : '') + ' — u hisob alohida yuritiladi.' : '') +
+      '<p class="h-note" style="margin:-4px 0 10px">Kunlik daftarda «Qazo» deb belgilagan namozlaringiz shu yerga ' +
+      'oʻzi qoʻshiladi. Qazosini oʻqiganingizda «−» ni bosing — eng eski belgilangan qazo «qazosi oʻqildi» deb yopiladi. ' +
+      '«+» esa ilovadan oldingi, daftarda belgilanmagan qazolar uchun.' +
+      (lq.qq ? '<br>Shu paytgacha qazosi oʻqilgani: <b>' + lq.qq + '</b> ta.' : '') +
       '</p>' +
-      '<div class="h-list">' + PRAYERS.map(([k, label]) =>
-        '<div class="h-item"><span class="ttl">' + label + '</span>' +
-        '<span class="num">' + (d.qazo[k] || 0) + '</span>' +
+      '<div class="h-list">' + PRAYERS.map(([k, label]) => {
+        const mk2 = lq.by[k] || 0, hand = d.qazo[k] || 0;
+        return '<div class="h-item"><span class="ttl">' + label +
+        (mk2 || hand ? '<span class="n-sub">' +
+          (mk2 ? 'daftardan ' + mk2 : '') + (mk2 && hand ? ' · ' : '') +
+          (hand ? 'qoʻlda ' + hand : '') + '</span>' : '') + '</span>' +
+        '<span class="num">' + qOne(k) + '</span>' +
         '<span class="h-row" style="gap:4px;flex-wrap:nowrap">' +
         '<button class="h-btn sm" data-qazo="' + k + '" data-n="-1" aria-label="kamaytirish">−</button>' +
         '<button class="h-btn sm" data-qazo="' + k + '" data-n="1" aria-label="koʻpaytirish">+</button>' +
-        '<button class="h-btn sm" data-qazo="' + k + '" data-n="10">+10</button></span></div>').join("") +
+        '</span></div>';
+      }).join("") +
       '</div></div>';
 
     /* sozlamalar */
@@ -313,9 +331,17 @@
     if (m) { mark(H.today(), m.dataset.mark, m.dataset.state); render(el); H.emit("today"); return; }
     const q = e.target.closest("[data-qazo]");
     if (q) {
-      const d = H.store.get(NS, DEF), k = q.dataset.qazo;
-      d.qazo[k] = Math.max(0, (d.qazo[k] || 0) + (+q.dataset.n));
-      H.store.save(NS); render(el); return;
+      const d = H.store.get(NS, DEF), k = q.dataset.qazo, n = +q.dataset.n;
+      if (n < 0) {
+        /* avval kunlik daftarda belgilangani yopiladi, keyin qoʻlda kiritilgani kamayadi */
+        const iso = oldestQazoDay(k);
+        if (iso) mark(iso, k, QQ);
+        else { d.qazo[k] = Math.max(0, (d.qazo[k] || 0) - 1); H.store.save(NS); }
+      } else {
+        d.qazo[k] = Math.max(0, (d.qazo[k] || 0) + n);
+        H.store.save(NS);
+      }
+      render(el); H.emit("today"); return;
     }
     const mo = e.target.closest("[data-mon]");
     if (mo) {

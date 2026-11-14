@@ -50,6 +50,7 @@
 .n-dots i.qazo{background:var(--red)}
 .n-dots i.qazoq{background:var(--green);opacity:.5}
 @media(max-width:400px){.n-day{padding:4px 1px 3px}.n-dots{gap:1.5px}.n-day b{font-size:11px}}
+.n-sub{display:block;font-size:12px;color:var(--ink-3);margin-top:1px}
 /* «Qazosi oʻqildi» yorligʻi qator ostida, oʻng tomonda turadi */
 .h-item.n-wrap{flex-wrap:wrap}
 .n-qq{flex:0 0 100%;display:flex;justify-content:flex-end;margin:-2px 0 2px}
