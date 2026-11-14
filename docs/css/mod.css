@@ -23,11 +23,12 @@
 .b-pr span{font-size:10.5px;color:var(--ink-3)}
 .b-pr.s-jamoat{background:var(--green-soft);border-color:var(--green)}
 .b-pr.s-jamoat span{color:var(--green)}
-.b-pr.s-yakka{background:var(--surface-2)}
+.b-pr.s-yakka{background:var(--green-soft);border-color:color-mix(in srgb, var(--green) 45%, var(--line))}
+.b-pr.s-yakka span{color:var(--green)}
 .b-pr.s-qazo{background:var(--red-soft);border-color:var(--red)}
 .b-pr.s-qazo span{color:var(--red)}
-.b-pr.s-qazoq{background:var(--green-soft);border-color:var(--green);opacity:.75}
-.b-pr.s-qazoq span{color:var(--green)}
+.b-pr.s-qazoq{background:var(--warm-soft);border-color:var(--warm)}
+.b-pr.s-qazoq span{color:var(--warm)}
 @media(max-width:420px){.b-pr b{font-size:11px}.b-pr span{font-size:9.5px}}
 
 /* ---- Namoz ---- */
@@ -46,9 +47,28 @@
 .n-dots{display:flex;gap:2px}
 .n-dots i{width:4px;height:4px;border-radius:50%;background:var(--line)}
 .n-dots i.jamoat{background:var(--green)}
-.n-dots i.yakka{background:var(--ink-3)}
+.n-dots i.yakka{background:var(--green);opacity:.5}
 .n-dots i.qazo{background:var(--red)}
-.n-dots i.qazoq{background:var(--green);opacity:.5}
+.n-dots i.qazoq{background:var(--warm)}
+
+/* Belgilangan holat tugmasi «yonib» turadi:
+   oʻqilgani yashil, qazosi qizgʻish, qazosi oʻqilgani sargʻish. */
+.h-btn.n-on{font-weight:600}
+.h-btn.n-ok{color:#fff;background:var(--green);border-color:var(--green);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--green) 24%, transparent)}
+:root[data-theme="dark"] .h-btn.n-ok{color:var(--paper)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .h-btn.n-ok{color:var(--paper)}}
+.h-btn.n-ok2{color:var(--green);background:var(--green-soft);border-color:var(--green);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--green) 16%, transparent)}
+.h-btn.n-bad{color:var(--red);background:var(--red-soft);border-color:var(--red);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--red) 16%, transparent)}
+.h-btn.n-warm{color:var(--warm);background:var(--warm-soft);border-color:var(--warm);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--warm) 20%, transparent)}
+.h-btn.n-on:hover{background:var(--surface)}
+.h-btn.n-ok:hover{background:var(--green)}
+.h-btn.n-ok2:hover{background:var(--green-soft)}
+.h-btn.n-bad:hover{background:var(--red-soft)}
+.h-btn.n-warm:hover{background:var(--warm-soft)}
 @media(max-width:400px){.n-day{padding:4px 1px 3px}.n-dots{gap:1.5px}.n-day b{font-size:11px}}
 .n-sub{display:block;font-size:12px;color:var(--ink-3);margin-top:1px}
 /* «Qazosi oʻqildi» yorligʻi qator ostida, oʻng tomonda turadi */

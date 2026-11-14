@@ -190,17 +190,19 @@
   /* bitta namoz uchun uchta holat tugmasi va «Qazosi oʻqildi» yorligʻi */
   function stateBtns(k, cur, attr) {
     return STATES.map(function (x) {
-      var st = x[0], nm = x[1], cls = x[2];
+      var st = x[0], nm = x[1];
       var on = cur === st || (st === "qazo" && cur === QQ);
-      var tone = (cur === QQ && st === "qazo") ? "ok" : (cls === "warn" ? "bad" : (cls === "ok" ? "ok" : "pri"));
-      return '<button class="h-btn sm' + (on ? " " + tone : "") + '" data-' + attr + '="' + k +
+      /* oʻqilgani yashil boʻlib yonadi, qazo qizgʻish, qazosi oʻqilgani sargʻish */
+      var tone = (cur === QQ && st === "qazo") ? "n-warm"
+        : st === "jamoat" ? "n-ok" : (st === "yakka" ? "n-ok2" : "n-bad");
+      return '<button class="h-btn sm' + (on ? " n-on " + tone : "") + '" data-' + attr + '="' + k +
         '" data-state="' + st + '"' + (on ? ' aria-pressed="true"' : '') + '>' + nm + '</button>';
     }).join("");
   }
   function qqChip(k, cur, attr) {
     if (cur !== "qazo" && cur !== QQ) return "";
     const on = cur === QQ;
-    return '<span class="n-qq"><button class="h-btn sm' + (on ? " ok" : "") + '" data-' + attr + '="' + k +
+    return '<span class="n-qq"><button class="h-btn sm' + (on ? " n-on n-warm" : "") + '" data-' + attr + '="' + k +
       '" data-state="' + (on ? "__qazo" : QQ) + '"' + (on ? ' aria-pressed="true"' : '') + '>' +
       (on ? "✓ Qazosi oʻqildi" : "Qazosi oʻqildi") + '</button></span>';
   }
